@@ -1,0 +1,101 @@
+/* media queries for main layout */
+@media only screen and (max-width: 620px) and (orientation: landscape) {
+    /*style menu div and childre for slide in and out animation*/
+    #menu{
+        position: absolute;
+        margin-top: 0%;
+        /*to overlap main div*/
+        z-index: 15;
+        overflow: hidden;
+        /*set animation duration*/
+        transition: 0.5s;
+    }
+    #menu a{
+        /*trancate menu item text to fit within unexpanded menu div*/
+        text-overflow: ellipsis;
+        /*ensure single line text irrespective of div width*/
+        white-space: nowrap;
+        transition: .4s;
+        overflow: hidden;
+        width: 100%;
+        margin: .1%;
+    }
+    /*expand main content to full width as expandable menu can
+        overllap when needed*/
+    #main{
+        width: 100%;
+    }
+    nav{
+        text-align: center;
+    }
+    nav tab{
+        padding: .5% 1% 1.3% 1%;
+        margin: 1%;
+    }
+}
+
+@media only screen and (max-width: 620px) and (orientation: portrait){
+    #menu{
+        position: fixed;
+        width: 100%;
+        /*to overlap main div*/
+        z-index: 1;
+        overflow: hidden;
+        /*set animation duration*/
+        transition: 0.5s;
+        height: 5%;
+    }
+    #menu a{
+        display: block;
+        transition: .4s;
+        margin: 1%;
+        border-radius: 10px;
+    }
+    #main{
+        margin-top: 6%;
+        width: 100%;
+        position: fixed;
+    }
+    #content{
+        display: block;
+    }
+    /* show the menu dropdown icon */
+    #options{
+        display: block;
+    }
+    /*reposition homepage welcome message*/
+    #welcome{
+        top: 50%;
+        left: 50%;
+        font-size: 300%;
+    }
+}
+
+@media only screen and (max-width: 240px){
+    /*resize and reposition header elements*/
+    #logo, #motto{
+        padding: 0% 4% 4% 4%;
+    }
+    #motto p{
+        font-size: 100%;
+    }
+    #motto span{
+        display: none;
+    }
+    /* show the menu icon */
+    #iconcontainer{
+        display: block;
+    }
+    /* hide menu by default; only display on click of icon */
+    #menu{
+        display: none;
+        padding: 2%;
+    }
+    #menu a{
+        font-weight: normal;
+    }
+     /*reposition homepage welcome message*/
+     #welcome{
+        font-size: 200%;
+    }
+}
