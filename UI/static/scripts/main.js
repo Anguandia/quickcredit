@@ -19,6 +19,11 @@ function showPage(required, parents){
                         element.style.display = 'inline';
                     } else if(parent=='menu'){
                         element.style.display = 'block';
+                    // include signup/in form loading
+                    } else if(element.tagName=='LABEL' && element.childElementCount>1){
+                        element.style.display = 'initial';
+                        // call validation setting function for required input fields; all have two children each; the input and the asterisk span marking the field as required
+                        addValidation(element);
                     } else {
                         element.style.display = 'initial';
                     }
@@ -60,7 +65,7 @@ function closeMenu(){
 
 //togle display of menu on click of icon
 function showMenu(){
-    menu.style.width = '50%';
+    menu.style.width = '100%';
     if(menu.style.display=='block'){
         menu.style.display = 'none';
     } else {
@@ -72,3 +77,20 @@ function showMenu(){
 menu.onmouseover = openMenu;
 menu.onmouseout = closeMenu;
 icon.onclick = showMenu;
+
+// add html validation for rquired form fields
+addValidation = function(element){
+    var inp = element.children[1];
+    var name= inp.getAttribute('name');
+    inp.setAttribute('required', true);
+    inp.setAttribute('oninvalid', `this.setCustomValidity('${element.textContent} can not be empty')`);
+};
+
+//redirect to user profilepage onsubmit signin/signup
+//only for demonstration purpose
+function redirect(){
+    var role = document.getElementById('role');
+    var form = document.querySelector('form');
+    console.log(form);
+    form.setAttribute('action', `${role.value}.html`);
+}
