@@ -37,5 +37,22 @@ document.write(
         <a href='user.html' class='admin' id='user'>Client Details</a>\
         <a href='verify.html' class='admin' id='verify'>Verify Client</a>\
       </div>\
+      <div id='iconcontainer'>\
+      <div class='iconrow'>\
+          <div class='icondot'></div>\
+          <div class='icondot'></div>\
+          <div class='icondot'></div>\
+      </div>\
+      <div class='iconrow'>\
+          <div class='icondot'></div>\
+          <div class='icondot'></div>\
+          <div class='icondot'></div>\
+      </div>\
+      <div class='iconrow'>\
+          <div class='icondot'></div>\
+          <div class='icondot'></div>\
+          <div class='icondot'></div>\
+      </div>\
+      </div>\
     <footer><span>Quick Credit@2019</span></footer>\
     `);
