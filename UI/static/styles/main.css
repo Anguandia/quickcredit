@@ -1,0 +1,179 @@
+/* position and dimension the body so child elements can be dimensioned */
+body{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin: 0%;
+    background-image: url("../images/money.jpg");
+    background-size: cover;
+}
+
+/*display logo and motto adjacently as cells*/
+header{
+    display: table;
+    background: rebeccapurple;
+    width: 100%;
+}
+
+#logo{
+    position: relative;
+    display: table-cell;
+    /* text-align: center; */
+    width: 8%;
+}
+
+#motto{
+    display: table-cell;
+    padding: 1%;
+    text-align: right;
+}
+
+#motto p{
+    font-size: 200%;
+    color: red;
+    margin: .5% 2%;
+}
+
+#motto span{
+    font-size: 100%;
+    color: white;
+    margin: 1% 2%;
+}
+
+/* position and size the navigation bar */
+nav{
+    padding: 1%;
+    text-align: end;
+    background-image: linear-gradient(to right, rgb(246, 215, 246), plum);
+}
+
+/* hightlight navigation tabs on hover */
+nav tab:hover{
+    background: rgb(243, 223, 243);
+}
+
+/* size nav tabs to get desired backgroun size/shape*/
+nav tab{
+    padding: .6% .6% 1.1% .6%;
+    margin: .5%;
+}
+
+/* remove underlining of nav links */
+nav tab a{
+    text-decoration: none;
+}
+
+/* style the page menu */
+#menu{
+    width: 20%;
+    background-image: linear-gradient(rgb(246, 215, 246), white);
+    float: left;
+    box-shadow: 3px 5px 3px 5px grey;
+    /* make menu ovwerlap other content, especially when expanding on small screens */
+    z-index: 3;
+}
+
+#menu a{
+    margin-top: 4%;
+    padding: .5% 2%;
+    text-decoration: none;
+    font-style: italic;
+}
+
+/* highlight menu item on hover */
+#menu a:hover{
+    background: rgb(190, 114, 224);
+    color: white;
+    font-style: normal;
+}
+
+/*position the main window*/
+#main{
+    width: 80%;
+    float: right;
+    margin: 0%;
+    display: block;
+}
+
+/* style the menu icon for small screens */
+#iconcontainer{
+    cursor: pointer;
+    width: 20px;
+    padding: 0;
+    /* position icon in the center towards the bottom of the page */
+    position: fixed;
+    left: calc(50vw - 10px);
+    top: 85%;
+    /* icon overllap background */
+    z-index: 2;
+    /* hide icon by default(large screens) */
+    display: none;
+}
+
+/* position and dimension icon */
+.iconrow{
+    margin: -10px 0px;
+}
+
+/*style indiviual dots in icon*/
+.iconrow .icondot{
+    width: 6px;
+    height: 6px;
+    margin: 0 -1px;
+    display: inline-block;
+    background: black;
+    border-radius: 50%;
+}
+
+/* style expansion humburger icon for smaller screens*/
+.more{
+   background: purple;
+   height: 3px;
+   width: 10%;
+   margin: 2px 45%;
+   border-radius: 1.5px;
+   opacity: .7;
+}
+
+/*space the expansion icon from top by giving margin to first bar*/
+#more{
+    margin-top: 10px;
+}
+
+/* hide all optional elements to be displayed by javascript on specific event trigger or by css for smaller screens */
+.hidden{
+    display: none;
+}
+
+footer{
+    padding: 1.5% 0;
+    position: fixed;
+    bottom: 0%;
+    width: 100%;
+    background-image: linear-gradient(rebeccapurple, rgb(80, 0, 80));
+    color: white;
+    /* ensure footer is not overflown by any previous content */
+    z-index: 2;
+}
+
+footer span{
+    margin-left: 2%;
+}
+
+/* display welcome add in home page*/
+#welcome{
+    position: fixed;
+    /* center the welcome message */
+    top: 50%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+    color: yellow;
+    font-size: 400%;
+    font-weight: bolder;
+    font-family: cursive;
+}
+
+/* hide all dynamically loaded, page-specific elements by default to avoid flash on initial loading then selective dynamic hidding(since body load event is used to select theseelementsand will only finally be hidden/displayed after the page loads) */
+#auth > *, #menu > *, .hidden{
+    display: none;
+}
