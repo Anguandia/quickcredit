@@ -37,18 +37,28 @@
         width: 80%;
         left: 0%;
     }
+    /* adjust user profile poitioning and size */
+    #user_profile{
+        width: 100%;
+        float: none;
+    }
+    #main_main{
+        width: 100%;
+        float: none;
+        position: relative
+    }
 }
 
 @media only screen and (max-width: 620px) and (orientation: portrait){
     #menu{
-        position: fixed;
+        position: absolute;
         width: 100%;
         /*to overlap main div*/
         z-index: 1;
         overflow: hidden;
         /*set animation duration*/
         transition: 0.5s;
-        height: 5%;
+        height: 30%;
     }
     #menu a{
         display: block;
@@ -59,7 +69,6 @@
     #main{
         margin-top: 6%;
         width: 100%;
-        position: fixed;
     }
     #content{
         display: block;
@@ -78,6 +87,24 @@
     #authform{
         width: 80%;
         left: 0%;
+    }
+    #main_main{
+        width: 100%;
+        float: none;
+        position: relative
+    }
+    /* adjust user profile poitioning and size */
+    #user_profile{
+        width: 100%;
+        float: none;
+        /* position: relative; */
+        height: fit-content;
+    }
+}
+
+@media only screen and (max-width: 380px){
+    #controls{
+        float: none;
     }
 }
 
