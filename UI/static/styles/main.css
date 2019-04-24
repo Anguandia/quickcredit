@@ -102,6 +102,11 @@ nav tab a{
     display: block;
 }
 
+/* center page headings */
+#main h1{
+    margin-left: 3%;
+}
+
 /* style the menu icon for small screens */
 #iconcontainer{
     cursor: pointer;
@@ -374,4 +379,73 @@ hr{
     /* position: relative; */
     margin: 2% 1%;
     float: right;
+}
+
+/* Loan form styles */
+#loanform{
+    position: relative;
+    width: 98%;
+    margin: 0% 1%;
+    margin-bottom: 10%;
+}
+
+#loanform fieldset{
+    position: inherit;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-block;
+    width: 95%;
+    margin: 0% auto;
+    /* width: inherit; */
+    border-radius: 10px;
+    border-width: .7px;
+}
+
+#loanform fieldset label{
+    display: inline-block;
+    /* width: 38ch; */
+    width: 45%;
+    text-align: left;
+    margin: .1% 2% 0% 2%;
+    /* width: 100%; */
+}
+
+
+#loanform input{
+    /* display: inline-block; */
+    border: transparent;
+    border-bottom: solid 1px;
+    width: 100%;
+}
+
+#loanform select{
+    width: 100%;
+}
+
+/* size and position submit and reset buttons */
+#loanform .submit{
+    max-width: 40%;
+    margin: 1%;
+    border-radius: 10px;
+    border: none;
+    padding: 1%;
+}
+
+/* blink buttons on click for visual feedback */
+#loanform .submit:active{
+    box-shadow: 2px 2px 5px 2px inset white, -2px -2px 5px 2px inset white;
+}
+
+#submit{
+    background: blue;
+    color: white;
+}
+
+#reset{
+    background: yellow;
+}
+
+/* align buttons inthe middle of the table width span */
+#btns{
+    text-align: center;
 }

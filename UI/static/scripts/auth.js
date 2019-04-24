@@ -24,14 +24,13 @@ document.write(
       <input type='tel' class='signup' id='phone' placeholder='phone number'>\
       </input>\
     </label>\
-    <label for='signinform' class='signup signin'>password<span>*</span>\
+    <label class='signup signin'>password<span>*</span>\
       <input type='password' id='password' placeholder='password'></input>\
     </label>\
-    <label for='confirm_password' class='signup'>confirm password<span>*</span>\
-      <input type='password' class='signin' id='confirm_password'\
-      placeholder='confirm password'></input>\
+    <label class='signup'>confirm password<span>*</span>\
+      <input type='password' id='confirm_password' placeholder='confirm\ password'></input>\
     </label>\
-    <label for='role' class='signin'>Signin as:\
+    <label class='signin'>Signin as:\
       <select id='role' onchange='redirect()'>\
         <option>client</option>\
         <option>Admin</option>\
