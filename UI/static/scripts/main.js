@@ -10,6 +10,7 @@ function showPage(required, parents){
         var elements = cont.querySelectorAll('*');
         // document.getElementById(parent).style.display = 'block';
         cont.style.display = 'block';
+        console.log(cont);
         for(var element of elements){
             //get an array of classnames of each child element
             if(element.hasAttribute('class')){var classes = element.getAttribute('class');
@@ -28,7 +29,7 @@ function showPage(required, parents){
                         // call validation setting function for required input fields; all have two children each; the input and the asterisk span marking the field as required
                         addValidation(element);
                     } else {
-                        element.style.display = 'initial';
+                        element.style.display = 'inherit';
                     }
                 }
             } else {
