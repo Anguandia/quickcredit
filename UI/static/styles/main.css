@@ -4,8 +4,13 @@ body{
     width: 100%;
     height: 100%;
     margin: 0%;
-    background-image: url("../images/money.jpg");
+    background: whitesmoke;
     background-size: cover;
+}
+
+/* give theme-packed background to only home page */
+#index_page{
+    background-image: url("../images/money.jpg");
 }
 
 /*display logo and motto adjacently as cells*/
@@ -66,7 +71,7 @@ nav tab a{
 /* style the page menu */
 #menu{
     width: 20%;
-    background-image: linear-gradient(rgb(246, 215, 246), white);
+    background-image: linear-gradient(rgb(246, 215, 246), whitesmoke);
     float: left;
     box-shadow: 3px 5px 3px 1px grey;
     /* make menu ovwerlap other content, especially when expanding on small screens */
@@ -91,6 +96,7 @@ nav tab a{
 #main{
     position: relative;
     width: 80%;
+    height: 75vh;
     float: right;
     margin: 0%;
     display: block;
@@ -142,7 +148,7 @@ nav tab a{
     margin-top: 10px;
 }
 
-/* hide all optional elements to be displayed by javascript on specific event trigger or by css for smaller screens */
+/* hide all optional elements to be displayed by javascript on specific event liigger or by css for smaller screens */
 .hidden{
     display: none;
 }
@@ -191,7 +197,7 @@ footer span{
     position: relative;
     width: 60%;
     margin: 20% auto 20% auto;
-    transform: translateY(-10%);
+    transform: lianslateY(-10%);
     padding: 1% 0;
     z-index: 1;
     display: none;
@@ -214,6 +220,7 @@ footer span{
     border-radius: 0%;
 }
 
+/* style fiel names */
 .auth label{
     margin-left: 4%;
     text-transform: capitalize;
@@ -247,7 +254,7 @@ button:active{
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
 }
 
-/* create pseudo element to give form a transparent background */
+/* create pseudo element to give form a liansparent background */
 .auth::after{
     position: absolute;
     width: 100%;
@@ -258,7 +265,7 @@ button:active{
     opacity: .3;
     /* give background an empty content so as to be displayed */
     content: '';
-    /* keep transparency in the background */
+    /* keep liansparency in the background */
     z-index: -1;
     border-radius: 20px;
 }
@@ -268,5 +275,103 @@ button:active{
     background: white;
     position: fixed;
     left: 50%;
-    transform: translateX(-50%)
+    transform: lianslateX(-50%)
+}
+
+/* define the core page content container position and style */
+#main_main{
+    background: white;
+    position: relative;
+    width: 75%;
+    left: 0%;
+    margin-top: 0%;
+    display: block;
+    float: left;
+    margin-bottom: 0%;
+}
+
+/* define the user details layout and looks */
+#user_profile{
+    border-left: solid 1px lightgrey;
+    /* background-image: linear-gradient(to top, indigo, white); */
+    width: calc(25% - 1px);
+    /* display: block; */
+    float: right;
+    height: 100%;
+    position: relative;
+}
+
+/* give magin to user profile content instead of padding */
+#user_profile > *{
+    margin: 2%
+}
+
+/* position profile picture */
+#picture{
+    position: absolute;
+    right: 50%;
+    top: 2%;
+    transform: translateX(50%);
+    font-weight: lighter;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+#picture img{
+    border-radius: 50%;
+}
+
+/* define loans listing table */
+/* input box size and styling */
+.searchbox{
+    padding: .1%;
+    border: 1px solid;
+    margin: 2.5% 1.2% 2.5%;
+    border-radius: 6px;
+}
+
+/* styles for actual table */
+.list{
+    position: relative;
+    width: 90%;
+    margin: 0%;
+    list-style: none;
+    background: mintcream;
+}
+
+/* remove unerlining from loan names and ids */
+.list a{
+    text-decoration: none;
+}
+
+/* higlight items on select */
+.list li:hover{
+    background: rgb(200, 134, 216);
+    cursor: pointer;
+}
+
+hr{
+    margin: 0%
+}
+
+.list li:nth-child(even){
+    background-color: lightgray;
+}
+
+.search{
+    background: steelblue;
+    padding: .5%;
+    border-radius: 10px;
+    border: none;
+}
+
+.search a{
+    text-decoration: none;
+    color: white;
+}
+
+/* center search buttons vertically */
+#controls{
+    /* position: relative; */
+    margin: 2% 1%;
+    float: right;
 }
