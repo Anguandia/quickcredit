@@ -26,11 +26,11 @@ document.write(
         <a href='info.html' class='universal' id='info'>Loan info</a>\
         <a href='schemes.html' class='universal' id='shemes'>Loan schemes</a>\
         <a href='apply.html' class='user' id='apply'>Apply for loan</a>\
-        <a href='apply.html' class='user' id='view'>View repayments</a>\
-        <a href='loans.html' class='admin' id='loans'>Loan Applications</a>\
+        <a href='loan.html' class='user' id='view'>View repayment history</a>\
+        <a href='loans.html' class='admin' id='loans'>Loan applications</a>\
         <a href='current.html' class='admin' id='current'>Current loans</a>\
         <a href='repaid.html' class='admin' id='repaid'>Repaid loans</a>\
-        <a href='detsils.html' class='user admin' id='details'>Loan detsils</a>\
+        <a href='loan.html' class='user admin' id='details'>Loan detsils</a>\
         <a href='approve.html' class='admin' id='approve'>Approve loan</a>\
         <a href='debit.html' class='admin' id='debit'>Debit loan</a>\
         <a href='users.html' class='admin' id='users'>Clients</a>\

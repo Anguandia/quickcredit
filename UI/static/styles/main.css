@@ -338,9 +338,10 @@ button:active{
 .list{
     position: relative;
     width: 90%;
-    margin: 0%;
+    padding: 1% 0;
     list-style: none;
     background: mintcream;
+    margin: 0% auto 0 auto;
 }
 
 /* remove unerlining from loan names and ids */
@@ -348,20 +349,22 @@ button:active{
     text-decoration: none;
 }
 
-/* higlight items on select */
+hr{
+    margin: 0%
+}
+
+/* improve visual experience by alternatin the background of scuccessive list items */
+.list li:nth-child(even){
+    background-color: lightgray;
+}
+
+/* higlight items on hover. Should come after the altenating background declaration to take effect on rows with a background */
 .list li:hover{
     background: rgb(200, 134, 216);
     cursor: pointer;
 }
 
-hr{
-    margin: 0%
-}
-
-.list li:nth-child(even){
-    background-color: lightgray;
-}
-
+/* search button */
 .search{
     background: steelblue;
     padding: .5%;
@@ -396,23 +399,18 @@ hr{
     display: inline-block;
     width: 95%;
     margin: 0% auto;
-    /* width: inherit; */
     border-radius: 10px;
     border-width: .7px;
 }
 
 #loanform fieldset label{
     display: inline-block;
-    /* width: 38ch; */
     width: 45%;
     text-align: left;
     margin: .1% 2% 0% 2%;
-    /* width: 100%; */
 }
 
-
 #loanform input{
-    /* display: inline-block; */
     border: transparent;
     border-bottom: solid 1px;
     width: 100%;
@@ -448,4 +446,46 @@ hr{
 /* align buttons inthe middle of the table width span */
 #btns{
     text-align: center;
+}
+
+/* loan detail page styles */
+/* display installments in green font */
+.green{
+    color: green;
+}
+
+/* display outsanding balance in red font */
+.red{
+    color: red;
+}
+
+/* display initial amount in blue */
+.blue{
+    color: blue;
+}
+
+/* style page heading */
+#main_main h3{
+    text-align: center;
+    font-weight: 100;
+}
+
+/* general font for section */
+#main_main{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+/* detail page action menu icon-will only be used when admin viewing loan detail to verify user, approve/reject loan credit or debit account */
+#actions{
+    float: left;
+    margin: 0 2%;
+}
+
+#actions div{
+    height: 2px;
+    width: 20px;
+    background: black;
+    margin: 2px;
+    opacity: .8;
+    content: '';
 }
