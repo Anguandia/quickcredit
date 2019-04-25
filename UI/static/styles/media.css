@@ -142,4 +142,9 @@
     #authform button{
         width: 50%;
     }
+    /* blow admin dashboad buttons to full width on small screen */
+    .dashboard{
+        width: 98%;
+        margin-left: 1%;
+    }
 }

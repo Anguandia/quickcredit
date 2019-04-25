@@ -10,7 +10,6 @@ function showPage(required, parents){
         var elements = cont.querySelectorAll('*');
         // document.getElementById(parent).style.display = 'block';
         cont.style.display = 'block';
-        console.log(cont);
         for(var element of elements){
             //get an array of classnames of each child element
             if(element.hasAttribute('class')){var classes = element.getAttribute('class');
@@ -100,7 +99,7 @@ function redirect(){
 }
 
 // sort lists(loans/users)
-function sortData(j) {
+function sortData(j){
     var list, items, swap, i, current, next, needSwap;
     // list = document.getElementById("all_loans");
     list = document.querySelector('.list');
@@ -151,12 +150,15 @@ function selectSort(change){
 }
 
 // search loans/users by id
-function filterData(j){
+function filterData(j, filter){
     // declare variables
-    var input, filter, list, items, field, i;
-    input = document.querySelector('.searchbox');
-    // get search key
-    filter = input.value;
+    var input, list, items, field, i;
+    // check if search keyword(filter) not provided in call
+    if(!filter){
+        input = document.querySelector('.searchbox');
+        // then get search key from search input
+        filter = input.value;
+    }
     list = document.querySelector('.list');
     items = list.children;
     // iterate throught each list item to locate search field
@@ -170,5 +172,39 @@ function filterData(j){
         // do not show item if input value not in search field
         items[i].style.display = 'none';
         }
+    }
+}
+
+// load category of items in a diven admin ashboard tab
+// function takes in the filter key from the ststus span id, intentionally named after the status  target status
+function loadSelection(key){
+    // get and save current admin profilepage heading in local storage to be retrieved for reconstitution after redirect
+    var name=document.getElementById('main').firstElementChild.textContent;
+    localStorage.setItem('name', name);
+    // save the search key fromthe button id passed in function call as an argument
+    localStorage.setItem('key', key);
+    // we'll be seacrching by status value for loans, the 4th child element of each loans list item, save that to local storage too
+    localStorage.setItem('j', 3);
+    // recirect to appropriate raw list page; loans or users
+    window.location.href = 'client.html';
+    for(var i of document.querySelector('.list').children){
+        i.style.display='none';
+    }
+}
+
+// function called on load of page containing required raw list
+function checkRedirect(){
+    // check if page has been loaded by a redirect or by direct Navigation; if namesaved in localStorage, redirected
+    if(localStorage.getItem('j')){
+        // reconstitute admin page title and retrieve search key valuetoinvoke search call with parametized key value instead of getting key value from search input
+        document.getElementById('main').firstElementChild.textContent = localStorage.getItem('name');
+        // clear the redirect flag lest all admin page access attempts will be redirected
+        var status = localStorage.getItem('key');
+        var j = localStorage.getItem('j');
+        filterData(j, status);
+        localStorage.clear('*');
+        showPage(['admin'], ['auth', 'menu', 'controls']);
+    } else {
+        showPage(['user'], ['auth', 'menu', 'controls']);
     }
 }
