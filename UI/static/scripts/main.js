@@ -177,9 +177,12 @@ function filterData(j, filter){
 
 // load category of items in a diven admin ashboard tab
 // function takes in the filter key from the ststus span id, intentionally named after the status  target status
-function loadSelection(key){
-    // get and save current admin profilepage heading in local storage to be retrieved for reconstitution after redirect
-    var name=document.getElementById('main').firstElementChild.textContent;
+function loadSelection(key, name){
+    // check if HTMLHeadingElement(page name) not provided in calling function
+    if(!name){
+        // get and save current admin profile page heading in local storage to be retrieved for reconstitution after redirect
+        name=document.getElementById('main').firstElementChild.textContent;
+    }
     localStorage.setItem('name', name);
     // save the search key fromthe button id passed in function call as an argument
     localStorage.setItem('key', key);

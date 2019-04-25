@@ -147,4 +147,8 @@
         width: 98%;
         margin-left: 1%;
     }
+    /* widen search input on small screens */
+    .searchbox{
+        width: 65%;
+    }
 }

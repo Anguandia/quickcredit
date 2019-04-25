@@ -100,6 +100,7 @@ nav tab a{
     float: right;
     margin: 0%;
     display: block;
+    z-index: -1;
 }
 
 /* center page headings */
@@ -357,7 +358,7 @@ hr{
 
 /* improve visual experience by alternatin the background of scuccessive list items */
 .list li:nth-child(even){
-    background-color: white;
+    background-color: rgb(199, 228, 253);
 }
 
 /* higlight items on hover. Should come after the altenating background declaration to take effect on rows with a background */
