@@ -25,7 +25,7 @@ document.write(
     <button class='dashboard _yellow red' id='Rejected' onclick='loadSelection("Rejected")'><p>Rejected loan applications<span>10</span></p></button>\
     <button class='dashboard _navy white' id='Current' onclick='loadSelection("Current")'><p>Running loans<span>10</span></p></button>\
     <button class='dashboard _red white' id='Overdue' onclick='loadSelection("Overdue")'><p>Loans overdue<span>10</span></p></button>\
-    <button class='dashboard _green white' id='Completed' onclick='loadSelection("Resolved")'><p>Completed<span>10</span></p></button>\
+    <button class='dashboard _green white' id='Completed' onclick='loadSelection("Completed")'><p>Completed<span>10</span></p></button>\
     </div>\
     <script src='static/scripts/user.js'></script>\
     </div>\
