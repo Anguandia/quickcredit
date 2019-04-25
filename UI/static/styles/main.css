@@ -100,6 +100,7 @@ nav tab a{
     float: right;
     margin: 0%;
     display: block;
+    z-index: -1;
 }
 
 /* center page headings */
@@ -292,7 +293,7 @@ button:active{
     margin-top: 0%;
     display: block;
     float: left;
-    margin-bottom: 0%;
+    margin-bottom: 7%;
 }
 
 /* define the user details layout and looks */
@@ -328,10 +329,12 @@ button:active{
 /* define loans listing table */
 /* input box size and styling */
 .searchbox{
-    padding: .1%;
-    border: 1px solid;
-    margin: 2.5% 1.2% 2.5%;
+    padding: .8% 0%;
+    margin: 2.5% .5% 2.5%;
     border-radius: 6px;
+    width: 30%;
+    text-indent: 2ch;
+    border: solid 1px gray;
 }
 
 /* styles for actual table */
@@ -355,11 +358,11 @@ hr{
 
 /* improve visual experience by alternatin the background of scuccessive list items */
 .list li:nth-child(even){
-    background-color: lightgray;
+    background-color: rgb(199, 228, 253);
 }
 
 /* higlight items on hover. Should come after the altenating background declaration to take effect on rows with a background */
-.list li:hover{
+.list li:hover, .dashboard:hover{
     background: rgb(200, 134, 216);
     cursor: pointer;
 }
@@ -368,7 +371,7 @@ hr{
 .search{
     background: steelblue;
     padding: .5%;
-    border-radius: 10px;
+    border-radius: 6px;
     border: none;
 }
 
@@ -430,7 +433,7 @@ hr{
 }
 
 /* blink buttons on click for visual feedback */
-#loanform .submit:active{
+#loanform .submit:active, .dashboard:active{
     box-shadow: 2px 2px 5px 2px inset white, -2px -2px 5px 2px inset white;
 }
 
@@ -488,4 +491,65 @@ hr{
     margin: 2px;
     opacity: .8;
     content: '';
+}
+
+/* admin profile page dashboard */
+.dashboard{
+    border: none;
+    width: 44%;
+    margin: 1% 2.5% 0% 2.5%;
+    display: inline-block;
+    border-radius: 15px;
+    text-align: center;
+    cursor: pointer;
+    padding: 3% 0;
+}
+
+/* show magnified figures of records in various categories */
+.dashboard span{
+    font-size: 150%;
+    font-family: cursive;
+    font-weight: bolder;
+}
+
+/* define colors and backgrounds */
+._yellow{
+    background: yellow
+}
+._red{
+    background: red
+}
+._lightblue{
+    background: lightblue
+}
+._lightgreen{
+    background: lightgreen
+}
+._aliceblue{
+    background: slateblue
+}
+._navy{
+    background: navy
+}
+._green{
+    background: green;
+}
+/* define font colors */
+.yellow{
+    color: orange;
+}
+.navy{
+    color: navy
+}
+.white{
+    color: white
+}
+.lightgreen{
+    color: green;
+}
+.lightblue{
+    color: brown;
+}
+.aliceblue{
+    color: purple;
 }

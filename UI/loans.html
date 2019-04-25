@@ -2,16 +2,12 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Quick Credit-User Profile</title>
+    <title>Quick Credit-Applications</title>
     <link href="static/styles/main.css", rel="stylesheet", type="text/css">
     <link href="static/styles/media.css", rel="stylesheet", type="text/css">
   </head>
   <!--onload function selects elements applicable to home page from template elements-->
-  <body id='user_profile_page' onload = "checkRedirect()">
-    <!--the page template dynamically written from script indicated-->
-    <script src='static/scripts/template.js'></script>
-    <!--page specific content written from script indicated-->
-    <script src='static/scripts/client.js'></script>
+  <body id='user_profile_page' onload = "loadSelection('Draft', 'All Loan Applications')">
     <!--main script for manipulating page behaviour-->
     <script src="static/scripts/main.js"></script>
   </body>
