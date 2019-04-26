@@ -603,3 +603,18 @@ hr{
     color: aliceblue;
     margin: 0 auto 1%;;
 }
+
+/* dive to diplay activity feedback messages */
+#msg{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    display: none;
+    font-weight: bolder;
+    font-size: 300%;
+    font-family: cursive;
+    padding: 5%;
+    border-radius: 15px;
+}

@@ -212,3 +212,15 @@ function checkRedirect(){
         showPage(['user'], ['auth', 'menu', 'controls']);
     }
 }
+
+// function to display feedback
+function approve(resp, bg='green', color='white'){
+    var msg = document.getElementById('msg');
+    msg.innerHTML= resp;
+    msg.style.display = 'block';
+    msg.style.color = color;
+    msg.style.background = bg;
+    setTimeout(function(){
+        msg.style.display = 'none';
+    }, 3000);
+}

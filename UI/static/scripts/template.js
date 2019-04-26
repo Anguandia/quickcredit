@@ -54,5 +54,6 @@ document.write(
           <div class='icondot'></div>\
       </div>\
       </div>\
+      <div id='msg'><p>Success</p></div>\
     <footer><span>Quick Credit@2019</span></footer>\
     `);
