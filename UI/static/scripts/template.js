@@ -30,7 +30,7 @@ document.write(
         <a href='loans.html' class='admin' id='loans'>Loan applications</a>\
         <a href='current.html' class='admin' id='current'>Current loans</a>\
         <a href='repaid.html' class='admin' id='repaid'>Repaid loans</a>\
-        <a href='loan.html' class='user admin' id='details'>Loan detsils</a>\
+        <a href='detail.html' class='user' id='details'>Loan details</a>\
         <a href='approve.html' class='admin' id='approve'>Approve loan</a>\
         <a href='debit.html' class='admin' id='debit'>Debit loan</a>\
         <a href='users.html' class='admin' id='users'>Clients</a>\
