@@ -5,36 +5,37 @@ function showPage(required, parents){
     //add class universal to any required class's array
     required.push('universal');
     for(var parent of parents){
-        // var elements = document.getElementById(parent).children;
         var cont = document.getElementById(parent);
         var elements = cont.querySelectorAll('*');
+        // var elements = document.getElementById(parent).children;
         // document.getElementById(parent).style.display = 'block';
         cont.style.display = 'block';
         for(var element of elements){
             //get an array of classnames of each child element
-            if(element.hasAttribute('class')){var classes = element.getAttribute('class');
-            //check if atleast a class name of current element is aamong the classes required for display
-            if(classes.split(' ').filter(value=>required.includes(value)).length>0){
-                //keep menu expansion icon hidden on largescreens
-                if(element.getAttribute('id')!='options'){
-                    //display elements in each block as desired
-                    if(parent=='auth'){
-                        element.style.display = 'inline';
-                    } else if(parent=='menu'){
-                        element.style.display = 'block';
-                    // include signup/in form loading
-                    } else if(element.tagName=='LABEL' && element.childElementCount>1){
-                        element.style.display = 'initial';
-                        // call validation setting function for required input fields; all have two children each; the input and the asterisk span marking the field as required
-                        addValidation(element);
-                    } else {
-                        element.style.display = 'inherit';
+            if(element.hasAttribute('class')){
+                var classes = element.getAttribute('class');
+                //check if atleast a class name of current element is aamong the classes required for display
+                if(classes.split(' ').filter(value=>required.includes(value)).length>0){
+                    //keep menu expansion icon hidden on largescreens
+                    if(element.getAttribute('id')!='options'){
+                        //display elements in each block as desired
+                        if(parent=='auth'){
+                            element.style.display = 'inline';
+                        } else if(parent=='menu'){
+                            element.style.display = 'block';
+                        // include signup/in form loading
+                        } else if(element.tagName=='LABEL' && element.childElementCount>1){
+                            element.style.display = 'initial';
+                            // call validation setting function for required input fields; all have two children each; the input and the asterisk span marking the field as required
+                            addValidation(element);
+                        } else {
+                            element.style.display = '';
+                        }
                     }
+                } else {
+                    element.style.display = 'none';
                 }
-            } else {
-                element.style.display = 'none';
             }
-        }
         }
     }
 }

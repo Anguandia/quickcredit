@@ -288,20 +288,22 @@ button:active{
 #main_main{
     background: white;
     position: relative;
-    width: 75%;
+    width: calc(75% - 1px);
     left: 0%;
     margin-top: 0%;
     display: block;
     float: left;
-    margin-bottom: 7%;
+    margin-bottom: 0%;
+    padding-bottom: 5%;
+    border-right: solid 1px lightgrey;
+
+
 }
 
 /* define the user details layout and looks */
 #user_profile{
-    border-left: solid 1px lightgrey;
     /* background-image: linear-gradient(to top, indigo, white); */
-    width: calc(25% - 1px);
-    /* display: block; */
+    width: 25%;
     float: right;
     height: 100%;
     position: relative;
@@ -357,7 +359,7 @@ hr{
 }
 
 /* improve visual experience by alternatin the background of scuccessive list items */
-.list li:nth-child(even){
+.list li:nth-child(even), #loandetail dl dt:nth-child(even){
     background-color: rgb(199, 228, 253);
 }
 
@@ -388,7 +390,7 @@ hr{
 }
 
 /* Loan form styles */
-#loanform{
+#loanform, #loandetail{
     position: relative;
     width: 98%;
     margin: 0% 1%;
@@ -468,9 +470,9 @@ hr{
 }
 
 /* style page heading */
-#main_main h3{
+#main_main h3, #main_main h4{
     text-align: center;
-    font-weight: 100;
+    font-weight: 550;
 }
 
 /* general font for section */
@@ -552,4 +554,52 @@ hr{
 }
 .aliceblue{
     color: purple;
+}
+
+/* loan approval page */
+#loandetail{
+    background: mintcream;
+}
+
+/* position user photo */
+#loandetail #pic{
+    float: right;
+    margin: 3%;
+    height: 64px;
+    margin-top: 0%;
+}
+
+/* style the buttons */
+#loandetail button{
+    width: 25%;
+    float: right;
+    padding: 1% 0;
+    margin: 1%;
+    font-weight: bold;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 2px 2px 15px 5px inset black;
+}
+
+#loandetail button:active{
+    box-shadow: 2px 2px 15px 5px inset rgb(192, 186, 186);
+}
+
+#loandetail dt{;
+    margin: .2% 0%;
+    padding-left: 1%;
+}
+
+#loandetail dt span{
+    font-style: oblique;
+}
+
+#loandetail dl{
+    padding: 0 0 1% 0%;
+}
+
+#loandetail h4{
+    background: rgb(159, 146, 246);
+    color: aliceblue;
+    margin: 0 auto 1%;;
 }
