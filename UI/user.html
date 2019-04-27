@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset='utf-8'>
     <title>Quick Credit-Repay</title>
-    <link href="static/styles/main.css", rel="stylesheet", type="text/css">
-    <link href="static/styles/media.css", rel="stylesheet", type="text/css">
+    <link href='static/styles/main.css', rel='stylesheet', type='text/css'>
+    <link href='static/styles/media.css', rel='stylesheet', type='text/css'>
   </head>
   <!--onload function selects elements applicable to home page from template elements-->
-  <body id='loanapprove' onload = "showPage(['admin'], ['auth', 'menu', 'loandetail'])">
+  <body id='loanapprove' onload = 'decodeQuery()'>
     <!--the page template dynamically written from script indicated-->
     <script src='static/scripts/template.js'></script>
     <!--page specific content written from script indicated-->
     <script src='static/scripts/loandetail.js'></script>
     <!--main script for manipulating page behaviour-->
-    <script src="static/scripts/main.js"></script>
+    <script src='static/scripts/main.js'></script>
   </body>
 </html>

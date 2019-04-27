@@ -18,14 +18,14 @@ document.write(
       </select>\
       </label>
     </div><hr>\
-    <button class='dashboard _yellow green' id='new_user' onclick='loadSelection()'><p>*New Users<span>10</span></p></button>\
-    <button class='dashboard _lightgreen navy' id='Draft' onclick='loadSelection("Draft")'><p>*New loans<span>6</span></p></button>\
-    <button class='dashboard _lightblue navy' id='Verified' onclick='loadSelection("Verified")'><p>Pending Approval<span>11</span></p></button>\
-    <button class='dashboard _aliceblue' id='Approved' onclick='loadSelection("Approved")'><p>Pending Credit<span>18</span></p></button>\
-    <button class='dashboard _yellow red' id='Rejected' onclick='loadSelection("Rejected")'><p>Rejected loan applications<span>10</span></p></button>\
-    <button class='dashboard _navy white' id='Current' onclick='loadSelection("Current")'><p>Running loans<span>10</span></p></button>\
-    <button class='dashboard _red white' id='Overdue' onclick='loadSelection("Overdue")'><p>Loans overdue<span>10</span></p></button>\
-    <button class='dashboard _green white' id='Completed' onclick='loadSelection("Completed")'><p>Completed<span>10</span></p></button>\
+    <button class='dashboard _yellow green' id='new_user' onclick="loadSelection('Not Verified',  'New Users')"><p>*New Users<span>10</span></p></button>\
+    <button class='dashboard _lightgreen navy' id='Draft' onclick='loadSelection("Draft","", "?loan_180524=View_loan")'><p>*New loans<span>6</span></p></button>\
+    <button class='dashboard _lightblue navy' id='Verified' onclick='loadSelection("Verified","","?loan_180524=View_loan")'><p>Pending Approval<span>11</span></p></button>\
+    <button class='dashboard _aliceblue' id='Approved' onclick='loadSelection("Approved", "","?loan_180524=View_loan")'><p>Pending Credit<span>18</span></p></button>\
+    <button class='dashboard _yellow red' id='Rejected' onclick='loadSelection("Rejected", "","?loan_180524=View_loan")'><p>Rejected loan applications<span>10</span></p></button>\
+    <button class='dashboard _navy white' id='Current' onclick='loadSelection("Current", "","?loan_180524=view_loan")'><p>Running loans<span>10</span></p></button>\
+    <button class='dashboard _red white' id='Overdue' onclick='loadSelection("Overdue", "","?loan_180524=view_loan")'><p>Loans overdue<span>10</span></p></button>\
+    <button class='dashboard _green white' id='Completed' onclick='loadSelection("Completed", "","?loan_180524=view_loan")'><p>Completed<span>10</span></p></button>\
     </div>\
     <script src='static/scripts/user.js'></script>\
     </div>\
