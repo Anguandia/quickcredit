@@ -36,8 +36,8 @@ document.write(`<div id='main'>
     </dl><hr>
     <script src='static/scripts/log.js'></script>
     <div>
-      <button id='rejectuser' class='_red white verify_loan' onclick="approve('user verification not done!', 'yellow', 'red')">Reject</button>
-      <button id='verify' class='_green white verify_loan' onclick="approve('user verified')">Verify</button>
+      <button id='rejectuser' class='_red white verify_user' onclick="approve('user verification not done!', 'yellow', 'red')">Reject</button>
+      <button id='verify' class='_green white verify_user' onclick="approve('user verified')">Verify</button>
       <button id='reject' class='_red white approve_loan' onclick="approve('loan request rejected', 'red')">Reject</button>
       <button id='approve' class='_green white approve_loan' onclick="approve('loan approved!')">Approve</button>
       <button id='post' class='_green white debit_loan' onclick="approve('account debited')">Post Payment</button>
