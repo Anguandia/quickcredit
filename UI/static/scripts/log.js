@@ -1,6 +1,6 @@
 document.write(`
-<h3 class='user debit view'>Loan Transaction Log - Anguandia Mike</h3><hr class='user debit view'>\
-<ul id='log' class="list user view debit">\
+<h3 class='user debit_loan view_loan'>Loan Transaction Log - Anguandia Mike</h3><hr class='user debit view'>\
+<ul id='log' class="list user view_loan debit_loan">\
 <li>\
   <span class='blue universal'>Cr:</span>\
   <span>transaction id - 18050630008;</span>\

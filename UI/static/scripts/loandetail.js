@@ -1,10 +1,10 @@
 document.write(`<div id='main'>
-<h1>Loan 190524</h1><hr>
+<h1>item</h1><hr>
 <div id='main_main'>
-  <h3>Loan Approval</h3><hr>
+  <h3>detail view</h3><hr>
   <div id='loandetail'>
     <dl id='applicant' class='universal'>
-      <h4>Applicat Particulars</h4>
+      <h4>Client Particulars</h4>
       <div id='pic'><img src='static/images/koala.jpg' alt='photo' width='64' height='64'></img></div>
       <dt>Client Id: <span>910536</span></dt>
       <dt>Name: <span>Anguandia Mike</span></dt>
@@ -13,7 +13,7 @@ document.write(`<div id='main'>
       <dt>Email: <span>anguamike@yahoo.com</span></dt>
     </dl>
     <dl id='address' class='universal'>
-      <h4>Applicat Address</h4>
+      <h4>Client Address</h4>
       <dt>Business:
       <span>Plot 3, Adumi Rd, Central-Arua</span>
       </dt>
@@ -24,7 +24,7 @@ document.write(`<div id='main'>
       <span>Plot 31, Custom Rd, Vurra-Arua</span>
       </dt>
     </dl>
-    <dl id='loandetails' class='debit'>
+    <dl id='loandetails' class='debit_loan verify_loan view_loan approve_loan'>
       <h4>Loan Particulars:</h4>
       <dt>Id: <span id='loanid'>1905024</span></dt>
       <dt>Staus: <span id='status'>Draft</span></dt>
@@ -36,11 +36,11 @@ document.write(`<div id='main'>
     </dl><hr>
     <script src='static/scripts/log.js'></script>
     <div>
-      <button id='rejectuser' class='_red white verify' onclick="approve('user verification not done!', 'yellow', 'red')">Reject</button>
-      <button id='verify' class='_green white verify' onclick="approve('user verified')">Verify</button>
-      <button id='reject' class='_red white approve' onclick="approve('loan request rejected', 'red')">Reject</button>
-      <button id='approve' class='_green white approve' onclick="approve('loan approved!')">Approve</button>
-      <button id='post' class='_green white debit' onclick="approve('account debited')">Post Payment</button>
+      <button id='rejectuser' class='_red white verify_loan' onclick="approve('user verification not done!', 'yellow', 'red')">Reject</button>
+      <button id='verify' class='_green white verify_loan' onclick="approve('user verified')">Verify</button>
+      <button id='reject' class='_red white approve_loan' onclick="approve('loan request rejected', 'red')">Reject</button>
+      <button id='approve' class='_green white approve_loan' onclick="approve('loan approved!')">Approve</button>
+      <button id='post' class='_green white debit_loan' onclick="approve('account debited')">Post Payment</button>
     </div>
   </div>
 </div>
