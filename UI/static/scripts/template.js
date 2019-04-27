@@ -27,15 +27,15 @@ document.write(
         <a href='schemes.html' class='universal' id='shemes'>Loan schemes</a>\
         <a href='apply.html' class='user' id='apply'>Apply for loan</a>\
         <a href='loan.html' class='user' id='view'>View repayment history</a>\
-        <a href='loans.html' class='admin' id='loans'>Loan applications</a>\
+        <a href='loans.html?loan_180524=view_loan' class='admin' id='loans'>Loan applications</a>\
         <a href='current.html' class='admin' id='current'>Current loans</a>\
         <a href='repaid.html' class='admin' id='repaid'>Repaid loans</a>\
-        <a href='detail.html' class='admin' id='details'>Loan details</a>\
-        <a href='approve.html' class='admin' id='approve'>Approve loan</a>\
-        <a href='debit.html' class='admin' id='debit'>Debit loan</a>\
+        <a href='client.html?loan_180524=view_loan' class='admin' id='details'>Loan details</a>\
+        <a href='client.html?loan_180524=approve_loan' class='admin' id='approve_loan'>Approve loan</a>\
+        <a href='client.html?loan_180524=debit_loan' class='admin' id='debit_loan'>Debit loan</a>\
         <a href='users.html' class='admin' id='users'>Clients</a>\
-        <a href='user.html' class='admin' id='user'>Client Details</a>\
-        <a href='verify.html' class='admin' id='verify'>Verify Client</a>\
+        <a href='client.html?client_190118=' class='admin' id='user'>Client Details</a>\
+        <a href='client.html?client_190118=verify_user' class='admin' id='verify_user'>Verify Client</a>\
       </div>\
       <div id='iconcontainer'>\
       <div class='iconrow'>\

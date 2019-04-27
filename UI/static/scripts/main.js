@@ -224,3 +224,21 @@ function approve(resp, bg='green', color='white'){
         msg.style.display = 'none';
     }, 3000);
 }
+
+// decode url query string to get admin function to execute on loan detail: verify, debit, view or approve
+function decodeQuery(){
+    // get query
+    var query = window.location.search
+    // extract required class to be selectively loaded and page title from query string
+    var key = query.slice(query.indexOf('=')+1);
+    var heading = document.querySelector('h1');
+    var sub = document.querySelector('h3');
+    var raw = query.slice(1, query.indexOf('='));
+    // constitute page title
+    var title = raw.replace('_', ' ');
+    // constitute page purpose sub-heading
+    heading.innerHTML = title;
+    sub.innerHTML = key.replace('_', ' ') || 'view user';
+    console.log(key);
+    showPage(['admin', key], ['auth', 'menu', 'loandetail'])
+}

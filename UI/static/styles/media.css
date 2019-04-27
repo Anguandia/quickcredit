@@ -35,7 +35,7 @@
     /* adjust the width of the signup form */
     #authform{
         width: 80%;
-        left: 0%;
+        left: 50%;
     }
     /* adjust user profile poitioning and size */
     #user_profile{
@@ -83,10 +83,10 @@
         left: 50%;
         font-size: 300%;
     }
-    /* adjust the width of the signup form */
+    /* adjust the width and position of the signup form */
     #authform{
         width: 80%;
-        left: 0%;
+        left: 50%;
     }
     #main_main{
         width: 100%;
