@@ -1,7 +1,7 @@
 document.write(`<div id='main'>
-<h1>item</h1><hr>
+<h1></h1><hr>
 <div id='main_main'>
-  <h3>detail view</h3><hr>
+  <h3></h3><hr>
   <div id='loandetail'>
     <dl id='applicant' class='universal'>
       <h4>Client Particulars</h4>
@@ -24,7 +24,7 @@ document.write(`<div id='main'>
       <span>Plot 31, Custom Rd, Vurra-Arua</span>
       </dt>
     </dl>
-    <dl id='loandetails' class='debit_loan verify_loan view_loan approve_loan'>
+    <dl id='loandetails' class='debit_loan verify_loan view_loan approve_loan View_loan'>
       <h4>Loan Particulars:</h4>
       <dt>Id: <span id='loanid'>1905024</span></dt>
       <dt>Staus: <span id='status'>Draft</span></dt>

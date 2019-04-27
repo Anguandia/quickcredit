@@ -147,7 +147,9 @@ function selectSort(change){
         sortData(1);
     } else if(change.target.value == 'Status'){
         sortData(3);
-    } else {}
+    } else {
+        sortData(1);
+    }
 }
 
 // search loans/users by id
@@ -177,23 +179,24 @@ function filterData(j, filter){
 }
 
 // load category of items in a diven admin ashboard tab
-// function takes in the filter key from the ststus span id, intentionally named after the status  target status
-function loadSelection(key, name){
+// function takes in the filter key from the status span id, intentionally named after the status  target status
+function loadSelection(key, name, query){
     // check if HTMLHeadingElement(page name) not provided in calling function
     if(!name){
         // get and save current admin profile page heading in local storage to be retrieved for reconstitution after redirect
         name=document.getElementById('main').firstElementChild.textContent;
     }
+    if(query){
+        window.location.href = 'client.html'+query;
+    } else {
+        // recirect to appropriate raw list page; loans or users
+        window.location.href = 'users.html';
+    }
     localStorage.setItem('name', name);
-    // save the search key fromthe button id passed in function call as an argument
+    // save the search key from the button id passed in function call as an argument
     localStorage.setItem('key', key);
     // we'll be seacrching by status value for loans, the 4th child element of each loans list item, save that to local storage too
     localStorage.setItem('j', 3);
-    // recirect to appropriate raw list page; loans or users
-    window.location.href = 'client.html';
-    for(var i of document.querySelector('.list').children){
-        i.style.display='none';
-    }
 }
 
 // function called on load of page containing required raw list
@@ -239,6 +242,5 @@ function decodeQuery(){
     // constitute page purpose sub-heading
     heading.innerHTML = title;
     sub.innerHTML = key.replace('_', ' ') || 'view user';
-    console.log(key);
     showPage(['admin', key], ['auth', 'menu', 'loandetail'])
 }
