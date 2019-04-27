@@ -7,7 +7,7 @@
     <link href="static/styles/media.css", rel="stylesheet", type="text/css">
   </head>
   <!--onload function selects elements applicable to home page from template elements-->
-  <body id='loanapprove' onload = "showPage(['admin', 'verify'], ['auth', 'menu', 'loandetail'])">
+  <body id='loanapprove' onload = "decodeQuery()">
     <!--the page template dynamically written from script indicated-->
     <script src='static/scripts/template.js'></script>
     <!--page specific content written from script indicated-->
