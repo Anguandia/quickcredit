@@ -1,6 +1,6 @@
 document.write(
 `<div id='main'>\
-  <form id='authform' class='auth' action='client.html'>\
+  <form id='authform' class='auth' action='home.html'>\
     <label class='signup'>first name<span>*</span>\
       <input type='text' name='first_name' id='first'\
       placeholder='first name'></input>\
