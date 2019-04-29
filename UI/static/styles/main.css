@@ -297,8 +297,6 @@ button:active{
     margin-bottom: 0%;
     padding-bottom: 5%;
     border-right: solid 1px lightgrey;
-
-
 }
 
 /* define the user details layout and looks */
@@ -308,6 +306,8 @@ button:active{
     float: right;
     height: 100%;
     position: relative;
+    text-align: center;
+    text-transform: capitalize;
 }
 
 /* give magin to user profile content instead of padding */
@@ -461,7 +461,7 @@ hr{
 }
 
 /* display outsanding balance in red font */
-.red{
+.red, #balance{
     color: red;
 }
 
@@ -587,7 +587,7 @@ hr{
     box-shadow: 2px 2px 15px 5px inset rgb(192, 186, 186);
 }
 
-#loandetail dt{;
+#loandetail dt{
     margin: .2% 0%;
     padding-left: 1%;
 }
@@ -623,4 +623,15 @@ hr{
 
 h1, h3{
     text-transform: capitalize;
+}
+
+/* style email displays */
+.email, #email{
+    text-decoration-line: underline;
+    color: blue;
+}
+
+/* style outstanding balance */
+#tot{
+    color: blue;
 }

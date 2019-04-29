@@ -1,7 +1,7 @@
 // loan application page
 document.write(
     `<div id="main">\
-    <h1 id='username'>Admin Mike</h1><hr>\
+    <h1 id='username'>${localStorage.getItem('current user')}</h1><hr>\
     <div id="main_main">\
     <input type="text" name="loan" class="searchbox" onkeyup="filterData(1)"\
     placeholder="enter loan id to search">\
