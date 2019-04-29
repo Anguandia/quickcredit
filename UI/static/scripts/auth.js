@@ -31,8 +31,9 @@ document.write(
       <input type='password' id='confirm_password' placeholder='confirm\ password'></input>\
     </label>\
     <label class='signin'>Signin as:\
-      <select id='role' onchange='redirect()'>\
-        <option>client</option>\
+      <select id='role' onchange='redirect()' required oninvalid='this.setCustomValidity("please select user type")'>\
+        <option value=''>--select--</option>\
+        <option>Client</option>\
         <option>Admin</option>\
       </select>\
     </label>\

@@ -2,6 +2,7 @@
 take in an array of parent elements(parents) some of whose
 children are to be displayed for specific pages if any of their classes is/are in the array of required classes*/
 function showPage(required, parents){
+    // document.getElementById('name').innerHTML = localStorage.getItem('current user');
     //add class universal to any required class's array
     required.push('universal');
     for(var parent of parents){
@@ -93,9 +94,16 @@ addValidation = function(element){
 
 //redirect to user profile page onsubmit signin/signup
 //only for demonstration purpose
+// set session particulars
 function redirect(){
-    var url;
+    // get and store current username on signup/in
+    var q=document.getElementById('user_name');
+    // localStorage.removeItem('current user');
+    localStorage.setItem('current user', q.value);
+    // save current user role
     var role = document.getElementById('role');
+    localStorage.setItem('role', role.value);
+    // redirect to admin profile page if admin login
     var form = document.querySelector('form');
     if(role.value == 'Admin'){
         form.setAttribute('action', 'Admin.html');
@@ -193,7 +201,7 @@ function loadSelection(key, name, query){
         window.location.href = 'client.html'+query;
     } else {
         // recirect to appropriate raw list page; loans or users
-        window.location.href = 'users.html';
+        window.location.href = 'users.html?a_';
     }
     localStorage.setItem('name', name);
     // save the search key from the button id passed in function call as an argument
@@ -212,7 +220,8 @@ function checkRedirect(){
         var status = localStorage.getItem('key');
         var j = localStorage.getItem('j');
         filterData(j, status);
-        localStorage.clear('*');
+        localStorage.removeItem('j');
+        var user = document.querySelector('#name');
     }
     if(window.location.search.slice(1,2)=='a'){
         showPage(['admin'], ['auth', 'menu', 'controls']);
@@ -237,7 +246,6 @@ function approve(resp, bg='green', color='white'){
 function decodeQuery(){
     // get query
     var query = window.location.search;
-    console.log(query.slice(0,1));
     // extract required class to be selectively loaded and page title from query string
     var key = query.slice(query.indexOf('=')+1);
     var heading = document.querySelector('h1');
@@ -245,21 +253,110 @@ function decodeQuery(){
     var raw = query.slice(3, query.indexOf('='));
     // constitute page title
     var title = raw.replace('_', ' ');
+    var user = document.querySelector('#name');
     // constitute page purpose sub-heading
-    heading.innerHTML = title;
     sub.innerHTML = key.replace('_', ' ') || 'view user';
     if(query.slice(1, 2) == 'u'){
+        heading.innerHTML = user.innerHTML;
         showPage(['user', key], ['auth', 'menu', 'loandetail']);
     } else {
+        heading.innerHTML = title;
         showPage(['admin', key], ['auth', 'menu', 'loandetail']);
     }
 }
 
-function checkRole(){
-    var query, title, cl, role;
-    query = window.location.search;
-    title = query.slice(3, query.indexOf('='));
-    cl = query.slice(query.indexOf('=') + 1);
-    role = query.slice(1, 2);
-    if(role == 'u'){}
+function setUser(){
+    var name=document.querySelector('#name');
+    name.innerHTML = localStorage.getItem('current user');
+}
+
+// tailor sample loans' list to individual client details on client detail view page
+function loadOwn(){
+    var client = document.getElementById('client');
+    client.innerHTML = localStorage.getItem('current user');
+}
+
+// force history tab to load past loans with current user's name
+function loadOwnHistory(){
+    loadSelection("Completed", "","?u_loan_180524=view_loan");
+    var names = document.getElementsByClassName('name');
+    var clients = [].slice.call(names);
+    console.log(names);
+    for(let name of names){
+        name.innerHTML = localStorage.getItem('current user');
+    }
+}
+
+// tweek user detail page to reflect custom field values from list item clicked
+function setClient(elt){
+    // save the name, email and status field values of the list item in browser to be used on detail page
+    var client = elt.querySelector('.name');
+    var status = elt.querySelector('#status');
+    localStorage.removeItem('client');
+    localStorage.setItem('client', client.textContent);
+    localStorage.setItem('email', client.textContent.replace(/ /g, '').toLowerCase()+'@gmail.com');
+    localStorage.setItem('status', status.innerHTML);
+}
+
+// rationalize loan detail values
+// ensure installments and outstanding balance add up to total
+function calc(){
+    // declare variables
+    var value, log, installments, balance, paid, initial, status;
+    // define variables
+    value = document.querySelector('#value').innerHTML;
+    log = document.getElementById('log');
+    installments = log.querySelectorAll('.pay');
+    balance = document.querySelector('#balance');
+    status = document.querySelector('#status');
+    paid = 0;
+    initial = installments[0];
+    initial.textContent = '$' + value;
+    status.style.color = 'indigo';
+    // add installments paid
+    for(var i=1; i<installments.length; i++){
+        paid += parseInt(installments[i].innerHTML.slice(1));
+    }
+    // caclulate and write the balance
+    var val = (parseInt(installments[0].innerHTML.slice(1)) - paid);
+    balance.innerHTML = '$' + val;
+    // change status when payment completed
+    if(val<=0){
+        status.color = 'green';
+    }
+    // balance completed loans for value sanity
+    if(status.innerHTML=='Completed'){
+        payment = document.createElement('li');
+        id = Math.floor(Math.random()*100000000000);
+        date = new Date();
+        payment.innerHTML = `<span class='green universal'>Dr:</span>
+        <span>transaction id - ${id};</span>
+        <span class='green universal pay'>${'$' + val};</span>
+        <span>date: ${date.getDate()+'/'+date.getMonth()+'/'+date.getFullYear()}</span>`;
+        log.appendChild(payment);
+        balance.innerHTML = '$000000';
+    }
+}
+// make fucntion self calling
+calc();
+
+// balance payments to make sence for repaid loans view
+function debit(){
+    var log, amount, balance, debit, payment, lastchild, id, date, status;
+    status = document.querySelector('#status');
+    log = document.querySelector('#log');
+    amount = document.querySelector('input').value.padStart(5, 0);
+    balance = document.querySelector('#balance');
+    debit = document.querySelector('#post');
+    payment = document.createElement('li');
+    id = Math.floor(Math.random()*100000000000);
+    date = new Date();
+    payment.innerHTML = `<span class='green universal'>Dr:</span>
+    <span>transaction id - ${id};</span>
+    <span class='green universal pay'>${'$' + amount};</span>
+    <span>date: ${date.getDate()+'/'+date.getMonth()+'/'+date.getFullYear()}</span>`;
+    log.appendChild(payment);
+    approve('account debited');
+    status.innerHTML = 'Current';
+    calc();
 }

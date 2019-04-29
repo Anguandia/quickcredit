@@ -9,7 +9,7 @@ document.write(
       </div>\
     </header>\
     <nav id='auth'>\
-      <tab class='universal' id='home'><a href='index.html'>Home</a></tab>\
+      <tab class='universal' id='home'><a href= ${localStorage.getItem('role')=='Client'?'home.html':localStorage.getItem('role')=='Admin'?'admin.html': 'home.html'}>Home</a></tab>\
       <tab class='index' id='signin'><a href='signin.html'>Signin</a></tab>\
       <tab class='index' id='signup'><a href='signup.html'>Signup</a></tab>\
       <tab class='user admin' id='signout'><a href='index.html'>Signout</a></tab>\
