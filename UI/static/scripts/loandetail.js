@@ -35,7 +35,7 @@ document.write(`<div id='main'>
       <dt>Total Amount Due(USD): <span id='value'>108000</span></dt>
     </dl><hr>
     <script src='static/scripts/log.js'></script>
-    <div>
+    <div class='admin'>
       <button id='rejectuser' class='_red white verify_user' onclick="approve('user verification not done!', 'yellow', 'red')">Reject</button>
       <button id='verify' class='_green white verify_user' onclick="approve('user verified')">Verify</button>
       <button id='reject' class='_red white approve_loan' onclick="approve('loan request rejected', 'red')">Reject</button>

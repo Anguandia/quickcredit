@@ -91,12 +91,15 @@ addValidation = function(element){
     inp.setAttribute('oninvalid', `this.setCustomValidity('${element.textContent} can not be empty')`);
 };
 
-//redirect to user profilepage onsubmit signin/signup
+//redirect to user profile page onsubmit signin/signup
 //only for demonstration purpose
 function redirect(){
+    var url;
     var role = document.getElementById('role');
     var form = document.querySelector('form');
-    form.setAttribute('action', `${role.value}.html`);
+    if(role.value == 'Admin'){
+        form.setAttribute('action', 'Admin.html');
+    }
 }
 
 // sort lists(loans/users)
@@ -210,6 +213,8 @@ function checkRedirect(){
         var j = localStorage.getItem('j');
         filterData(j, status);
         localStorage.clear('*');
+    }
+    if(window.location.search.slice(1,2)=='a'){
         showPage(['admin'], ['auth', 'menu', 'controls']);
     } else {
         showPage(['user'], ['auth', 'menu', 'controls']);
@@ -231,16 +236,30 @@ function approve(resp, bg='green', color='white'){
 // decode url query string to get admin function to execute on loan detail: verify, debit, view or approve
 function decodeQuery(){
     // get query
-    var query = window.location.search
+    var query = window.location.search;
+    console.log(query.slice(0,1));
     // extract required class to be selectively loaded and page title from query string
     var key = query.slice(query.indexOf('=')+1);
     var heading = document.querySelector('h1');
     var sub = document.querySelector('h3');
-    var raw = query.slice(1, query.indexOf('='));
+    var raw = query.slice(3, query.indexOf('='));
     // constitute page title
     var title = raw.replace('_', ' ');
     // constitute page purpose sub-heading
     heading.innerHTML = title;
     sub.innerHTML = key.replace('_', ' ') || 'view user';
-    showPage(['admin', key], ['auth', 'menu', 'loandetail'])
+    if(query.slice(1, 2) == 'u'){
+        showPage(['user', key], ['auth', 'menu', 'loandetail']);
+    } else {
+        showPage(['admin', key], ['auth', 'menu', 'loandetail']);
+    }
+}
+
+function checkRole(){
+    var query, title, cl, role;
+    query = window.location.search;
+    title = query.slice(3, query.indexOf('='));
+    cl = query.slice(query.indexOf('=') + 1);
+    role = query.slice(1, 2);
+    if(role == 'u'){}
 }

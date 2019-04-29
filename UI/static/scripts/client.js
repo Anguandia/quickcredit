@@ -7,7 +7,7 @@ document.write(
 placeholder="enter loan id to search">\
 <tab class="search"><a href="detail.html${window.location.search}">Select</a></tab>\
 <div id="controls">\
-  <label class='user hidden'>Sort by:
+  <label class='universal'>Sort by:
   <select onchange='selectSort(event)'>\
   <option>--select--</option>\
   <option>Name</option>\
