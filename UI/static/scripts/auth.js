@@ -25,12 +25,22 @@ document.write(
       </input>\
     </label>\
     <label class='signup signin'>password<span>*</span>\
+    <div class='with_eye universal' onclick='disp(this)'>\
       <input type='password' id='password' placeholder='password'></input>\
+        <div class='eye universal' onmousedown='see(this)'>\
+          <div id='pupil'></div>\
+        </div>\
+      </div>\
     </label>\
     <label class='signup'>confirm password<span>*</span>\
+    <div class='with_eye universal' onclick='disp(this)'>\
       <input type='password' id='confirm_password' oninput='checkRepeat()'\ placeholder='confirm password'></input>\
-      <span id='repeat_error'>The passwords do not match!</span>\
+        <div class='eye universal' onmousedown='see(this)'>\
+          <div id='pupil'></div>\
+        </div>\
+      </div>\
     </label>\
+      <span id='repeat_error'>The passwords do not match!</span>\
     <label class='signin'>Signin as:\
       <select id='role' onchange='redirect()' required oninvalid='this.setCustomValidity("please select user type")'>\
         <option value=''>--select--</option>\

@@ -386,3 +386,24 @@ function checkRepeat(){
         document.getElementById('repeat_error').style.display = 'none';
     }
 }
+
+// passwordviewer
+var eyes = document.getElements('#with-eye .eye');
+//display password view eye
+var withEye = document.getElementsByTagName('form');
+
+function disp(elt){
+    var sh = elt.children[1];
+    sh.style.display = 'block';
+}
+
+
+//view passwords
+for(var i of withEye){
+    i.addEventListener('focus', 'disp');
+}
+
+function see(elt){
+        var field = elt.previousElementSibling;
+        (field.getAttribute('type')=='password')?field.setAttribute('type', 'text'): field.setAttribute('type', 'password');
+    }

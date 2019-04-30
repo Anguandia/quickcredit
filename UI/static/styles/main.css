@@ -213,7 +213,7 @@ footer span{
 .auth input, .auth select{
     width: 92%;
     margin: .5% 4%;
-    display: block;
+    display: inline;
     text-indent: 2%;
     line-height: 1.5;
     border-radius: 10px;
@@ -282,7 +282,7 @@ button:active{
     background: white;
     position: fixed;
     left: 50%;
-    transform: lianslateX(-50%)
+    transform: translateX(-50%)
 }
 
 /* define the core page content container position and style */
@@ -688,4 +688,31 @@ button:focus{
     color: red;
     display: none;
     border-radius: 10px;
+    margin: 4%;
+}
+
+/* style password view eye */
+.eye {
+    width: 30px;
+    height: 15px;
+    border-radius: 50%;
+    left: calc(95% - 30px);
+    top: -22px;
+    margin-bottom: -15px;
+    position: relative;
+    background: gray;
+    display: none;
+}
+
+#pupil {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: black;
+    margin: 0px auto;
+    box-shadow: inset 1px 1px 2px 1px white;
+}
+
+.with-eye {
+    display: inline;
 }
