@@ -680,3 +680,12 @@ h1, h3{
 button:focus{
     cursor: pointer;
 }
+
+/* repeat password error display */
+#repeat_error{
+    padding: 2%;
+    background: yellow;
+    color: red;
+    display: none;
+    border-radius: 10px;
+}

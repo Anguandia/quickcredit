@@ -374,3 +374,15 @@ function reset(){
     localStorage.clear();
     window.location.href = 'index.html';
 }
+
+/*check password and repeat password fields are identical in value*/
+function checkRepeat(){
+    var password = document.getElementById('password');
+    var repeat = document.getElementById('confirm_password');
+    console.log(password.value);
+    if(repeat.value[repeat.value.length-1]!=password.value[repeat.value.length-1]){
+        document.getElementById('repeat_error').style.display = 'initial';
+    } else{
+        document.getElementById('repeat_error').style.display = 'none';
+    }
+}

@@ -28,7 +28,8 @@ document.write(
       <input type='password' id='password' placeholder='password'></input>\
     </label>\
     <label class='signup'>confirm password<span>*</span>\
-      <input type='password' id='confirm_password' placeholder='confirm\ password'></input>\
+      <input type='password' id='confirm_password' oninput='checkRepeat()'\ placeholder='confirm password'></input>\
+      <span id='repeat_error'>The passwords do not match!</span>\
     </label>\
     <label class='signin'>Signin as:\
       <select id='role' onchange='redirect()' required oninvalid='this.setCustomValidity("please select user type")'>\
