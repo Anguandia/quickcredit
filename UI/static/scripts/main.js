@@ -407,3 +407,19 @@ function see(elt){
         var field = elt.previousElementSibling;
         (field.getAttribute('type')=='password')?field.setAttribute('type', 'text'): field.setAttribute('type', 'password');
     }
+
+// create and diplay tooltip on focus for 5s
+// function takes in the element to show the tooltip for and the message to display
+function showTip(elt, msg, x='100%', y='0%'){
+    var tip = document.createElement('span');
+    tip.setAttribute('id', 'tip');
+    tip.style.visibility = 'visible';
+    tip.style.right = x;
+    tip.style.top = y;
+    var ms = document.createTextNode(msg);
+    tip.appendChild(ms);
+    elt.appendChild(tip);
+    setTimeout(function(){
+        tip.style.visibility = 'hidden';
+    }, 2000);
+}

@@ -716,3 +716,17 @@ button:focus{
 .with-eye {
     display: inline;
 }
+
+/* #style the tooltip */
+#tip{
+    visibility: hidden;
+    width: 250px;
+    background-color: rgb(142, 26, 224);
+    color: white;
+    text-align: center;
+    padding: 2% 0;
+    border-radius: 10px;
+    position: absolute;
+    right: 101%;
+    z-index: 10;
+}
