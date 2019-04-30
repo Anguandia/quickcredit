@@ -635,3 +635,48 @@ h1, h3{
 #tot{
     color: blue;
 }
+
+/* position and style the signout dialogue box */
+#signoutt{
+    position: fixed;
+    right: .1%;
+    margin-top: 0%;
+    text-align: center;
+    padding: 2%;
+    font-family: cursive;
+    display: none;
+    z-index: 1;
+    color: navy;
+    font-size: 120%;
+}
+
+#signoutt button{
+    min-width: 30%;
+    margin: 2%;
+    background: navy;
+    color: white;
+    padding: 2%;
+    border-radius: 5px;
+    border: none
+}
+
+#signoutt a{
+    text-decoration: none;
+    color: white
+}
+
+#signoutt::after{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgb(190, 186, 186);
+    opacity: .6;
+    content: '';
+    z-index: -1;
+    top: 0%;
+    right: 0%;
+}
+
+button:focus{
+    cursor: pointer;
+}

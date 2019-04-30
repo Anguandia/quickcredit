@@ -360,3 +360,17 @@ function debit(){
     status.innerHTML = 'Current';
     calc();
 }
+
+// display and hide the signout dialogue box on clicking signout/cancel
+function signout(){
+    document.querySelector('#signoutt').style.display = 'block';
+}
+function cancel(){
+    document.querySelector('#signoutt').style.display = 'none';
+}
+
+// clear current user and redirect to index page
+function reset(){
+    localStorage.clear();
+    window.location.href = 'index.html';
+}
