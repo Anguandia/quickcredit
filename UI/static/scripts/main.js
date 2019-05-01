@@ -102,10 +102,12 @@ addValidation = function(element){
 //only for demonstration purpose
 // set session particulars
 function redirect(){
-    // get and store current username on signup/in
+    // get and store current username and password on signup/in
     var q=document.getElementById('user_name');
+    var r=document.getElementById('password');
     // localStorage.removeItem('current user');
     localStorage.setItem('current user', q.value);
+    localStorage.setItem('password', r.value);
     // save current user role
     var role = document.getElementById('role');
     localStorage.setItem('role', role.value);
@@ -245,7 +247,7 @@ function approve(resp, bg='green', color='white'){
     msg.style.background = bg;
     setTimeout(function(){
         msg.style.display = 'none';
-    }, 3000);
+    }, 4000);
 }
 
 // decode url query string to get admin function to execute on loan detail: verify, debit, view or approve
@@ -394,7 +396,6 @@ function checkRepeat(){
 }
 
 // passwordviewer
-var eyes = document.getElements('#with-eye .eye');
 //display password view eye
 var withEye = document.getElementsByTagName('form');
 
@@ -428,4 +429,26 @@ function showTip(elt, msg, x='100%', y='0%'){
     setTimeout(function(){
         tip.style.visibility = 'hidden';
     }, 2000);
+}
+
+// simulate password change
+function changePassword(){
+    var old, next, form, error, account;
+    old=document.getElementById('old');
+    next=document.getElementById('new');
+    form=document.getElementById('account');
+    account=document.getElementById('butt');
+    error=document.querySelector('.error');
+    if(old.value==localStorage.getItem('password')){
+        approve('password changed');
+        localStorage.setItem('password', next.value);
+        account.style.display = 'block';
+    } else {
+        error.style.display='block';
+    }
+}
+
+function showForm(elt){
+    document.querySelector('#account').style.display = 'block';
+    elt.style.display = 'none';
 }

@@ -682,7 +682,7 @@ button:focus{
 }
 
 /* repeat password error display */
-#repeat_error{
+#repeat_error, .error{
     padding: 2%;
     background: yellow;
     color: red;
@@ -729,4 +729,23 @@ button:focus{
     position: absolute;
     right: 101%;
     z-index: 10;
+}
+
+/* password change form */
+#account{
+    width: 100%;
+    background: rgb(199, 193, 193);
+    position: relative;
+    top: 40%;
+    left: 0%;
+}
+#account input{
+    margin: 1%;
+    width: 98%;
+    text-indent: 2%;
+}
+
+/* hide for by default */
+#account{
+    display: none;
 }
