@@ -26,7 +26,7 @@ document.write(
     </label>\
     <label class='signup signin'>password<span>*</span>\
     <div class='with_eye universal' onclick='disp(this)'>\
-      <input type='password' id='password' placeholder='password'></input>\
+      <input type='password' id='password' placeholder='password' oninput='redirect()'></input>\
         <div class='eye universal' onmousedown='see(this)'>\
           <div id='pupil'></div>\
         </div>\
@@ -41,8 +41,8 @@ document.write(
       </div>\
     </label>\
       <span id='repeat_error'>The passwords do not match!</span>\
-    <label class='signin'>Signin as:\
-      <select id='role' onchange='redirect()' required oninvalid='this.setCustomValidity("please select user type")'>\
+    <label class='signin'>Signin as:<span>*</span>\
+      <select id='role' onchange='redirect()'>\
         <option value=''>--select--</option>\
         <option>Client</option>\
         <option>Admin</option>\
