@@ -5,6 +5,12 @@ function showPage(required, parents){
     // document.getElementById('name').innerHTML = localStorage.getItem('current user');
     //add class universal to any required class's array
     required.push('universal');
+    // detect user type for menu rendering
+    if(localStorage.getItem('role')){
+        required.push(localStorage.getItem('role')=='Admin'?'admin':'user');
+    } else {
+        required.push('index');
+    }
     for(var parent of parents){
         var cont = document.getElementById(parent);
         var elements = cont.querySelectorAll('*');
@@ -359,4 +365,67 @@ function debit(){
     approve('account debited');
     status.innerHTML = 'Current';
     calc();
+}
+
+// display and hide the signout dialogue box on clicking signout/cancel
+function signout(){
+    document.querySelector('#signoutt').style.display = 'block';
+}
+function cancel(){
+    document.querySelector('#signoutt').style.display = 'none';
+}
+
+// clear current user and redirect to index page
+function reset(){
+    localStorage.clear();
+    window.location.href = 'index.html';
+}
+
+/*check password and repeat password fields are identical in value*/
+function checkRepeat(){
+    var password = document.getElementById('password');
+    var repeat = document.getElementById('confirm_password');
+    console.log(password.value);
+    if(repeat.value[repeat.value.length-1]!=password.value[repeat.value.length-1]){
+        document.getElementById('repeat_error').style.display = 'initial';
+    } else{
+        document.getElementById('repeat_error').style.display = 'none';
+    }
+}
+
+// passwordviewer
+var eyes = document.getElements('#with-eye .eye');
+//display password view eye
+var withEye = document.getElementsByTagName('form');
+
+function disp(elt){
+    var sh = elt.children[1];
+    sh.style.display = 'block';
+}
+
+
+//view passwords
+for(var i of withEye){
+    i.addEventListener('focus', 'disp');
+}
+
+function see(elt){
+        var field = elt.previousElementSibling;
+        (field.getAttribute('type')=='password')?field.setAttribute('type', 'text'): field.setAttribute('type', 'password');
+    }
+
+// create and diplay tooltip on focus for 5s
+// function takes in the element to show the tooltip for and the message to display
+function showTip(elt, msg, x='100%', y='0%'){
+    var tip = document.createElement('span');
+    tip.setAttribute('id', 'tip');
+    tip.style.visibility = 'visible';
+    tip.style.right = x;
+    tip.style.top = y;
+    var ms = document.createTextNode(msg);
+    tip.appendChild(ms);
+    elt.appendChild(tip);
+    setTimeout(function(){
+        tip.style.visibility = 'hidden';
+    }, 2000);
 }

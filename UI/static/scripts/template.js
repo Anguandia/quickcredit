@@ -9,11 +9,17 @@ document.write(
       </div>\
     </header>\
     <nav id='auth'>\
-      <tab class='universal' id='home'><a href= ${localStorage.getItem('role')=='Client'?'home.html':localStorage.getItem('role')=='Admin'?'admin.html': 'home.html'}>Home</a></tab>\
+      <tab class='universal' id='home'><a href= ${localStorage.getItem('role')=='Client'?'home.html':localStorage.getItem('role')=='Admin'?'Admin.html': 'index.html'}>Home</a></tab>\
       <tab class='index' id='signin'><a href='signin.html'>Signin</a></tab>\
       <tab class='index' id='signup'><a href='signup.html'>Signup</a></tab>\
-      <tab class='user admin' id='signout'><a href='index.html'>Signout</a></tab>\
+      <tab class='user admin' id='signout' onclick='signout()'><a href='#'>Signout</a></tab>\
     </nav>\
+    <!--sign out dialogue box-->\
+    <div id='signoutt'>\
+      <p>Signout user ${localStorage.getItem('current user')}?</p>\
+      <button id='ok' onclick='reset()'>OK</a></button>\
+      <button id='cancel' onclick='cancel()'>Cancel</button>\
+    </div>\
     <!--page specific content-->\
     <div id='content'>\
       <!--loan menu-->\
@@ -23,8 +29,8 @@ document.write(
           <div class='universal more'></div>\
           <div class='universal more'></div>\
         </div>\
-        <a href='info.html' class='universal' id='info'>Loan info</a>\
-        <a href='schemes.html' class='universal' id='shemes'>Loan schemes</a>\
+        <a href='missing.html' class='universal' id='info'>Loan info</a>\
+        <a href='missing.html' class='universal' id='shemes'>Loan schemes</a>\
         <a href='apply.html' class='user' id='apply'>Apply for loan</a>\
         <a href='loan.html?u_' class='user' id='view'>View repayment history</a>\
         <a href='loans.html?a_loan_180524=View_loan' class='admin' id='loans'>Loan applications</a>\

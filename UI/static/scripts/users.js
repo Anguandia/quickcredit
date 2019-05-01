@@ -14,7 +14,7 @@ document.write(
       <option>user id</option>\
       </select>\
     </div><hr>\
-    <ul class="list">\
+    <ul class="list" onmouseover="showTip(this, 'click on user name or id to select user item', '-30%')">\
     <li onclick='setClient(this)'>\
       <input type='checkbox'></input>\
       <a href='user.html?a_user_101029=view_User'><span class='name'>Anguandia Mike</span>\
