@@ -29,8 +29,8 @@ document.write(
           <div class='universal more'></div>\
           <div class='universal more'></div>\
         </div>\
-        <a href='info.html' class='universal' id='info'>Loan info</a>\
-        <a href='schemes.html' class='universal' id='shemes'>Loan schemes</a>\
+        <a href='missing.html' class='universal' id='info'>Loan info</a>\
+        <a href='missing.html' class='universal' id='shemes'>Loan schemes</a>\
         <a href='apply.html' class='user' id='apply'>Apply for loan</a>\
         <a href='loan.html?u_' class='user' id='view'>View repayment history</a>\
         <a href='loans.html?a_loan_180524=View_loan' class='admin' id='loans'>Loan applications</a>\

@@ -5,6 +5,12 @@ function showPage(required, parents){
     // document.getElementById('name').innerHTML = localStorage.getItem('current user');
     //add class universal to any required class's array
     required.push('universal');
+    // detect user type for menu rendering
+    if(localStorage.getItem('role')){
+        required.push(localStorage.getItem('role')=='Admin'?'admin':'user');
+    } else {
+        required.push('index');
+    }
     for(var parent of parents){
         var cont = document.getElementById(parent);
         var elements = cont.querySelectorAll('*');
