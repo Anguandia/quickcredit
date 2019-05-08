@@ -6,16 +6,18 @@
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
     "lint": "./node_modules/.bin/eslint",
-    "test": "mocha';"
+    "test": "coverage mocha --require babel-register tests/*.js --exit"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
+    "coverage": "^0.3.1",
+    "coveralls": "^3.0.3",
+    "crypto": "^1.0.1",
     "debug": "~2.6.9",
     "express": "~4.16.0",
     "http-errors": "~1.6.2",
-    "morgan": "~1.9.0",
-    "crypto": "^1.0.1",
-    "jsonwebtoken": "^8.5.1"
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "~1.9.0"
   },
   "devDependencies": {
     "eslint": "^5.16.0",
