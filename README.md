@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/Anguandia/quickcredit.svg?branch=develop)](https://travis-ci.com/Anguandia/quickcredit)
 # quickCredit
 Browser based User Interface for an online lending platform that provides short term soft loans to individuals
 
