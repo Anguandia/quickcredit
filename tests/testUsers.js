@@ -10,7 +10,7 @@ const testUsers = testData.test_users;
 chai.use(chaiHttp);
 should = chai.should();
 
-describe('test user end points', () => {
+describe.only('test user end points', () => {
     beforeEach((done) => {
         users.slice();
         chai.request(app).post('/auth/signup').send(testUsers[0]).end();
@@ -25,7 +25,7 @@ describe('test user end points', () => {
             it((done) => {
                 chai.request(app)
                 .get('/users')
-                .end(res => {
+                .end((req, res) => {
                     res.should.have.status(200);
                     res.body.data.should.be.a('array');
                     res.body.data.length.should.eql(0);
@@ -37,7 +37,7 @@ describe('test user end points', () => {
             // test get all when list populated
             chai.request(app)
             .get('/users')
-            .end(res => {
+            .end((req, res) => {
                 res.should.have.status(200);
                 res.body.data.should.be.a('array');
                 res.body.data[0].email.should.eql('user1@mail.com');
@@ -49,7 +49,7 @@ describe('test user end points', () => {
             const email = 'user1@mail.com';
             chai.request(app)
             .get(`/users/${email}`)
-            .end(res => {
+            .end((req, res) => {
                 res.should.have.status(200);
                 res.body.data.should.be.a('object');
                 res.body.data.firstName.should.eql('test1');
@@ -61,7 +61,7 @@ describe('test user end points', () => {
             let email = 'unavailable@matchMedia.com';
             chai.request(app)
             .get(`/users/${email}`)
-            .end(res => {
+            .end((req, res) => {
                 res.should.have.status(404);
                 res.body.should.have.property('error');
                 res.body.error.should.eql(`user with email ${email} does not exist`);
@@ -72,14 +72,14 @@ describe('test user end points', () => {
     describe('POST /', () => {
         describe('user signup/registration', () => {
             // test user creation
-            describe('should register user', () => {
+            describe.only('should register user', () => {
                 // test successful registration
                 it('should create user, all fields supplied', (done) => {
                     // test should register user with all fields provided and valid
                     chai.request(app)
                     .post('/auth/signup')
                     .send(testUsers[1])
-                    .end(res => {
+                    .end((req, res) => {
                         res.status.should.eql(201);
                         res.body.data.should.be.a('object');
                         res.body.data.firstName.should.eql(testUsers[1].firstName);
@@ -93,7 +93,7 @@ describe('test user end points', () => {
                     chai.request(app)
                     .post('/auth/signup')
                     .send(testUsers[0]) // no tel supplied
-                    .end(res => {
+                    .end((req, res) => {
                         res.status.should.eql(201);
                         res.body.data.should.be.a('object');
                         res.body.data.firstName.should.eql(testUsers[0].firstName);
@@ -108,7 +108,7 @@ describe('test user end points', () => {
                     chai.request(app)
                     .post('/auth/signup')
                     .send(testUsers[0])
-                    .end(res => {
+                    .end((req, res) => {
                         res.should.have.status(400);
                         res.body.error.should.eql('email missing');
                         done();
@@ -120,7 +120,7 @@ describe('test user end points', () => {
                     .post('/auth/signup')
                     // change testuser email to 'invalid email'
                     .send(Object.assign(testUsers[0], {email: 'invalid email'}))
-                    .end(res => {
+                    .end((req, res) => {
                         res.should.have.status(400);
                         res.body.error.should.eql('invalid email');
                         done();
@@ -131,7 +131,7 @@ describe('test user end points', () => {
                     chai.request(app)
                     .post('/auth/signup')
                     .send(testUsers[3]) // has intentional typo in email as mail
-                    .end(res => {
+                    .end((req, res) => {
                         res.should.have.status(400);
                         res.body.error.should.eql('email missing');
                         done();
@@ -143,7 +143,7 @@ describe('test user end points', () => {
                     .post('/auth/signup')
                     // change testuser email to user1's email
                     .send(testUsers[0])
-                    .end(res => {
+                    .end((req, res) => {
                         res.should.have.status(400);
                         res.body.status.should.eql(400);
                         res.body.error.should.eql("Account 'user1@mail.com' exists, please signin");
@@ -158,7 +158,7 @@ describe('test user end points', () => {
                 chai.request(app)
                 .post('/auth/signin')
                 .send({email: 'user1@mail.com', password: 'user1'})
-                .end(res => {
+                .end((req, res) => {
                     res.should.have.status(200);
                     res.body.data.should.have.property('token');
                     res.body.data.firstName.should.eql('test1');
@@ -170,7 +170,7 @@ describe('test user end points', () => {
                     chai.request(app)
                     .post('/auth/signin')
                     .send({email:'noneexistent@mail.com', password: 'user1'})
-                    .end(res => {
+                    .end((req, res) => {
                         res.should.have.status(404);
                         res.body.should.have.property('error');
                         res.body.error.should.eql('user not found');
@@ -181,7 +181,7 @@ describe('test user end points', () => {
                     chai.request(app)
                     .post('/auth/signin')
                     .send({email:'user1@mail.com', password: 'wrong'})
-                    .end(res => {
+                    .end((req, res) => {
                         res.should.have.status(401);
                         res.body.should.have.property('error');
                         res.body.error.should.eql('Wrong password');
@@ -197,7 +197,7 @@ describe('test user end points', () => {
             chai.request(app)
             .patch(`/users/${email}/verify`)
             .send({status: 'verified'})
-            .end(res => {
+            .end((req, res) => {
                 res.should.have.status(200);
                 res.body.data.email.should.eql(email);
                 res.body.data.status.should.eql('verified');
@@ -210,7 +210,7 @@ describe('test user end points', () => {
                 chai.request(app)
                 .patch(`/users/${email}/verify`)
                 .send({status: 'approved'}) // approved is not a valid status
-                .end(res => {
+                .end((req, res) => {
                     res.should.have.status(400);
                     res.body.error.should.eql(`invalid status`);
                     done();
@@ -221,11 +221,11 @@ describe('test user end points', () => {
     });
     describe('DELETE /<:user-email>', () => {
         describe('should delete user', () => {
-            it.only('should delete a user if admin', (done) => {
+            it('should delete a user if admin', (done) => {
                 let email = 'user1@mail.com';
                 chai.request(app)
                 .delete(`/users/${email}`)
-                .end(res => {
+                .end((req, res) => {
                     // res.should.have.status(200);
                     res.body.data.msg.should.eql(`user test1 user1 deleted`)
                     done();
