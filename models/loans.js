@@ -1,3 +1,3 @@
-let loans = [];
+const loans = [];
 
 module.exports = loans;

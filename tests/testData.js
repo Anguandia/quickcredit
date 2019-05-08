@@ -55,9 +55,3 @@ exports.testLoans = [
         tenor: 12
     }
 ];
-
-exports.test_repayments = [
-    {loanId: 1, amount: 5000},
-    {loanId: 2, amount: 3000},
-    {loanId: 3, amount: 2000}
-];
