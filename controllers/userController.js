@@ -13,17 +13,35 @@ exports.signup = function(req, res){
             );
     } else {
         user.setPassword(data.password);
+        let format = user.toAuthJson();
+        delete format.password;
         // to authJson method will call generate token
-        res.status(201).json({status: 201, data: user.toAuthJson()});
+        res.status(201).json({status: 201, data: format});
         user.save();
+    }
+};
+
+// handle signin post request
+exports.signin = function(req, res){
+    /**check if user exista, if so, validate paswwors and generate token
+     * or return appropriate response
+     */
+    let user = users.find(target => target.email === req.body.email);
+    if(!user){
+        res.status(404).json({status: 404, error: 'user not found'});
+    } else if(user.validatePassword(req.body.password)){
+        // extract challenge document specified fields for response
+        let format = user.toAuthJson();
+        delete format.password;
+        res.status(200).json({status: 200, data: format});
+    } else {
+        res.status(401).json({error: 'Wrong password'});
     }
 };
 
 // get a list of all users
 exports.user_list = function(){};
 
-// handle signin post request
-exports.signin = function(){};
 
 // hanle signout post request
 exports.signout = function(){};
