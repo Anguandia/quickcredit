@@ -1,0 +1,1 @@
+exports.Repayment = class Repayment{};
