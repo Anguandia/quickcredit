@@ -74,4 +74,13 @@ exports.Loan = class Loan{
             repaid: this.repaid
         };
     }
+
+    // Add filter to get output with specified fieldsonly
+    filterRepr(keys){
+        let filter = {};
+        for(let key of keys){
+            filter[key] = this.toLoanJson()[key];
+        }
+        return filter;
+    }
 };

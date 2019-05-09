@@ -205,7 +205,7 @@ describe('test loans', () => {
             });
         });
     });
-    describe.skip('PATCH /<:loan_id>', () => {
+    describe('PATCH /<:loan_id>', () => {
         it('should change loan status', (done) => {
             let loan_id = 1;
             // change to required status and see that change happens
@@ -226,7 +226,7 @@ describe('test loans', () => {
                 .send({status: 'ok'}) // ok is not a valid status
                 .end((err, res) => {
                     res.should.have.status(400);
-                    res.body.error.should.eql('invalid status ok');
+                    res.body.error.should.eql('invalid status');
                     done();
                 })
             });

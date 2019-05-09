@@ -6,7 +6,7 @@ exports.create = function(req, res){
     let loan = new Loan();
     Object.assign(loan, req.body);
     // check if requesting client has a current loan
-    let existing = loans.find((one) => one.user == loan.user && one.status != 'repaid');
+    let existing = loans.find(one => one.user == loan.user && one.status != 'repaid');
     if(existing){
         res.status(403).json({status: 403, error: 'you have a running loan'});
     } else {
@@ -22,7 +22,19 @@ exports.list = function(){};
 exports.detail = function(){};
 
 // approve a loan
-exports.approve = function(){};
+exports.approve = function(req, res){
+    let loan = loans.find(one => one._id == req.params.loanId);
+    if(!loan){
+        res.status(404).json({status: 404, error: `no loan with id ${req.params.loanId}`});
+    } else if(['approved', 'rejected'].includes(req.body.status)){
+        // update if status value valid
+        let fields = ['id', 'amount', 'tenor', 'status', 'paymentInstallment', 'interest'];
+        loan.approve(req.body.status);
+        res.status(200).json({status: 200, data: loan.filterRepr(fields)});
+    } else {
+        res.status(400).json({status: 400, error: 'invalid status'});
+    }
+};
 
 // post a repayment installment
 exports.repay = function(){};
