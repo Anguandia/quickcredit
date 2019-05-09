@@ -17,7 +17,16 @@ exports.create = function(req, res){
 
 // get all, current or repaid loans
 exports.list = function(req, res){
-    res.status(200).json({status: 200, data: loans.map(loan => loan.toLoanJson())});
+    let selection;
+    if(req.query.status){
+        // convert string status representation inquery to boolean
+        let status = req.query.status=='true'?true: false;
+        selection = loans.filter(one => one.status === req.query.status &
+            one.repaid === status);
+    } else {
+        selection = loans;
+    }
+    res.status(200).json({status: 200, data: selection.map(loan => loan.toLoanJson())});
 };
 
 // get specific loan details

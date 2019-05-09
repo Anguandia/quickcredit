@@ -154,7 +154,7 @@ describe('test loans', () => {
                 done();
             });
         });
-        it.skip('should return all current loans not fully paid', (done) => {
+        it('should return all current loans not fully paid', (done) => {
             //needto create and approve loans
             chai.request(app)
             .get('/loans/?status=approved&repaid=false')
@@ -167,7 +167,7 @@ describe('test loans', () => {
                 done();
             });
         });
-        it.skip('should return an empty array if no current loans', (done) => {
+        it('should return an empty array if no current loans', (done) => {
             chai.request(app)
             .get('/loans/?status=approved&repaid=false')
             .end((err, res) => {
