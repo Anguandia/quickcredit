@@ -190,8 +190,8 @@ describe.only('test user end points', () => {
             });
         });
     });
-    describe('PATCH users/:user-email/verify', () => {
-        it('should change user status', done => {
+    describe.only('PATCH users/:user-email/verify', () => {
+        it.only('should change user status', done => {
             let email = 'user1@mail.com';
             chai.request(app)
             .patch(`/users/${email}/verify`)
@@ -211,12 +211,23 @@ describe.only('test user end points', () => {
                 .send({status: 'approved'}) // approved is not a valid status
                 .end((req, res) => {
                     res.should.have.status(400);
-                    res.body.error.should.eql(`invalid status`);
+                    res.body.error.should.eql('invalid status');
                     done();
                 })
             });
-            it('should fail update if user not admin')
+            it('should fail and inform "user not found"', (done) => {
+                let email = 'vvu@mail.com';
+                chai.request(app)
+                .patch(`/users/${email}/verify`)
+                .send({status: 'approved'})
+                .end((req, res) => {
+                    res.should.have.status(404);
+                    res.body.error.should.eql('User not found');
+                    done();
+                })
+            })
         });
+
     });
     describe('DELETE /<:user-email>', () => {
         describe('should delete user', () => {

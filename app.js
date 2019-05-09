@@ -1,12 +1,14 @@
-var express = require('express');
-var logger = require('morgan');
+const express = require('express');
+const logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var loansRouter = require('./routes/loans');
-var authRouter = require('./routes/auth');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const loansRouter = require('./routes/loans');
+const authRouter = require('./routes/auth');
 
-var app = express();
+const port=process.env.PORT || 3000;
+
+const app = express();
 
 app.use(logger('dev'));
 app.use(express.json());

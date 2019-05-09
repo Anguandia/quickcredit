@@ -39,6 +39,26 @@ exports.signin = function(req, res){
     }
 };
 
+// handle user update post request
+exports.update = function(req, res){
+    let data = req.body;
+    let user = users.find((target) => target.email === req.params.email);
+    if(!user){
+        res.status(404).json({status: 404, error: 'User not found'});
+    } else if(['verified', 'unverified'].includes(data.status)){
+        Object.assign(user, {status: data.status});
+        // filter out properties unwanted in the response
+        let filtered = {
+            email:user.email, firstName:user.firstName,
+            lastName:user.lastName, password:user.password,
+            address:user.address, status:user.status
+        };
+        res.status(200).json({status: 200, data: filtered});
+    } else {
+        res.status(400).json({error: 'invalid status'});
+    }
+};
+
 // get a list of all users
 exports.user_list = function(){};
 
@@ -46,8 +66,6 @@ exports.user_list = function(){};
 // hanle signout post request
 exports.signout = function(){};
 
-// handle user update post request
-exports.update = function(){};
 
 // handle user deletion post request
 exports.delete = function(){};
