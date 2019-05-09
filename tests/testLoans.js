@@ -122,7 +122,7 @@ describe('test loans', () => {
                 done();
             });
         });
-        it.skip('should return a single loan object', (done) => {
+        it('should return a single loan object', (done) => {
             // test get single loan
             let loan_id = 1;
             chai.request(app)
@@ -142,7 +142,7 @@ describe('test loans', () => {
                 done();
             });
         });
-        it.skip('should return message loan unavailable', (done) => {
+        it('should return message loan unavailable', (done) => {
             // test get unavailable loan
             let loan_id = 10000;
             chai.request(app)
