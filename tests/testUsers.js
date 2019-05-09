@@ -4,25 +4,24 @@ const chaiHttp = require('chai-http');
 const app = require('../app');
 
 const users = require('../models/users');
-const testData = require('./testData');
-const testUsers = testData.test_users;
+const testUsers = require('./testData').test_users;
 
 chai.use(chaiHttp);
 should = chai.should();
 
 describe.only('test user end points', () => {
-    beforeEach((done) => {
+    beforeEach(done => {
         users.slice();
         chai.request(app).post('/auth/signup').send(testUsers[0]).end();
         done();
     });
     describe('GET /users', () => {
         // test the get routes
-        it("should delete setup user and return users' array", (done) => {
+        it("should delete setup user and return users' array", done => {
             // test get all when empty list
             // delete user created during setup
             chai.request(app).delete('/users/user1@mail.com').end(done());
-            it((done) => {
+            it(done => {
                 chai.request(app)
                 .get('/users')
                 .end((req, res) => {
@@ -33,7 +32,7 @@ describe.only('test user end points', () => {
                 });
             });
         });
-        it("should retuen an array of all users", (done) => {
+        it("should retuen an array of all users", done => {
             // test get all when list populated
             chai.request(app)
             .get('/users')
@@ -44,7 +43,7 @@ describe.only('test user end points', () => {
                 done();
             });
         });
-        it('should return a single user object', (done) => {
+        it('should return a single user object', done => {
             // test get single user
             const email = 'user1@mail.com';
             chai.request(app)
@@ -56,7 +55,7 @@ describe.only('test user end points', () => {
                 done();
             });
         });
-        it('should return message user unavailable', (done) => {
+        it('should return message user unavailable', done => {
             // test get unavailable user
             let email = 'unavailable@matchMedia.com';
             chai.request(app)
@@ -74,7 +73,7 @@ describe.only('test user end points', () => {
             // test user creation
             describe.only('should register user', () => {
                 // test successful registration
-                it('should create user, all fields supplied', (done) => {
+                it('should create user, all fields supplied', done => {
                     // test should register user with all fields provided and valid
                     chai.request(app)
                     .post('/auth/signup')
@@ -86,23 +85,23 @@ describe.only('test user end points', () => {
                         done();
                     });
                 });
-                it('Create user, non mandatory fields ommitted', (done) => {
+                it('Create user, non mandatory fields ommitted', done => {
                     // should create user with non-essential fields missing
-                    delete testUsers[0].tel;
-                    testUsers[0].email = 'new@mail.com';
+                    delete testUsers[2].tel;
                     chai.request(app)
                     .post('/auth/signup')
-                    .send(testUsers[0]) // no tel supplied
+                    .send(testUsers[2]) // no tel supplied
                     .end((req, res) => {
                         res.status.should.eql(201);
                         res.body.data.should.be.a('object');
-                        res.body.data.firstName.should.eql(testUsers[0].firstName);
+                        res.body.data.firstName.should.eql(testUsers[2].firstName);
                         done();
                     });
                 });
             });
             describe('Registration should fail', () => {
-                it('should fail registration - no email', (done) => {
+                it('should fail registration, missing required field - no email',
+                done => {
                     // test registration fails if no email provided
                     delete testUsers[0].email;
                     chai.request(app)
@@ -114,7 +113,7 @@ describe.only('test user end points', () => {
                         done();
                     });
                 });
-                it('should fail - invalid user data', (done) => {
+                it('should fail - invalid user data', done => {
                     // test registration fails if invalid email provided
                     chai.request(app)
                     .post('/auth/signup')
@@ -126,7 +125,7 @@ describe.only('test user end points', () => {
                         done();
                     });
                 });
-                it('should fail - invalid/missing field(emai)', (done) => {
+                it('should fail - invalid/missing field(emai)', done => {
                     // test registration fails if invalid email provided
                     chai.request(app)
                     .post('/auth/signup')
@@ -137,7 +136,7 @@ describe.only('test user end points', () => {
                         done();
                     });
                 });
-                it('should fail - duplicate registration', (done) => {
+                it.only('should fail - duplicate registration', done => {
                     // test registration fails if email already exists
                     chai.request(app)
                     .post('/auth/signup')
@@ -152,9 +151,9 @@ describe.only('test user end points', () => {
                 });
             });
         });
-        describe('user signin', () => {
+        describe.only('user signin', () => {
             // test user can signin
-            it('should signin', (done) => {
+            it('should signin', done => {
                 chai.request(app)
                 .post('/auth/signin')
                 .send({email: 'user1@mail.com', password: 'user1'})
@@ -166,7 +165,7 @@ describe.only('test user end points', () => {
                 });
             });
             describe('Fail signin and flag errors', () => {
-                it('should not signin but alert non-existent account', (done) => {
+                it('should not signin but alert non-existent account', done => {
                     chai.request(app)
                     .post('/auth/signin')
                     .send({email:'noneexistent@mail.com', password: 'user1'})
@@ -177,7 +176,7 @@ describe.only('test user end points', () => {
                         done();
                     });
                 });
-                it('should not signin, flag wrong password', (done) => {
+                it('should not signin, flag wrong password', done => {
                     chai.request(app)
                     .post('/auth/signin')
                     .send({email:'user1@mail.com', password: 'wrong'})
@@ -205,7 +204,7 @@ describe.only('test user end points', () => {
             });
         });
         describe('should fail update, flag errors', () => {
-            it('should fail to update if invalid status', (done) => {
+            it('should fail to update if invalid status', done => {
                 let email = 'user1@mail.com';
                 chai.request(app)
                 .patch(`/users/${email}/verify`)
@@ -221,7 +220,7 @@ describe.only('test user end points', () => {
     });
     describe('DELETE /<:user-email>', () => {
         describe('should delete user', () => {
-            it('should delete a user if admin', (done) => {
+            it('should delete a user if admin', done => {
                 let email = 'user1@mail.com';
                 chai.request(app)
                 .delete(`/users/${email}`)
