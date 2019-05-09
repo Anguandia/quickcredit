@@ -16,7 +16,9 @@ exports.create = function(req, res){
 };
 
 // get all, current or repaid loans
-exports.list = function(){};
+exports.list = function(req, res){
+    res.status(200).json({status: 200, data: loans.map(loan => loan.toLoanJson())});
+};
 
 // get specific loan details
 exports.detail = function(){};
