@@ -106,7 +106,7 @@ describe('test loans', () => {
             it('should not accept repayment if amount paid exceeds current balance')
         });
     });
-    describe.skip('GET /loans', () => {
+    describe('GET /loans', () => {
         // test the get routes
         it("should return an array of all loans", (done) => {
             // test get all when list populated
@@ -122,7 +122,7 @@ describe('test loans', () => {
                 done();
             });
         });
-        it('should return a single loan object', (done) => {
+        it.skip('should return a single loan object', (done) => {
             // test get single loan
             let loan_id = 1;
             chai.request(app)
@@ -142,7 +142,7 @@ describe('test loans', () => {
                 done();
             });
         });
-        it('should return message loan unavailable', (done) => {
+        it.skip('should return message loan unavailable', (done) => {
             // test get unavailable loan
             let loan_id = 10000;
             chai.request(app)
@@ -154,7 +154,7 @@ describe('test loans', () => {
                 done();
             });
         });
-        it('should return all current loans not fully paid', (done) => {
+        it.skip('should return all current loans not fully paid', (done) => {
             //needto create and approve loans
             chai.request(app)
             .get('/loans/?status=approved&repaid=false')
@@ -167,7 +167,7 @@ describe('test loans', () => {
                 done();
             });
         });
-        it('should return an empty array if no current loans', (done) => {
+        it.skip('should return an empty array if no current loans', (done) => {
             chai.request(app)
             .get('/loans/?status=approved&repaid=false')
             .end((err, res) => {
@@ -177,7 +177,7 @@ describe('test loans', () => {
                 done();
             });
         });
-        it('should return all repaid loans', (done) => {
+        it.skip('should return all repaid loans', (done) => {
             chai.request(app)
             .get('/loans/?status=approved&repaid=true')
             .end((err, res) => {
@@ -190,8 +190,7 @@ describe('test loans', () => {
                 done();
             });
         });
-        it('should return repayment history of specified loac',
-        (done) => {
+        it.skip('should return loans repaymnets log', (done) => {
             let loan_id = 1;
             chai.request(app)
             .get(`/loans/${loan_id}/repayments`)
