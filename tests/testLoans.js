@@ -34,7 +34,18 @@ describe('test loans', () => {
                     done();
                 });
             });
-            describe('Test input validation', () => {
+            it('should fail - duplicate application', (done) => {
+                // test application fails if user has a loan
+                chai.request(app)
+                .post('/loans')
+                .send(testloans[0])
+                .end((err, res) => {
+                    res.should.have.status(403);
+                    res.body.error.should.eql('you have a running loan');
+                    done();
+                });
+            });
+            describe.skip('Test input validation', () => {
                 it('should fail creation - missing field',
                 (done) => {
                     // test registration fails if no email provided
@@ -48,7 +59,7 @@ describe('test loans', () => {
                         done();
                     });
                 });
-                it('should fail - invalid loan data', (done) => {
+                it.skip('should fail - invalid loan data', (done) => {
                     // test registration fails if invalid amount provided
                     // submit loan application with a string amount instead of number
                     Object.assign(testloans[1], {amount: 'ten thousand'});
@@ -62,7 +73,7 @@ describe('test loans', () => {
                         done();
                     });
                 });
-                it('should fail - invalid field name', (done) => {
+                it.skip('should fail - invalid field name', (done) => {
                     // replace the keyname user with typo use
                     delete Object.assign(testloans[1], {use: testloans[1].user}).user;
                     chai.request(app)
@@ -75,20 +86,9 @@ describe('test loans', () => {
                         done();
                     });
                 });
-                it('should fail - duplicate application', (done) => {
-                    // test application fails if user has a loan
-                    chai.request(app)
-                    .post('/loans')
-                    .send(testloans[0])
-                    .end((err, res) => {
-                        res.should.have.status(403);
-                        res.body.error.should.eql('you have a running loan');
-                        done();
-                    });
-                });
                 });
             });
-        describe('post repayment', () => {
+        describe.skip('post repayment', () => {
             it('should create repayment', (done) => {
                 let repayment = testpayments[0];
                 chai.request(app)
@@ -106,7 +106,7 @@ describe('test loans', () => {
             it('should not accept repayment if amount paid exceeds current balance')
         });
     });
-    describe('GET /loans', () => {
+    describe.skip('GET /loans', () => {
         // test the get routes
         it("should return an array of all loans", (done) => {
             // test get all when list populated
@@ -205,7 +205,7 @@ describe('test loans', () => {
             });
         });
     });
-    describe('PATCH /<:loan_id>', () => {
+    describe.skip('PATCH /<:loan_id>', () => {
         it('should change loan status', (done) => {
             let loan_id = 1;
             // change to required status and see that change happens
