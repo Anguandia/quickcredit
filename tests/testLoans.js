@@ -177,7 +177,7 @@ describe('test loans', () => {
                 done();
             });
         });
-        it.skip('should return all repaid loans', (done) => {
+        it('should return all repaid loans', (done) => {
             chai.request(app)
             .get('/loans/?status=approved&repaid=true')
             .end((err, res) => {
