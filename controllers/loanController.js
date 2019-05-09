@@ -21,7 +21,14 @@ exports.list = function(req, res){
 };
 
 // get specific loan details
-exports.detail = function(){};
+exports.detail = function(req, res){
+    let loan = loans.find(one => one._id == req.params.loanId);
+    if(!loan){
+        res.status(404).json({status: 404, error: `loan with id ${req.params.loanId} does not exist`});
+    } else {
+        res.status(200).json({status: 200, data: loan.toLoanJson()});
+    }
+};
 
 // approve a loan
 exports.approve = function(req, res){
