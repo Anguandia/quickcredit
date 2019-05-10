@@ -12,18 +12,18 @@ should = chai.should();
 describe('test user end points', () => {
     beforeEach(done => {
         users.slice();
-        chai.request(app).post('/auth/signup').send(testUsers[0]).end();
+        chai.request(app).post('/api/v1/auth/signup').send(testUsers[0]).end();
         done();
     });
-    describe.skip('GET /users', () => {
+    describe.skip('GET /api/v1/users', () => {
         // test the get routes
-        it("should delete setup user and return empty users' array", done => {
+        it("should delete setup user and return empty users' array", () => {
             // test get all when empty list
             // delete user created during setup
             users.splice(0);
             it(done => {
                 chai.request(app)
-                .get('/users')
+                .get('/api/v1/users')
                 .end((req, res) => {
                     res.should.have.status(200);
                     res.body.data.should.be.a('array');
@@ -35,7 +35,7 @@ describe('test user end points', () => {
         it("should retuen an array of all users", done => {
             // test get all when list populated
             chai.request(app)
-            .get('/users')
+            .get('/api/v1/users')
             .end((req, res) => {
                 res.should.have.status(200);
                 res.body.data.should.be.a('array');
@@ -47,7 +47,7 @@ describe('test user end points', () => {
             // test get single user
             const email = 'user1@mail.com';
             chai.request(app)
-            .get(`/users/${email}`)
+            .get(`/api/v1/users/${email}`)
             .end((req, res) => {
                 res.should.have.status(200);
                 res.body.data.should.be.a('object');
@@ -59,7 +59,7 @@ describe('test user end points', () => {
             // test get unavailable user
             let email = 'unavailable@matchMedia.com';
             chai.request(app)
-            .get(`/users/${email}`)
+            .get(`/api/v1/users/${email}`)
             .end((req, res) => {
                 res.should.have.status(404);
                 res.body.should.have.property('error');
@@ -76,7 +76,7 @@ describe('test user end points', () => {
                 it('should create user, all fields supplied', done => {
                     // test should register user with all fields provided and valid
                     chai.request(app)
-                    .post('/auth/signup')
+                    .post('/api/v1/auth/signup')
                     .send(testUsers[1])
                     .end((req, res) => {
                         res.status.should.eql(201);
@@ -89,7 +89,7 @@ describe('test user end points', () => {
                     // should create user with non-essential fields missing
                     delete testUsers[2].tel;
                     chai.request(app)
-                    .post('/auth/signup')
+                    .post('/api/v1/auth/signup')
                     .send(testUsers[2]) // no tel supplied
                     .end((req, res) => {
                         res.status.should.eql(201);
@@ -102,7 +102,7 @@ describe('test user end points', () => {
             it('should fail - duplicate registration', done => {
                 // test registration fails if email already exists
                 chai.request(app)
-                .post('/auth/signup')
+                .post('/api/v1/auth/signup')
                 // change testuser email to user1's email
                 .send(testUsers[0])
                 .end((req, res) => {
@@ -118,7 +118,7 @@ describe('test user end points', () => {
                     // test registration fails if no email provided
                     delete testUsers[0].email;
                     chai.request(app)
-                    .post('/auth/signup')
+                    .post('/api/v1/auth/signup')
                     .send(testUsers[0])
                     .end((req, res) => {
                         res.should.have.status(400);
@@ -129,7 +129,7 @@ describe('test user end points', () => {
                 it('should fail - invalid user data', done => {
                     // test registration fails if invalid email provided
                     chai.request(app)
-                    .post('/auth/signup')
+                    .post('/api/v1/auth/signup')
                     // change testuser email to 'invalid email'
                     .send(Object.assign(testUsers[0], {email: 'invalid email'}))
                     .end((req, res) => {
@@ -141,7 +141,7 @@ describe('test user end points', () => {
                 it('should fail - invalid/missing field(emai)', done => {
                     // test registration fails if invalid email provided
                     chai.request(app)
-                    .post('/auth/signup')
+                    .post('/api/v1/auth/signup')
                     .send(testUsers[3]) // has intentional typo in email as mail
                     .end((req, res) => {
                         res.should.have.status(400);
@@ -155,7 +155,7 @@ describe('test user end points', () => {
             // test user can signin
             it('should signin', done => {
                 chai.request(app)
-                .post('/auth/signin')
+                .post('/api/v1/auth/signin')
                 .send({email: 'user1@mail.com', password: 'user1'})
                 .end((req, res) => {
                     res.should.have.status(200);
@@ -167,7 +167,7 @@ describe('test user end points', () => {
             describe('Fail signin and flag errors', () => {
                 it('should not signin but alert non-existent account', done => {
                     chai.request(app)
-                    .post('/auth/signin')
+                    .post('/api/v1/auth/signin')
                     .send({email:'noneexistent@mail.com', password: 'user1'})
                     .end((req, res) => {
                         res.should.have.status(404);
@@ -178,7 +178,7 @@ describe('test user end points', () => {
                 });
                 it('should not signin, flag wrong password', done => {
                     chai.request(app)
-                    .post('/auth/signin')
+                    .post('/api/v1/auth/signin')
                     .send({email:'user1@mail.com', password: 'wrong'})
                     .end((req, res) => {
                         res.should.have.status(401);
@@ -194,7 +194,7 @@ describe('test user end points', () => {
         it('should change user status', done => {
             let email = 'user1@mail.com';
             chai.request(app)
-            .patch(`/users/${email}/verify`)
+            .patch(`/api/v1/users/${email}/verify`)
             .send({status: 'verified'})
             .end((req, res) => {
                 res.should.have.status(200);
@@ -207,7 +207,7 @@ describe('test user end points', () => {
             it('should fail to update if invalid status', done => {
                 let email = 'user1@mail.com';
                 chai.request(app)
-                .patch(`/users/${email}/verify`)
+                .patch(`/api/v1/users/${email}/verify`)
                 .send({status: 'approved'}) // approved is not a valid status
                 .end((req, res) => {
                     res.should.have.status(400);
@@ -218,7 +218,7 @@ describe('test user end points', () => {
             it('should fail and inform "user not found"', (done) => {
                 let email = 'vvu@mail.com';
                 chai.request(app)
-                .patch(`/users/${email}/verify`)
+                .patch(`/api/v1/users/${email}/verify`)
                 .send({status: 'approved'})
                 .end((req, res) => {
                     res.should.have.status(404);
@@ -234,7 +234,7 @@ describe('test user end points', () => {
             it('should delete a user if admin', done => {
                 let email = 'user1@mail.com';
                 chai.request(app)
-                .delete(`/users/${email}`)
+                .delete(`/api/v1/users/${email}`)
                 .end((req, res) => {
                     // res.should.have.status(200);
                     res.body.data.msg.should.eql(`user test1 user1 deleted`)
