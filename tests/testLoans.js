@@ -13,17 +13,17 @@ should = chai.should();
 describe('test loans', () => {
     beforeEach((done) => {
         // setup; before each individual test, creat an empty loan's array
-        chai.request(app).post('/loans').send(testloans[0]).end();
+        chai.request(app).post('/api/v1/loans').send(testloans[0]).end();
         done();
     });
-    describe('POST /loans', () => {
+    describe('POST /api/v1/loans', () => {
         // start with loan creation so that loans can be created for testing other routes
         describe('create loan', () => {
             // test loan creation
             it('should create loan, all fields valid', (done) => {
                 // test should register loan with all fields provided and valid
                 chai.request(app)
-                .post('/loans')
+                .post('/api/v1/loans')
                 .send(testloans[1])
                 .end((err, res) => {
                     res.status.should.eql(201);
@@ -37,7 +37,7 @@ describe('test loans', () => {
             it('should fail - duplicate application', (done) => {
                 // test application fails if user has a loan
                 chai.request(app)
-                .post('/loans')
+                .post('/api/v1/loans')
                 .send(testloans[0])
                 .end((err, res) => {
                     res.should.have.status(403);
@@ -51,7 +51,7 @@ describe('test loans', () => {
                     // test registration fails if no email provided
                     delete testloans[1].amount;
                     chai.request(app)
-                    .post('/loans')
+                    .post('/api/v1/loans')
                     .send(testloans[1])
                     .end((err, res) => {
                         res.should.have.status(400);
@@ -64,7 +64,7 @@ describe('test loans', () => {
                     // submit loan application with a string amount instead of number
                     Object.assign(testloans[1], {amount: 'ten thousand'});
                     chai.request(app)
-                    .post('/loans')
+                    .post('/api/v1/loans')
                     .send(testloans[1])
                     .end((err, res) => {
                         res.should.have.status(400);
@@ -77,7 +77,7 @@ describe('test loans', () => {
                     // replace the keyname user with typo use
                     delete Object.assign(testloans[1], {use: testloans[1].user}).user;
                     chai.request(app)
-                    .post('/loans')
+                    .post('/api/v1/loans')
                     .send(testloans[1])
                     .end((err, res) => {
                         res.should.have.status(400);
@@ -91,11 +91,11 @@ describe('test loans', () => {
         describe('post repayment', () => {
             it('should create repayment', (done) => {
                 // approve the setup loan
-                chai.request(app).patch('/loans/1').send({status: 'approved'}).end();
+                chai.request(app).patch('/api/v1/loans/1').send({status: 'approved'}).end();
                 // process repayment
                 let repayment = testPayments[0];
                 chai.request(app)
-                .post(`/loans/${repayment.loanId}/repayment`)
+                .post(`/api/v1/loans/${repayment.loanId}/repayment`)
                 .send(repayment)
                 .end((err, res) => {
                     res.should.have.status(201);
@@ -109,16 +109,16 @@ describe('test loans', () => {
             it('should not accept repayment if amount paid exceeds current balance');
         });
     });
-    describe('GET /loans', () => {
+    describe('GET /api/v1/loans', () => {
         // test the get routes
         it("should return an array of all loans", (done) => {
             // test get all when list populated
             for(let loan of testloans.slice(1,)){
                 // create the loan objects from the test data
-                chai.request(app).post('/loans').send(loan);
+                chai.request(app).post('/api/v1/loans').send(loan);
             }
             chai.request(app)
-            .get('/loans')
+            .get('/api/v1/loans')
             .end((err, res) => {
                 res.should.have.status(200);
                 res.body.data.should.be.a('array');
@@ -129,7 +129,7 @@ describe('test loans', () => {
             // test get single loan
             let loan_id = 1;
             chai.request(app)
-            .get(`/loans/${loan_id}`)
+            .get(`/api/v1/loans/${loan_id}`)
             .end((err, res) => {
                 res.should.have.status(200);
                 res.body.data.should.be.a('object');
@@ -149,7 +149,7 @@ describe('test loans', () => {
             // test get unavailable loan
             let loan_id = 10000;
             chai.request(app)
-            .get(`/loans/${loan_id}`)
+            .get(`/api/v1/loans/${loan_id}`)
             .end((err, res) => {
                 res.should.have.status(404);
                 res.body.should.have.property('error');
@@ -160,7 +160,7 @@ describe('test loans', () => {
         it('should return all current loans not fully paid', (done) => {
             //needto create and approve loans
             chai.request(app)
-            .get('/loans/?status=approved&repaid=false')
+            .get('/api/v1/loans/?status=approved&repaid=false')
             .end((err, res) => {
                 res.should.have.status(200);
                 for(let loan of res.body.data){
@@ -176,11 +176,11 @@ describe('test loans', () => {
             // test get all when list populated
             for(let loan of testloans.slice(1,)){
                 // create the loan objects from the test data
-                chai.request(app).post('/loans').send(loan);
+                chai.request(app).post('/api/v1/loans').send(loan);
             }
             // get current loans
             chai.request(app)
-            .get('/loans?status=approved&repaid=false')
+            .get('/api/v1/loans?status=approved&repaid=false')
             .end((err, res) => {
                 res.should.have.status(200);
                 res.body.data.should.be.a('array');
@@ -191,14 +191,14 @@ describe('test loans', () => {
         it('should return all repaid loans', (done) => {
             // create all test loans-last 3 the one at setup
             for(let i=1; i<testloans.length; i++){
-                chai.request(app).post('/loans').send(testloans[i]).end();
+                chai.request(app).post('/api/v1/loans').send(testloans[i]).end();
             }
             // approve and repay all of loan 2
-            chai.request(app).patch('/loans/2').send({status:'approved'}).end();
-            chai.request(app).post('/loans/2/repayment').send({amount: 15000}).end();
+            chai.request(app).patch('/api/v1/loans/2').send({status:'approved'}).end();
+            chai.request(app).post('/api/v1/loans/2/repayment').send({amount: 15000}).end();
             // get repaid loans
             chai.request(app)
-            .get('/loans/?status=approved&repaid=true')
+            .get('/api/v1/loans/?status=approved&repaid=true')
             .end((err, res) => {
                 res.should.have.status(200);
                 for(let loan of res.body.data){
@@ -211,13 +211,13 @@ describe('test loans', () => {
         it("should return a loan's repaymnets' log", (done) => {
             let loan_id = 2;
             // create second loan
-            chai.request(app).post('/loans').send(testloans[1]).end();
+            chai.request(app).post('/api/v1/loans').send(testloans[1]).end();
             // approve loan
-            chai.request(app).patch(`/loans/${loan_id}`).send({status:'approved'}).end();
+            chai.request(app).patch(`/api/v1/loans/${loan_id}`).send({status:'approved'}).end();
             // make a repayment
-            chai.request(app).post(`/loans/${loan_id}/repayment`).send(testPayments[1]).end();
+            chai.request(app).post(`/api/v1/loans/${loan_id}/repayment`).send(testPayments[1]).end();
             chai.request(app)
-            .get(`/loans/${loan_id}/repayments`)
+            .get(`/api/v1/loans/${loan_id}/repayments`)
             .end((err, res) => {
                 res.should.have.status(200);
                 res.body.data[0].should.have.property('loanId');
@@ -233,7 +233,7 @@ describe('test loans', () => {
             let loan_id = 1;
             // change to required status and see that change happens
             chai.request(app)
-            .patch(`/loans/${loan_id}`)
+            .patch(`/api/v1/loans/${loan_id}`)
             .send({status: 'approved'})
             .end((err, res) => {
                 res.should.have.status(200);
@@ -245,7 +245,7 @@ describe('test loans', () => {
             it('should fail to update if invalid status', (done) => {
                 let loan_id = 1;
                 chai.request(app)
-                .patch(`/loans/${loan_id}`)
+                .patch(`/api/v1/loans/${loan_id}`)
                 .send({status: 'ok'}) // ok is not a valid status
                 .end((err, res) => {
                     res.should.have.status(400);
