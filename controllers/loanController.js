@@ -1,5 +1,6 @@
 const loans = require('../models/loans');
 const Loan = require('../models/loan').Loan;
+const Repayment = require('../models/repayment').Repayment;
 
 // create loan
 exports.create = function(req, res){
@@ -17,12 +18,12 @@ exports.create = function(req, res){
 
 // get all, current or repaid loans
 exports.list = function(req, res){
-    let selection;
+    let selection, repaid;
     if(req.query.status){
         // convert string status representation inquery to boolean
-        let status = req.query.status=='true'?true: false;
-        selection = loans.filter(one => one.status === req.query.status &
-            one.repaid === status);
+        repaid = req.query.repaid=='true'?true: false;
+        selection = loans.filter(one => one.status===req.query.status &
+            one.repaid===repaid);
     } else {
         selection = loans;
     }
@@ -55,7 +56,25 @@ exports.approve = function(req, res){
 };
 
 // post a repayment installment
-exports.repay = function(){};
+exports.repay = function(req, res){
+    let loan = loans.find(one => one._id == req.params.loanId);
+    if(!loan){
+        res.status(404).json({status: 404, error: `no loan with id ${req.params.loanId}`});
+    }
+    else if(loan.status != 'approved'){
+        res.status(403).json({status: 403, error: 'loan not approved'});
+    }
+    else if(loan.repaid==true){
+        res.status(403).json({status: 403, error: 'loan already fully serviced!'});
+    }
+    else {
+        let repayment = new Repayment();
+        Object.assign(repayment, {amount: req.body.amount, loanId: req.params.loanId});
+        repayment.updateLoan(loan);
+        repayment.save();
+        res.status(201).json({status: 201, data: repayment.toRepaymentJson()});
+    }
+};
 
 // get repaymnt history
 exports.log = function(){};
