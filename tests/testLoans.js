@@ -208,16 +208,22 @@ describe('test loans', () => {
                 done();
             });
         });
-        it.skip('should return loans repaymnets log', (done) => {
-            let loan_id = 1;
+        it("should return a loan's repaymnets' log", (done) => {
+            let loan_id = 2;
+            // create second loan
+            chai.request(app).post('/loans').send(testloans[1]).end();
+            // approve loan
+            chai.request(app).patch(`/loans/${loan_id}`).send({status:'approved'}).end();
+            // make a repayment
+            chai.request(app).post(`/loans/${loan_id}/repayment`).send(testPayments[1]).end();
             chai.request(app)
             .get(`/loans/${loan_id}/repayments`)
             .end((err, res) => {
                 res.should.have.status(200);
-                res.body.should.have.property('loanId');
-                res.body.should.have.property('monthlyInstallment');
-                res.body.should.have.property('amount');
-                res.body.should.have.property('createdOn');
+                res.body.data[0].should.have.property('loanId');
+                res.body.data[0].should.have.property('monthlyInstallment');
+                res.body.data[0].should.have.property('amount');
+                res.body.data[0].should.have.property('createdOn');
                 done();
             });
         });

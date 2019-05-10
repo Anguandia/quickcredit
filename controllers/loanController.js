@@ -1,6 +1,7 @@
 const loans = require('../models/loans');
 const Loan = require('../models/loan').Loan;
 const Repayment = require('../models/repayment').Repayment;
+const repayments = require('../models/repayments');
 
 // create loan
 exports.create = function(req, res){
@@ -77,4 +78,13 @@ exports.repay = function(req, res){
 };
 
 // get repaymnt history
-exports.log = function(){};
+exports.log = function(req, res){
+    if(!loans.find(one => one._id == req.params.loanId)){
+        res.status(404).json({status: 404, error: `loan ${req.params.loanId} not found`});
+    } else {
+        let log = repayments.filter(rep => rep.loanId == req.params.loanId);
+        let keys = ['loanId', 'createdOn', 'monthlyInstallment', 'amount'];
+        let out = log.map(one => one.filterRepr(keys));
+        res.status(200).json({status: 200, data: out});
+    }
+};

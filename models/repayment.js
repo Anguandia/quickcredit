@@ -48,4 +48,13 @@ exports.Repayment = class Repayment{
             balance: this.balance,
         };
     }
+
+     // Add filter to get output with specified fieldsonly
+     filterRepr(keys){
+        let filter = {};
+        for(let key of keys){
+            filter[key] = this.toRepaymentJson()[key];
+        }
+        return filter;
+    }
 };
