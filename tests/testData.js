@@ -55,3 +55,22 @@ exports.testLoans = [
         tenor: 12
     }
 ];
+
+exports.testPayments = [
+    {
+        amount: 1000,
+        loanId: 1
+    },
+    {
+        amount: 2000,
+        loanId: 2
+    },
+    {
+        amount: 2000,
+        loanId: 3
+    },
+    {
+        amount: 1600,
+        loanId: 4
+    }
+];
