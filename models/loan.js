@@ -84,3 +84,31 @@ exports.Loan = class Loan{
         return filter;
     }
 };
+
+// define and export valid Loan property specifications to be validated against
+exports.specs = {
+    'id' : 'Integer',
+    'tenor' : 'Integer',
+    'user' : 'string',
+    'amount' : 'Float',
+    'paymentInstallment' : 'Float',
+    'interest' : 'Float',
+    'status' : 'string',
+    'createdOn' : 'DateTime',
+    'repaid': 'boolean',
+    'balance': 'Float',
+    'loanId': 'Integer'
+};
+
+// declare and export required Loan fields for given routes for use in validation
+exports.loan = [
+    'tenor', 'user', 'amount'
+];
+
+exports.payment = [
+    'amount', 'loanId'
+];
+
+exports.approve = [
+    'status'
+];

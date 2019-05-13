@@ -61,3 +61,30 @@ exports.User = class User{
         };
     }
 };
+
+// define and export valid user property specifications to be validated against
+exports.specs = {
+    'id' : 'integer',
+    'email' : 'string',
+    'firstName' : 'string',
+    'lastName' : 'string',
+    'password' : 'string',
+    'address' : 'string',
+    'status' : 'string',
+    'isAdmin' : 'boolean',
+    'tel': 'number',
+    'username': 'string'
+};
+
+// declare and export required user fields for given routes for use in validation
+exports.signup = [
+    'email', 'firstName', 'lastName', 'password', 'address',
+];
+
+exports.signin = [
+    'email', 'password'
+];
+
+exports.verify = [
+    'email', 'status'
+];

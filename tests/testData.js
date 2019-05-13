@@ -53,6 +53,15 @@ exports.testLoans = [
         user: 'user4@mail.com',
         amount: 16000,
         tenor: 12
+    },
+    {
+        user: 'user5@mail.com',
+        amount: 'sixteen thousand',
+        tenor: 12
+    },
+    {
+        user: 'user5@mail.com',
+        tenor: 12
     }
 ];
 
@@ -72,5 +81,8 @@ exports.testPayments = [
     {
         amount: 1600,
         loanId: 4
+    },
+    {
+        loanId: 5
     }
 ];

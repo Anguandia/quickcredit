@@ -15,24 +15,22 @@ describe('test user end points', () => {
         chai.request(app).post('/auth/signup').send(testUsers[0]).end();
         done();
     });
-    describe.skip('GET /users', () => {
+    describe('GET /users', () => {
         // test the get routes
-        it("should delete setup user and return empty users' array", done => {
+        it("should delete setup user and return empty users' array", (done) => {
             // test get all when empty list
             // delete user created during setup
-            users.splice(0);
-            it(done => {
-                chai.request(app)
-                .get('/users')
-                .end((req, res) => {
-                    res.should.have.status(200);
-                    res.body.data.should.be.a('array');
-                    res.body.data.length.should.eql(0);
-                    done();
-                });
+            users.splice[0];
+            chai.request(app)
+            .get('/users')
+            .end((req, res) => {
+                res.should.have.status(200);
+                res.body.data.should.be.a('array');
+                res.body.data.length.should.eql(0);
             });
+            done();
         });
-        it("should retuen an array of all users", done => {
+        it("should retuen an array of all users", () => {
             // test get all when list populated
             chai.request(app)
             .get('/users')
@@ -40,10 +38,9 @@ describe('test user end points', () => {
                 res.should.have.status(200);
                 res.body.data.should.be.a('array');
                 res.body.data[0].email.should.eql('user1@mail.com');
-                done();
             });
         });
-        it('should return a single user object', done => {
+        it('should return a single user object', () => {
             // test get single user
             const email = 'user1@mail.com';
             chai.request(app)
@@ -52,10 +49,9 @@ describe('test user end points', () => {
                 res.should.have.status(200);
                 res.body.data.should.be.a('object');
                 res.body.data.firstName.should.eql('test1');
-                done();
             });
         });
-        it('should return message user unavailable', done => {
+        it('should return message user unavailable', () => {
             // test get unavailable user
             let email = 'unavailable@matchMedia.com';
             chai.request(app)
@@ -64,7 +60,6 @@ describe('test user end points', () => {
                 res.should.have.status(404);
                 res.body.should.have.property('error');
                 res.body.error.should.eql(`user with email ${email} does not exist`);
-                done();
             });
         });
     });
@@ -112,7 +107,7 @@ describe('test user end points', () => {
                     done();
                 });
             });
-            describe.skip('field and value validation', () => {
+            describe('field and value validation', () => {
                 it('should fail registration, missing required field - no email',
                 done => {
                     // test registration fails if no email provided
