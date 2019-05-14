@@ -2,7 +2,7 @@
 document.write(
     `<header>\
       <div id='logo'>\
-        <img src='#' alt='logo'></img>\
+        <img src='static/images/money.jpg' alt='logo'></img>\
       </div>\
       <div id='motto'>\
         <p>Quick Credit</p><span><em> Inividual soft loans</em></span>\
@@ -10,9 +10,9 @@ document.write(
     </header>\
     <nav id='auth'>\
       <tab class='universal' id='home'><a href= ${localStorage.getItem('role')=='Client'?'home.html':localStorage.getItem('role')=='Admin'?'Admin.html': 'index.html'}>Home</a></tab>\
-      <tab class='index' id='signin'><a href='signin.html'>Signin</a></tab>\
+      <tab class='index' id='signin'><a href='signin.html' class='index'>Signin</a></tab>\
       <tab class='index' id='signup'><a href='signup.html'>Signup</a></tab>\
-      <tab class='user admin' id='signout' onclick='signout()'><a href='#'>Signout</a></tab>\
+      <tab class='user admin' id='signout' onclick='signout()'><a href='#' id='#' class='user admin'>Signout</a></tab>\
     </nav>\
     <!--sign out dialogue box-->\
     <div id='signoutt'>\

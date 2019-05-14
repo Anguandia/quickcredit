@@ -8,11 +8,6 @@ body{
     background-size: cover;
 }
 
-/* give theme-packed background to only home page */
-#index_page{
-    background-image: url("../images/money.jpg");
-}
-
 /*display logo and motto adjacently as cells*/
 header{
     display: table;
@@ -23,8 +18,16 @@ header{
 #logo{
     position: relative;
     display: table-cell;
-    /* text-align: center; */
     width: 8%;
+}
+
+#logo img{
+    position: absolute;
+    height: 80%;
+    width: 80%;
+    top: 50%;
+    left: 2%;
+    transform: translateY(-50%);
 }
 
 #motto{
@@ -35,7 +38,7 @@ header{
 
 #motto p{
     font-size: 200%;
-    color: red;
+    color: white;
     margin: 0% 2%;
 }
 
@@ -49,7 +52,6 @@ header{
 nav{
     padding: 1%;
     text-align: end;
-    background-image: linear-gradient(to right, rgb(246, 215, 246), plum);
 }
 
 /* hightlight navigation tabs on hover */
@@ -71,7 +73,6 @@ nav tab a{
 /* style the page menu */
 #menu{
     width: 20%;
-    background-image: linear-gradient(rgb(246, 215, 246), whitesmoke);
     float: left;
     box-shadow: 3px 5px 3px 1px grey;
     /* make menu ovwerlap other content, especially when expanding on small screens */
@@ -181,7 +182,7 @@ footer span{
     top: 50%;
     left: 60%;
     transform: translate(-50%, -50%);
-    color: yellow;
+    color: rebeccapurple;
     font-size: 400%;
     font-weight: bolder;
     font-family: cursive;
@@ -231,7 +232,7 @@ footer span{
 .auth label{
     margin-left: 4%;
     text-transform: capitalize;
-    color: yellow;
+    color: rebeccapurple;
     font-weight: bolder;
     z-index: 10;
     font-family: cursive;
@@ -747,5 +748,9 @@ button:focus{
 
 /* hide for by default */
 #account{
+    display: none;
+}
+
+#signout{
     display: none;
 }
