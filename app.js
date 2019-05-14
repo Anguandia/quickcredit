@@ -15,8 +15,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/loans', loansRouter);
-app.use('/auth', authRouter);
+app.use('/api/v1/users', usersRouter);
+app.use('/api/v1/loans', loansRouter);
+app.use('/api/v1/auth', authRouter);
 
 module.exports = app;
