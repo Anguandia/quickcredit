@@ -1,11 +1,9 @@
 /* eslint-disable no-undef */
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-const app = require('../app');
-const testData = require('./testData');
-const testloans = testData.testLoans;
-const testPayments = testData.testPayments;
-const loans = require('../models/loans');
+import chai from 'chai';
+import chaiHttp from 'chai-http';
+import app from '../app';
+import {testLoans as testloans, testPayments} from './testData';
+import loans from '../models/loans';
 
 chai.use(chaiHttp);
 should = chai.should();
@@ -30,7 +28,7 @@ describe('test loans', () => {
                     res.body.data.should.be.a('object');
                     // check that other loan properties are added in instantiation
                     res.body.data.should.have.property('interest');
-                    res.body.data.paymentInstallment.should.eql(3500);
+                    res.body.data.paymentInstallment.should.eql(2625);
                     done();
                 });
             });
@@ -51,7 +49,7 @@ describe('test loans', () => {
                     // test registration fails if no email provided
                     chai.request(app)
                     .post('/api/v1/loans')
-                    .send(testloans[1])
+                    .send(testloans[5]) // has no amount entry
                     .end((err, res) => {
                         res.should.have.status(400);
                         res.body.error.should.eql('amount missing');
@@ -72,7 +70,7 @@ describe('test loans', () => {
                         done();
                     });
                 });
-                it.skip('should fail - invalid field name', (done) => {
+                it('should fail - invalid field name', (done) => {
                     // replace the keyname user with typo use
                     delete Object.assign(testloans[1], {use: testloans[1].user}).user;
                     chai.request(app)

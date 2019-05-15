@@ -1,10 +1,10 @@
-const express = require('express');
-const logger = require('morgan');
+import express from 'express';
+import logger from 'morgan';
 
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-const loansRouter = require('./routes/loans');
-const authRouter = require('./routes/auth');
+import indexRouter from './routes/index';
+import usersRouter from './routes/users';
+import loansRouter from './routes/loans';
+import authRouter from './routes/auth';
 
 const port=process.env.PORT || 3000;
 
@@ -19,4 +19,4 @@ app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/loans', loansRouter);
 app.use('/api/v1/auth', authRouter);
 
-module.exports = app;
+export default app;
