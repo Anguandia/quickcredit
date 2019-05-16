@@ -1,3 +1,3 @@
 const loans = [];
 
-export default loans;
+module.exports = loans;

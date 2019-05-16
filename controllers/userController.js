@@ -1,8 +1,8 @@
-import users from '../models/users';
-import {User} from '../models/user';
+const users = require('../models/users');
+const User = require('../models/user').User;
 
 // handle post request for signup
-export const signup = function(req, res){
+exports.signup = function(req, res){
     let data = req.body;
     let user = new User();// create skeleton user object
     Object.assign(user, data); // update properties fron request data
@@ -22,7 +22,7 @@ export const signup = function(req, res){
 };
 
 // handle signin post request
-export const signin = function(req, res){
+exports.signin = function(req, res){
     /**check if user exista, if so, validate paswwors and generate token
      * or return appropriate response
      */
@@ -40,7 +40,7 @@ export const signin = function(req, res){
 };
 
 // handle user update post request
-export const update = function(req, res){
+exports.update = function(req, res){
     let data = req.body;
     let user = users.find((target) => target.email === req.params.email);
     if(!user){
@@ -60,15 +60,15 @@ export const update = function(req, res){
 };
 
 // get a list of all users
-export const user_list = function(){};
+exports.user_list = function(){};
 
 
 // hanle signout post request
-export const signout = function(){};
+exports.signout = function(){};
 
 
 // handle user deletion post request
-export const del = function(){};
+exports.delete = function(){};
 
 // display a particular user's profile page
-export const details = function(){};
+exports.details = function(){};

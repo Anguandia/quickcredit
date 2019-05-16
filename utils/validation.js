@@ -1,24 +1,32 @@
 // import record object field specs and required listings
-import {signin, signup, verify, specs} from '../models/user';
-import {loanspecs, loan as apply, approve, payment as repayment} from '../models/loan';
+const user = require('../models/user');
+const loan = require('../models/loan');
 
+// assign required lists to routes
+const signin = user.signin;
+const signup = user.signup;
+const verify = user.verify;
+const apply = loan.loan;
+const repayment = loan.payment;
+const approve = loan.approve;
 
 function validateEmail(email, next){
     let re = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
     return re.test(email);
 }
 
-export const validate = function(req, res, next){
+exports.validate = function(req, res, next){
     let must = required(req);
+    console.log(must);
     let resp;
-    for(let val of must){
-        if(!(val in req.body)){
-            resp = {status: 400, error: `${val} missing`};
-        } else if(req.body[val]==''){
-            resp = {status: 400, error: `${val} required`};
+    for(let i=0; i<must.length; i++){
+        if(!(must[i] in req.body)){
+            resp = {status: 400, error: `${must[i]} missing`};
+        } else if(req.body[must[i]]==''){
+            resp = {status: 400, error: `${must[i]} required`};
         } else if(validateType(req)){
-            resp = {status: 400, error: validateType(req)};
-        } else if(val==='email' && !validateEmail(req.body[val])){
+            resp = {status: 400, error: validateType(req, res)};
+        } else if(must[i]==='email' && !validateEmail(req.body[must[i]])){
             resp = {status: 400, error: 'invalid email'};
         }
     }
@@ -50,21 +58,21 @@ function required(req){
 
 function validateType(req){
     // only validate user supplied input, date and boolean input for createdOn and repaid values are system generated and therefor not prone to user errors
-    let resp = '', spec;
+    let resp = '', specs;
     let patterns = [/signup/, /signin/, /verify/];
-    spec =  patterns.some((pat) => pat.test(req.url))?specs: loanspecs;
+    specs =  patterns.some((pat) => pat.test(req.url))?user.specs: loan.specs;
     for(let key in req.body){
-        if(!(Object.keys(spec).includes(key))){
+        if(!(Object.keys(specs).includes(key))){
             resp += `, unknown field ${key}`;
         }
-        else if(spec.key=='Float' && !parseFloat(req.body.key)){
+        else if(specs.key=='Float' && !parseFloat(req.body.key)){
             resp += `, ${key} should be a float`;
         }
-        else if(spec.key =='Integer' && !parseInt(req.body.key)){
+        else if(specs.key =='Integer' && !parseInt(req.body.key)){
             resp += `, ${key} should be an integer`;
         }
-        else if(spec.key=='string' && typeof(req.body.key) !== 'string'){
-            resp += `, ${key} should be a ${spec[key]}`;
+        else if(specs.key=='string' && typeof(req.body.key) !== 'string'){
+            resp += `, ${key} should be a ${specs[key]}`;
         }
         else {
             resp = '';

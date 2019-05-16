@@ -1,10 +1,10 @@
-import loans from '../models/loans';
-import {Loan} from '../models/loan';
-import {Repayment} from '../models/repayment';
-import repayments from '../models/repayments';
+const loans = require('../models/loans');
+const Loan = require('../models/loan').Loan;
+const Repayment = require('../models/repayment').Repayment;
+const repayments = require('../models/repayments');
 
 // create loan
-export const create = function(req, res){
+exports.create = function(req, res){
     let loan = new Loan();
     Object.assign(loan, req.body);
     // check if requesting client has a current loan
@@ -18,7 +18,7 @@ export const create = function(req, res){
 };
 
 // get all, current or repaid loans
-export const list = function(req, res){
+exports.list = function(req, res){
     let selection, repaid;
     if(req.query.status){
         // convert string status representation inquery to boolean
@@ -32,7 +32,7 @@ export const list = function(req, res){
 };
 
 // get specific loan details
-export const detail = function(req, res){
+exports.detail = function(req, res){
     let loan = loans.find(one => one._id == req.params.loanId);
     if(!loan){
         res.status(404).json({status: 404, error: `loan with id ${req.params.loanId} does not exist`});
@@ -42,7 +42,7 @@ export const detail = function(req, res){
 };
 
 // approve a loan
-export const approve = function(req, res){
+exports.approve = function(req, res){
     let loan = loans.find(one => one._id == req.params.loanId);
     if(!loan){
         res.status(404).json({status: 404, error: `no loan with id ${req.params.loanId}`});
@@ -57,7 +57,7 @@ export const approve = function(req, res){
 };
 
 // post a repayment installment
-export const repay = function(req, res){
+exports.repay = function(req, res){
     let loan = loans.find(one => one._id == req.params.loanId);
     if(!loan){
         res.status(404).json({status: 404, error: `no loan with id ${req.params.loanId}`});
@@ -78,7 +78,7 @@ export const repay = function(req, res){
 };
 
 // get repaymnt history
-export const log = function(req, res){
+exports.log = function(req, res){
     if(!loans.find(one => one._id == req.params.loanId)){
         res.status(404).json({status: 404, error: `loan ${req.params.loanId} not found`});
     } else {

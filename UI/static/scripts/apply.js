@@ -7,7 +7,7 @@ document.write(`<!--loan application page-->\
   <fieldset class='loanform'>\
     <legend>Personal details</legend>
     <label class='loan_app'>Family Name<span>*</span>\
-    <input type='text' name='family_name' id='family_name' placeholder='family name' value=${localStorage.getItem('current user').split(' ')[0]} oninvalid='this.setCustomValidity("sur name is required")'\ required></input>\
+    <input type='text' name='family_name' id='family_name' placeholder='family name' value="${localStorage.getItem('current user').split(' ')[0]}" oninvalid='this.setCustomValidity("sur name is required")' required></input>\
     </label>\
     <label class='loan_app'>First Name<span>*</span>\
         <input type='text' name='first_name' id='first' placeholder='first name' value=${localStorage.getItem('current user').split(' ')[1]} oninvalid='this.setCustomValidity("first name is required")' required></input>\

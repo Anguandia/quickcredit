@@ -1,3 +1,3 @@
 const repayments = [];
 
-export default repayments;
+module.exports = repayments;

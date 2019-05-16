@@ -1,4 +1,4 @@
-export const test_users = [
+exports.test_users = [
     {
         "email" : "user1@mail.com",
         "firstName" : "test1",
@@ -33,7 +33,7 @@ export const test_users = [
     }
 ];
 
-export const testLoans = [
+exports.testLoans = [
     {
         user: 'user1@mail.com',
         amount: 10000,
@@ -60,12 +60,12 @@ export const testLoans = [
         tenor: 12
     },
     {
-        user: 'user6@mail.com',
+        user: 'user5@mail.com',
         tenor: 12
     }
 ];
 
-export const testPayments = [
+exports.testPayments = [
     {
         amount: 1000,
         loanId: 1
