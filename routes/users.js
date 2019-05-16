@@ -1,17 +1,18 @@
-const express = require('express');
+import express from 'express';
+import {user_list, update, del, details} from '../controllers/userController';
+
 const router = express.Router();
-const user_controller = require('../controllers/userController');
 
 /* GET users' listing. */
-router.get('/', user_controller.user_list);
+router.get('/', user_list);
 
 //post request for updating a user
-router.patch('/:email/verify', user_controller.update);
+router.patch('/:email/verify', update);
 
 //post request for deleting a user
-router.delete('/:email', user_controller.delete);
+router.delete('/:email', del);
 
 //route to display a particular user's details
-router.get('/:email', user_controller.details);
+router.get('/:email', details);
 
-module.exports = router;
+export default router;
