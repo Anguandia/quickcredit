@@ -1,10 +1,10 @@
 /* eslint-disable no-undef */
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-const app = require('../app');
+import chai from 'chai';
+import chaiHttp from 'chai-http';
+import app from '../app';
 
-const users = require('../models/users');
-const testUsers = require('./testData').test_users;
+import users from '../models/users';
+import {test_users} from './testData';
 
 chai.use(chaiHttp);
 should = chai.should();
@@ -12,7 +12,7 @@ should = chai.should();
 describe('test user end points', () => {
     beforeEach(done => {
         users.slice();
-        chai.request(app).post('/api/v1/auth/signup').send(testUsers[0]).end();
+        chai.request(app).post('/api/v1/auth/signup').send(test_users[0]).end();
         done();
     });
     describe.skip('GET /api/v1/users', () => {
@@ -45,7 +45,7 @@ describe('test user end points', () => {
         });
         it('should return a single user object', () => {
             // test get single user
-            const email = 'user1@mail.com';
+            let email = 'user1@mail.com';
             chai.request(app)
             .get(`/api/v1/users/${email}`)
             .end((req, res) => {
@@ -75,24 +75,24 @@ describe('test user end points', () => {
                     // test should register user with all fields provided and valid
                     chai.request(app)
                     .post('/api/v1/auth/signup')
-                    .send(testUsers[1])
+                    .send(test_users[1])
                     .end((req, res) => {
                         res.status.should.eql(201);
                         res.body.data.should.be.a('object');
-                        res.body.data.firstName.should.eql(testUsers[1].firstName);
+                        res.body.data.firstName.should.eql(test_users[1].firstName);
                         done();
                     });
                 });
                 it('Create user, non mandatory fields ommitted', done => {
                     // should create user with non-essential fields missing
-                    delete testUsers[2].tel;
+                    delete test_users[2].tel;
                     chai.request(app)
                     .post('/api/v1/auth/signup')
-                    .send(testUsers[2]) // no tel supplied
+                    .send(test_users[2]) // no tel supplied
                     .end((req, res) => {
                         res.status.should.eql(201);
                         res.body.data.should.be.a('object');
-                        res.body.data.firstName.should.eql(testUsers[2].firstName);
+                        res.body.data.firstName.should.eql(test_users[2].firstName);
                         done();
                     });
                 });
@@ -102,7 +102,7 @@ describe('test user end points', () => {
                 chai.request(app)
                 .post('/api/v1/auth/signup')
                 // change testuser email to user1's email
-                .send(testUsers[0])
+                .send(test_users[0])
                 .end((req, res) => {
                     res.should.have.status(400);
                     res.body.status.should.eql(400);
@@ -114,10 +114,10 @@ describe('test user end points', () => {
                 it('should fail registration, missing required field - no email',
                 done => {
                     // test registration fails if no email provided
-                    delete testUsers[0].email;
+                    delete test_users[0].email;
                     chai.request(app)
                     .post('/api/v1/auth/signup')
-                    .send(testUsers[0])
+                    .send(test_users[0])
                     .end((req, res) => {
                         res.should.have.status(400);
                         res.body.error.should.eql('email missing');
@@ -129,7 +129,7 @@ describe('test user end points', () => {
                     chai.request(app)
                     .post('/api/v1/auth/signup')
                     // change testuser email to 'invalid email'
-                    .send(Object.assign(testUsers[0], {email: 'invalid email'}))
+                    .send(Object.assign(test_users[0], {email: 'invalid email'}))
                     .end((req, res) => {
                         res.should.have.status(400);
                         res.body.error.should.eql('invalid email');
@@ -140,7 +140,7 @@ describe('test user end points', () => {
                     // test registration fails if invalid email provided
                     chai.request(app)
                     .post('/api/v1/auth/signup')
-                    .send(testUsers[3]) // has intentional typo in email as mail
+                    .send(test_users[3]) // has intentional typo in email as mail
                     .end((req, res) => {
                         res.should.have.status(400);
                         res.body.error.should.eql('email missing');

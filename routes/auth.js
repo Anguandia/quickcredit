@@ -1,17 +1,17 @@
 // any route that caries an access token in the request or response body is considered an authentication route while in the headers only, an authenticated/protected route
 
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const user_controller = require('../controllers/userController');
-const validation = require('../utils/validation');
+import {signup, signin, signout} from '../controllers/userController';
+import {validate} from '../utils/validation';
 
 // post request for creating a user
-router.post('/signup', validation.validate, user_controller.signup);
+router.post('/signup', validate, signup);
 
 // post request for user signin
-router.post('/signin', validation.validate, user_controller.signin);
+router.post('/signin', validate, signin);
 
 // post request user signout
-router.post('/signout', user_controller.signout);
+router.post('/signout', signout);
 
-module.exports = router;
+export default router;

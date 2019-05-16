@@ -1,6 +1,6 @@
-let repayments = require('./repayments');
+import repayments from './repayments';
 
-exports.Repayment = class Repayment{
+export const Repayment = class Repayment{
     // create repayment object with the given defaults
     constructor(loanId, amount, createdOn=new Date()){
         this.loanId = loanId;
