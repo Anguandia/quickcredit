@@ -19,4 +19,8 @@ app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/loans', loansRouter);
 app.use('/api/v1/auth', authRouter);
 
+app.listen(port, ()=>{
+    console.log(`quickcredit running on ${port}`);
+});
+
 export default app;

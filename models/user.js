@@ -3,8 +3,8 @@ import token from 'jsonwebtoken';
 import users from './users';
 
 export const User = class User{
-    importructor(firstName, lastName, email, password, hash, salt,
-        isAdmin=true, status='unverified', tel='',
+    constructor(firstName, lastName, email, password, hash, salt,
+        isAdmin=false, status='unverified', tel=''
     ){
         this.firstName = firstName;
         this.lastName = lastName;
@@ -52,8 +52,8 @@ export const User = class User{
     //return json representation of user
     toAuthJson(){
         return {
-            token: this.generateToken(),
             id: this.id,
+            token: this.generateToken(),
             firstName: this.firstName,
             lastName: this.lastName,
             email: this.email,

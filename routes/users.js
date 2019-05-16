@@ -1,5 +1,6 @@
 import express from 'express';
 import {user_list, update, del, details} from '../controllers/userController';
+import {auth} from '../utils/auth';
 
 const router = express.Router();
 

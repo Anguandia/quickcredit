@@ -51,7 +51,7 @@ function required(req){
 function validateType(req){
     // only validate user supplied input, date and boolean input for createdOn and repaid values are system generated and therefor not prone to user errors
     let resp = '', spec;
-    let patterns = [/signup/, /signin/, /verify/];
+    const patterns = [/signup/, /signin/, /verify/];
     spec =  patterns.some((pat) => pat.test(req.url))?specs: loanspecs;
     for(let key in req.body){
         if(!(Object.keys(spec).includes(key))){
