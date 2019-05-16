@@ -9,7 +9,7 @@ function showPage(required, parents){
     if(localStorage.getItem('role')){
         required.push(localStorage.getItem('role')=='Admin'?'admin':'user');
     } else {
-        required.push('index');
+        // required.push('index');
     }
     for(var parent of parents){
         var cont = document.getElementById(parent);
@@ -448,7 +448,19 @@ function changePassword(){
     }
 }
 
-function showForm(elt){
-    document.querySelector('#account').style.display = 'block';
-    elt.style.display = 'none';
+function showForm(id){
+    let buttons = document.querySelector('#uzr');
+    document.querySelector(`#${id}`).style.display = 'block';
+    // buttons.forEach(button =>{
+    //     button.style.display = 'none';
+    // });
+    document.getElementById('usr-controls').style.display = 'none';
+}
+
+// function to change user ptofile picture inplace
+function changePic(){
+    let pic = document.getElementById('img');
+    let newPic = document.getElementById('new-pic').value;
+    pic.setAttribute('src', `${newPic}`);
+    alert(pic.innerHTML);
 }
