@@ -1,5 +1,4 @@
 [![Build Status](https://travis-ci.com/Anguandia/quickcredit.svg?branch=develop)](https://travis-ci.com/Anguandia/quickcredit)
-
 [![Coverage Status](https://coveralls.io/repos/github/Anguandia/quickcredit/badge.svg?branch=develop)](https://coveralls.io/github/Anguandia/quickcredit?branch=develop)
 
 # quickCredit
