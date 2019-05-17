@@ -33,9 +33,9 @@ describe('test user end points', () => {
             });
         });
     });
-    describe.skip('GET /api/v1/users', () => {
+    describe('GET /api/v1/users', () => {
         // test the get routes
-        it("should delete setup user and return empty users' array", () => {
+        it.skip("should delete setup user and return empty users' array", () => {
             // test get all when empty list
             // delete user created during setup
             users.splice(0);
@@ -265,6 +265,17 @@ describe('test user end points', () => {
                     done();
                 })
             });
+            it('should notify of non existence of target', (done) => {
+                let email = 'user10@mail.com';//doesn't exist
+                chai.request(app)
+                .delete(`/api/v1/users/${email}`)
+                .set('Authorization', admin)
+                .end((req, res) => {
+                    // res.should.have.status(200);
+                    res.body.error.includes('does not exist');
+                    done();
+                })
+            })
         });
     });
 });

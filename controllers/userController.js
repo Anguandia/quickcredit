@@ -60,7 +60,9 @@ export const update = function(req, res){
 };
 
 // get a list of all users
-export const user_list = function(){};
+export const user_list = function(req, res){
+    res.status(200).json({status: 200, data: users});
+};
 
 
 // hanle signout post request
