@@ -30,6 +30,15 @@ export const test_users = [
         "password" : "user1",
         "address" : "block1, street1, city1",
         "tel": 256775225010,
+    },
+    {
+        "email" : "admin@mail.com",
+        "firstName" : "test",
+        "lastName" : "admin",
+        "password" : "admin",
+        "address" : "block1, street1, city1",
+        "tel": 256775225010,
+        "isAdmin": true
     }
 ];
 
