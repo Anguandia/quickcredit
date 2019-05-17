@@ -1,3 +1,3 @@
-const users = [];
+let users = [];
 
 export default users;

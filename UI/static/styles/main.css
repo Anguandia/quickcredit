@@ -732,13 +732,14 @@ button:focus{
     z-index: 10;
 }
 
-/* password change form */
-#account{
+/* password and profile picture change forms */
+#account, #pic{
     width: 100%;
     background: rgb(199, 193, 193);
     position: relative;
     top: 40%;
     left: 0%;
+    display: none
 }
 #account input{
     margin: 1%;
@@ -746,11 +747,16 @@ button:focus{
     text-indent: 2%;
 }
 
-/* hide for by default */
-#account{
+#signout{
     display: none;
 }
 
-#signout{
-    display: none;
+.uzr{
+    padding: 3% 0;
+    width: 100%;
+    color: rebeccapurple;
+}
+
+.uzr:focus{
+    cursor: progress
 }
