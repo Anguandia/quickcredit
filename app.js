@@ -20,7 +20,7 @@ app.use('/api/v1/loans', loansRouter);
 app.use('/api/v1/auth', authRouter);
 
 app.listen(port, ()=>{
-    console.log(`running Anguandia quick-credit on ${port}`);
+    console.log(`quickcredit running on ${port}`);
 });
 
 export default app;
