@@ -70,7 +70,14 @@ export const signout = function(){};
 
 
 // handle user deletion post request
-export const del = function(){};
+export const del = function(req, res){
+    let user = users.find((target) => target.email === req.params.email);
+    if(!user){
+        res.status(404).json({status: 404, error: 'user does not exist'});
+    } else {
+        res.status(200).json({status: 200, data: {id: user.id, msg: `user ${user.firstName +' '+ user.lastName} deleted`}});
+    }
+};
 
 // display a particular user's profile page
 export const details = function(){};

@@ -252,7 +252,7 @@ describe('test user end points', () => {
         });
 
     });
-    describe.skip('DELETE /<:user-email>', () => {
+    describe('DELETE /<:user-email>', () => {
         describe('should delete user', () => {
             it('should delete a user if admin', done => {
                 let email = 'user1@mail.com';
