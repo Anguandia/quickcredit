@@ -9,11 +9,29 @@ import {test_users} from './testData';
 chai.use(chaiHttp);
 should = chai.should();
 
+let client = process.env.client;
+let admin = process.env.admin;
+
 describe('test user end points', () => {
-    beforeEach(done => {
-        users.slice();
-        chai.request(app).post('/api/v1/auth/signup').send(test_users[0]).end();
-        done();
+    before(done => {
+        // clear the users' array
+        users.splice(0);
+        // create one admin and one client user
+        chai.request(app)
+        .post('/api/v1/auth/signup')
+        .send(test_users[0])
+        .end((req, res) => {
+            let token = res.body.data.token;
+            client = `Bearer ${token}`;
+            chai.request(app)
+            .post('/api/v1/auth/signup')
+            .send(test_users[4])
+            .end((req, res) => {
+                let token = res.body.data.token;
+                admin = `Bearer ${token}`;
+                done();
+            });
+        });
     });
     describe.skip('GET /api/v1/users', () => {
         // test the get routes
@@ -24,6 +42,7 @@ describe('test user end points', () => {
             it(done => {
                 chai.request(app)
                 .get('/api/v1/users')
+                .set('Authorization', admin)
                 .end((req, res) => {
                     res.should.have.status(200);
                     res.body.data.should.be.a('array');
@@ -37,6 +56,7 @@ describe('test user end points', () => {
             // test get all when list populated
             chai.request(app)
             .get('/api/v1/users')
+            .set('Authorization', admin)
             .end((req, res) => {
                 res.should.have.status(200);
                 res.body.data.should.be.a('array');
@@ -48,6 +68,7 @@ describe('test user end points', () => {
             let email = 'user1@mail.com';
             chai.request(app)
             .get(`/api/v1/users/${email}`)
+            .set('Authorization', admin)
             .end((req, res) => {
                 res.should.have.status(200);
                 res.body.data.should.be.a('object');
@@ -59,6 +80,7 @@ describe('test user end points', () => {
             let email = 'unavailable@matchMedia.com';
             chai.request(app)
             .get(`/api/v1/users/${email}`)
+            .set('Authorization', admin)
             .end((req, res) => {
                 res.should.have.status(404);
                 res.body.should.have.property('error');
@@ -194,6 +216,7 @@ describe('test user end points', () => {
             chai.request(app)
             .patch(`/api/v1/users/${email}/verify`)
             .send({status: 'verified'})
+            .set('Authorization', admin)
             .end((req, res) => {
                 res.should.have.status(200);
                 res.body.data.email.should.eql(email);
@@ -207,6 +230,7 @@ describe('test user end points', () => {
                 chai.request(app)
                 .patch(`/api/v1/users/${email}/verify`)
                 .send({status: 'approved'}) // approved is not a valid status
+                .set('Authorization', admin)
                 .end((req, res) => {
                     res.should.have.status(400);
                     res.body.error.should.eql('invalid status');
@@ -218,6 +242,7 @@ describe('test user end points', () => {
                 chai.request(app)
                 .patch(`/api/v1/users/${email}/verify`)
                 .send({status: 'approved'})
+                .set('Authorization', admin)
                 .end((req, res) => {
                     res.should.have.status(404);
                     res.body.error.should.eql('User not found');
@@ -233,6 +258,7 @@ describe('test user end points', () => {
                 let email = 'user1@mail.com';
                 chai.request(app)
                 .delete(`/api/v1/users/${email}`)
+                .set('Authorization', admin)
                 .end((req, res) => {
                     // res.should.have.status(200);
                     res.body.data.msg.should.eql(`user test1 user1 deleted`)

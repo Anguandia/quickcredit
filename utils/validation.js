@@ -11,13 +11,14 @@ function validateEmail(email, next){
 export const validate = function(req, res, next){
     let must = required(req);
     let resp;
+    let vali = validateType(req);
     for(let val of must){
         if(!(val in req.body)){
             resp = {status: 400, error: `${val} missing`};
         } else if(req.body[val]==''){
             resp = {status: 400, error: `${val} required`};
-        } else if(validateType(req)){
-            resp = {status: 400, error: validateType(req)};
+        } else if(vali){
+            resp = {status: 400, error: vali};
         } else if(val==='email' && !validateEmail(req.body[val])){
             resp = {status: 400, error: 'invalid email'};
         }
@@ -50,28 +51,31 @@ function required(req){
 
 function validateType(req){
     // only validate user supplied input, date and boolean input for createdOn and repaid values are system generated and therefor not prone to user errors
-    let resp = '', spec;
+    let resp;
+    let spec;
     const patterns = [/signup/, /signin/, /verify/];
     spec =  patterns.some((pat) => pat.test(req.url))?specs: loanspecs;
     for(let key in req.body){
         if(!(Object.keys(spec).includes(key))){
             resp += `, unknown field ${key}`;
         }
-        else if(spec.key=='Float' && !parseFloat(req.body.key)){
-            resp += `, ${key} should be a float`;
+        else if(spec[key]=='Float'){
+            if(parseFloat(req.body[key])===NaN){
+                resp += `, ${key} should be a float`;
+            }
         }
-        else if(spec.key =='Integer' && !parseInt(req.body.key)){
+        else if(spec[key] =='Integer' && parseInt(req.body[key])==NaN){
             resp += `, ${key} should be an integer`;
         }
-        else if(spec.key=='string' && typeof(req.body.key) !== 'string'){
+        else if(spec[key]=='string' && typeof(req.body[key]) !== 'string'){
             resp += `, ${key} should be a ${spec[key]}`;
         }
         else {
             resp = '';
         }
     }
-    if(resp){
-        // clean error output
-        return resp.slice(2);
-    }
+    return resp;
+    // if(resp){
+    //     // clean error output
+    // }
 }

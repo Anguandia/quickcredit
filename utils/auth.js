@@ -1,4 +1,5 @@
 import users from '../models/users';
+import loans from '../models/loans';
 import { validate } from './validation';
 
 export const auth = (req, res, next) => {
@@ -18,12 +19,19 @@ export const auth = (req, res, next) => {
             let user = users.find(usr => usr.id == payload.id);
             // get route permissions
             let access = checkPermission(req);
+            console.log(access);
+            console.log(req.url);
             if(!user){
+                resp = 'invalid token';
             } else if(access=='admin' && user.isAdmin == false){
                 resp = 'this resource requires admin access';
                 // protected resources identified by id, so match token owner to request url id
-            } else if(access=='owner' && !user.id.test(req.url)){
-                resp = "this resource requires the owner's access";
+            } else if(access=='owner'){
+                let target = loans.find(one => one._id = req.params.loanId);
+                console.log('##3', target);
+                if(target.user !== user.email){
+                    resp = "this resource requires the owner's access";
+                }
                 // all checks passed, go to validate(if any) and execute the request
             } else {
                 resp = '';
@@ -43,10 +51,10 @@ export const auth = (req, res, next) => {
 
 function checkPermission(req){
     // define url patterns for admin only routes
-    const admin = [/repayment/, /verify/, /\/\\d/];
+    const admin = [/repayment/, /verify/, /\/\d/];
     // patterns for resource owner routes
     const owner = [/repayments/];
-    let permission = admin.some(ad => ad.test(req.url))?'admin': owner.some(own => own.test(req.url))?'owner': 'general';
+    let permission = owner.some(own => own.test(req.url))?'owner': admin.some(ad => ad.test(req.url))?'admin': 'general';
     return permission;
 }
 
