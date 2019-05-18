@@ -10,6 +10,8 @@
     "test": "coverage mocha --require babel-register tests/*.js --exit"
   },
   "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
     "cookie-parser": "~1.4.3",
     "crypto": "^1.0.1",
     "debug": "~2.6.9",
