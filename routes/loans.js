@@ -3,8 +3,8 @@ import express from 'express';
 import {
   create, repay, approve, detail, list, log,
 } from '../controllers/loanController';
-import { validate } from '../utils/validation';
-import { auth } from '../utils/auth';
+import validate from '../utils/validation';
+import auth from '../utils/auth';
 
 const router = express.Router();
 

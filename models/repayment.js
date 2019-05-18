@@ -1,60 +1,67 @@
+/* eslint-disable linebreak-style */
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable linebreak-style */
 import repayments from './repayments';
 
-export const Repayment = class Repayment{
-    // create repayment object with the given defaults
-    constructor(loanId, amount, createdOn=new Date()){
-        this.loanId = loanId;
-        this.amount = amount;
-        this.createdOn = createdOn;
-        this._id = Repayment.counter;
-    }
-    get id(){
-        return this._id;
-    }
+class Repayment {
+  // create repayment object with the given defaults
+  constructor(loanId, amount, createdOn = new Date()) {
+    this.loanId = loanId;
+    this.amount = amount;
+    this.createdOn = createdOn;
+    this._id = Repayment.counter;
+  }
 
-    // initialize the class instance counter
-    static get counter() {
-        Repayment._counter = (Repayment._counter || 0) + 1;
-        return Repayment._counter;
-    }
+  get id() {
+    return this._id;
+  }
 
-    // update parent loan and set payment history property values
-    updateLoan(loan){
-        loan.updateBalance(this.amount);
-        // set the balance after this repayment
-        this.balance = loan.balance;
-        // change amount field to paid amount for history
-        this.paidAmount = this.amount;
-        // set the laon amount for the repayment history item
-        this.amount = loan.amount;
-        // set the paymentInstallment from the loan object
-        this.monthlyInstallment = loan.paymentInstallment;
-    }
+  // initialize the class instance counter
+  static get counter() {
+    Repayment._counter = (Repayment._counter || 0) + 1;
+    return Repayment._counter;
+  }
 
-    // push repayment object to repayments' array
-    save(){
-        repayments.push(this);
-    }
+  // update parent loan and set payment history property values
+  updateLoan(loan) {
+    loan.updateBalance(this.amount);
+    // set the balance after this repayment
+    this.balance = loan.balance;
+    // change amount field to paid amount for history
+    this.paidAmount = this.amount;
+    // set the laon amount for the repayment history item
+    this.amount = loan.amount;
+    // set the paymentInstallment from the loan object
+    this.monthlyInstallment = loan.paymentInstallment;
+  }
 
-    //return json representation of repayment
-    toRepaymentJson(){
-        return {
-            id: this.id,
-            loanId: this.loanId,
-            createdOn: this.createdOn,
-            amount: this.amount,
-            monthlyInstallment: this.monthlyInstallment,
-            paidAmount: this.paidAmount,
-            balance: this.balance,
-        };
-    }
+  // push repayment object to repayments' array
+  save() {
+    repayments.push(this);
+  }
 
-     // Add filter to get output with specified fieldsonly
-     filterRepr(keys){
-        let filter = {};
-        for(let key of keys){
-            filter[key] = this.toRepaymentJson()[key];
-        }
-        return filter;
+  // return json representation of repayment
+  toRepaymentJson() {
+    return {
+      id: this.id,
+      loanId: this.loanId,
+      createdOn: this.createdOn,
+      amount: this.amount,
+      monthlyInstallment: this.monthlyInstallment,
+      paidAmount: this.paidAmount,
+      balance: this.balance,
+    };
+  }
+
+  // Add filter to get output with specified fieldsonly
+  filterRepr(keys) {
+    const filter = {};
+    for (const key of keys) {
+      filter[key] = this.toRepaymentJson()[key];
     }
-};
+    return filter;
+  }
+}
+
+export default Repayment;

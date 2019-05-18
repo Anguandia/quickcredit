@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 import express from 'express';
 import logger from 'morgan';
 
@@ -6,7 +7,7 @@ import usersRouter from './routes/users';
 import loansRouter from './routes/loans';
 import authRouter from './routes/auth';
 
-const port=process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 
 const app = express();
 
@@ -19,8 +20,8 @@ app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/loans', loansRouter);
 app.use('/api/v1/auth', authRouter);
 
-app.listen(port, ()=>{
-    console.log(`quickcredit running on ${port}`);
+app.listen(port, () => {
+  console.log(`quickcredit running on ${port}`);
 });
 
 export default app;
