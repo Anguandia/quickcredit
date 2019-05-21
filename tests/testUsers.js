@@ -13,6 +13,8 @@ import { testUsers } from './testData';
 chai.use(chaiHttp);
 should = chai.should();
 
+const configName = 'test';
+
 // eslint-disable-next-line no-unused-vars
 let client = process.env.client;
 let admin = process.env.admin;

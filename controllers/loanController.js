@@ -1,3 +1,4 @@
+/* eslint-disable no-unneeded-ternary */
 /* eslint-disable linebreak-style */
 /* eslint-disable eqeqeq */
 /* eslint-disable linebreak-style */
@@ -24,10 +25,9 @@ export const create = function create(req, res) {
 // get all, current or repaid loans
 export const list = function list(req, res) {
   let selection;
-  let repaid;
   if (req.query.status) {
-    // convert string status representation inquery to boolean
-    repaid = req.query.repaid === true;
+    // convert string status representation in query to boolean
+    const repaid = req.query.repaid === 'true' ? true : false;
     selection = loans.filter(one => one.status === req.query.status && one.repaid === repaid);
   } else {
     selection = loans;

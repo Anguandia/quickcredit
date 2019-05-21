@@ -16,6 +16,8 @@ import users from '../models/users';
 chai.use(chaiHttp);
 should = chai.should();
 
+const configName = 'test';
+
 // define variables to store three tokens for test purposes; 2 standard testUsers and an admin
 let user1 = process.env.user1;
 let user2 = process.env.user2;

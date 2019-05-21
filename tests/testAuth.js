@@ -14,6 +14,7 @@ import users from '../models/users';
 chai.use(chaiHttp);
 should = chai.should();
 
+const configName = 'test';
 let user1 = process.env.user1;
 let user2 = process.env.user2;
 let admin = process.env.admin;
