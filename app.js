@@ -1,14 +1,16 @@
 /* eslint-disable linebreak-style */
 import express from 'express';
 import logger from 'morgan';
+import dotenv from 'dotenv';
 
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
 import loansRouter from './routes/loans';
 import authRouter from './routes/auth';
+import config from './config';
 
-const port = process.env.PORT || 3000;
-
+dotenv.config();
+const { port } = config;
 const app = express();
 
 app.use(logger('dev'));

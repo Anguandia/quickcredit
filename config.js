@@ -1,14 +1,23 @@
+/* eslint-disable comma-dangle */
 /* eslint-disable linebreak-style */
 /* eslint-disable radix */
+// import dotenv from 'dotenv';
+import dotenv from 'dotenv';
 
-const env = process.env.NODE_ENV;
+dotenv.config();
+
+const env = process.env.ENV;
 
 const dev = {
-  port: parseInt(process.env.DEV_APP_PORT) || 3000,
+  port: parseInt(process.env.PORT) || 3000,
+  database_url: process.env.DATABASE_URL,
+  secrete: process.env.SECRETE
 };
 
 const test = {
-  port: parseInt(process.env.TEST_APP_PORT) || 8000,
+  port: parseInt(process.env.TEST_PORT) || 3000,
+  database_url: process.env.TEST_DATABASE_URL,
+  secrete: process.env.SECRETE
 };
 
 const config = {
@@ -16,4 +25,4 @@ const config = {
   test,
 };
 
-export default config;
+export default config[env];
