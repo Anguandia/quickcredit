@@ -43,12 +43,14 @@ export const list = function list(req, res) {
 
 // get specific loan details
 export const detail = function detail(req, res) {
-  const loan = loans.find(one => one.id == req.params.loanId);
-  if (!loan) {
-    res.status(404).json({ status: 404, error: `loan with id ${req.params.loanId} does not exist` });
-  } else {
-    res.status(200).json({ status: 200, data: loan.toLoanJson() });
-  }
+  pool.connect((err, client) => {
+    client.query(`SELECT * FROM loans WHERE id=${req.params.loanId}`, (error, loan) => {
+      if (error) {
+        res.status(500).json({ status: 500, error: 'internal error' });
+      }
+      res.status(200).json({ status: 200, data: loan.rows[0] });
+    });
+  });
 };
 
 // approve a loan

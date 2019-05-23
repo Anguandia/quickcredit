@@ -19,7 +19,7 @@ router.post('/:loanId/repayment', auth, validate, repay);
 router.patch('/:loanId', auth, validate, approve);
 
 // get a specific loan
-router.get('/:loanId', auth, detail);
+router.get('/:loanId', loanNot, detail);
 
 // get all loan applications
 router.get('/', list);

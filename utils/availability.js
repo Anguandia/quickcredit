@@ -38,12 +38,16 @@ export const userNot = function (req, res, next) {
 };
 
 export const loanNot = function (req, res, next) {
+  const key = req.params.loanId ? req.params.loanId : req.body.email;
+  const field = req.params.loanId ? 'id' : 'email';
   pool.connect((error, client) => {
-    client.query(`SELECT * FROM loans WHERE email='${req.body.email}'`, (err, result) => {
+    client.query(`SELECT * FROM loans WHERE ${field}='${key}'`, (err, result) => {
       if (err) {
         res.status(500).json({ status: 500, error: 'internal error' });
-      } else if (result.rows.length > 0) {
+      } else if (result.rows.length > 0 && field == 'email') {
         res.status(400).json({ status: 400, error: 'you have a running loan' });
+      } else if (result.rows.length === 0 && field == 'id') {
+        res.status(404).json({ status: 404, error: 'loan doesn not exist' });
       } else {
         next();
       }
