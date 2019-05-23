@@ -4,6 +4,8 @@ import {
   userList, update, del, details,
 } from '../controllers/userController';
 import auth from '../utils/auth';
+import { userNot } from '../utils/availability';
+
 
 const router = express.Router();
 
@@ -11,7 +13,7 @@ const router = express.Router();
 router.get('/', userList);
 
 // post request for updating a user
-router.patch('/:email/verify', auth, update);
+router.patch('/:email/verify', userNot, update);
 
 // post request for deleting a user
 router.delete('/:email', auth, del);

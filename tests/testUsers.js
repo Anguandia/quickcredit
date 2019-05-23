@@ -44,7 +44,6 @@ describe('test user end points', () => {
     it.skip("should delete setup user and return empty users' array", () => {
       // test get all when empty list
       // delete user created during setup
-      users.splice(0);
       it((done) => {
         chai.request(app)
           .get('/api/v1/users')
@@ -58,7 +57,7 @@ describe('test user end points', () => {
       });
       done();
     });
-    it('should retuen an array of all users', () => {
+    it.only('should retuen an array of all users', () => {
       // test get all when list populated
       chai.request(app)
         .get('/api/v1/users')
@@ -95,11 +94,11 @@ describe('test user end points', () => {
     });
   });
   describe('POST /', () => {
-    describe.only('user signup/registration', () => {
+    describe('user signup/registration', () => {
       // test user creation
       describe('should register user', () => {
         // test successful registration
-        it('should create user, all fields supplied', (done) => {
+        it.only('should create user, all fields supplied', (done) => {
           // test should register user with all fields provided and valid
           chai.request(app)
             .post('/api/v1/auth/signup')
@@ -111,7 +110,7 @@ describe('test user end points', () => {
             });
           done();
         });
-        it('Create user, non mandatory fields ommitted', () => {
+        it.only('Create user, non mandatory fields ommitted', () => {
           // should create user with non-essential fields missing
           delete testUsers[2].tel;
           chai.request(app)
@@ -217,7 +216,7 @@ describe('test user end points', () => {
     });
   });
   describe('PATCH users/:user-email/verify', () => {
-    it('should change user status', (done) => {
+    it.only('should change user status', (done) => {
       let email = 'user1@mail.com';
       chai.request(app)
         .patch(`/api/v1/users/${email}/verify`)
@@ -231,7 +230,7 @@ describe('test user end points', () => {
         });
     });
     describe('should fail update, flag errors', () => {
-      it('should fail to update if invalid status', (done) => {
+      it.only('should fail to update if invalid status', (done) => {
         let email = 'user1@mail.com';
         chai.request(app)
           .patch(`/api/v1/users/${email}/verify`)

@@ -9,7 +9,7 @@ import auth from '../utils/auth';
 const router = express.Router();
 
 // post request for creating a loan
-router.post('/', auth, validate, create);
+router.post('/', validate, create);
 
 // post request for loan repayment
 router.post('/:loanId/repayment', auth, validate, repay);

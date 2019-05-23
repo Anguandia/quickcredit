@@ -1,7 +1,6 @@
 /* eslint-disable comma-dangle */
 /* eslint-disable linebreak-style */
 import { pool } from '../utils/db';
-// import users from '../models/users';
 import { User } from '../models/user';
 
 const listQuery = 'select * from users';
@@ -13,14 +12,13 @@ export const signup = function signup(req, res) {
   Object.assign(user, data); // update properties fron request data
   user.setPassword(data.password);
   user.token = user.generateToken();
-  // const userFields = '(firstName, lastName, email, hash, salt, status, tel, token, isAdmin)';
   const query = `INSERT INTO users(firstName, lastName, email, hash, salt, status, tel, token, isAdmin) VALUES('${user.firstName}', '${user.lastName}', '${user.email}', '${user.hash}', '${user.salt}', '${user.status}', '${user.tel}', '${user.token}', ${user.isAdmin})`;
 
   pool.connect((error, client) => {
     client.query(query, () => {
       // done();
       if (error) {
-        res.status(500).json({ error });
+        res.status(500).json({ status: 500, error: 'internal error' });
       } else {
         // to authJson method will call generate token
         res.status(201).json({ status: 201, data: user.toAuthJson() });
@@ -36,9 +34,8 @@ export const signin = function signin(req, res) {
      */
   pool.connect((error, client) => {
     client.query(`SELECT * FROM users WHERE email='${req.body.email}'`, (err, found) => {
-      // done();
       if (err) {
-        res.status(500).json({ status: 400, error: err });
+        res.status(500).json({ status: 400, error: 'internal error' });
       } else if (found.rows.length == 0) {
         res.status(404).json({ status: 404, error: 'user does not exist' });
       } else {
@@ -60,23 +57,30 @@ export const signin = function signin(req, res) {
 // handle user update post request
 export const update = function update(req, res) {
   const data = req.body;
-  const user = users.find(target => target.email === req.params.email);
-  if (!user) {
-    res.status(404).json({ status: 404, error: 'User not found' });
-  } else if (['verified', 'unverified'].includes(data.status)) {
-    Object.assign(user, { status: data.status });
-    // filter out properties unwanted in the response
-    const filtered = {
-      email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      password: user.password,
-      address: user.address,
-      status: user.status,
-    };
-    res.status(200).json({ status: 200, data: filtered });
+  const verify = `UPDATE users SET status='${req.body.status}' WHERE email='${req.params.email}'`;
+  const check = `SELECT * FROM users WHERE email='${req.params.email}'`;
+  if (['verified', 'unverified'].includes(data.status)) {
+    pool.connect((error, client) => {
+      client.query(verify, (err, resp) => {
+        if (err) {
+          res.status(500).json({ status: 500, error: 'internal error' });
+        }
+        client.query(check, (err, result) => {
+          const user = result.rows[0];
+          // filter out properties unwanted in the response
+          const filtered = {
+            email: user.email,
+            firstName: user.firstname,
+            lastName: user.lastname,
+            address: user.address,
+            status: user.status,
+          };
+          res.status(200).json({ status: 200, data: filtered });
+        });
+      });
+    });
   } else {
-    res.status(400).json({ error: 'invalid status' });
+    res.status(400).json({ status: 400, error: 'invalid status' });
   }
 };
 

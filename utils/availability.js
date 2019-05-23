@@ -3,7 +3,7 @@
 /* eslint-disable func-names */
 import { pool } from './db';
 
-const check = function (req, res, next) {
+export const check = function (req, res, next) {
   if (req.url == '/signup') {
     signup(req, res, next);
   }
@@ -23,4 +23,16 @@ function signup(req, res, next) {
   });
 }
 
-export default check;
+export const userNot = function (req, res, next) {
+  pool.connect((error, client) => {
+    client.query(`SELECT * FROM users WHERE email='${req.body.email}'`, (err, result) => {
+      if (err) {
+        res.status(500).json({ status: 500, error: 'internal error' });
+      } else if (result.rows.length === 0) {
+        res.status(404).json({ status: 404, error: 'user does not exists' });
+      } else {
+        next();
+      }
+    });
+  });
+};

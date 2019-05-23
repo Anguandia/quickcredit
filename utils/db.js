@@ -33,6 +33,7 @@ export const createTables = () => {
           status VARCHAR(128) NOT NULL,
           tel VARCHAR(128) NOT NULL,
           token VARCHAR NOT NULL,
+          address VARCHAR,
           isAdmin BOOLEAN NOT NULL
         )`;
   pool.query(tables)
