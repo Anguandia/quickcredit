@@ -3,7 +3,9 @@
 /* eslint-disable no-underscore-dangle */
 import encrypt from 'crypto';
 import token from 'jsonwebtoken';
-import dotenv from'dotenv';
+import dotenv from 'dotenv';
+
+dotenv.config();
 const { SECRETE } = process.env;
 
 export const User = class User {
@@ -17,10 +19,15 @@ export const User = class User {
     this.isAdmin = isAdmin;
     this.status = status;
     this.tel = tel;
+    this._id = User.counter;
   }
 
   get id() {
     return this._id;
+  }
+
+  set id(id) {
+    this._id = id;
   }
 
   // initialize the class instance counter

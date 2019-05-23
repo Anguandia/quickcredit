@@ -34,17 +34,27 @@ export const signin = function signin(req, res) {
   /** check if user exista, if so, validate paswwors and generate token
      * or return appropriate response
      */
-  const user = users.find(target => target.email === req.body.email);
-  if (!user) {
-    res.status(404).json({ status: 404, error: 'user not found' });
-  } else if (user.validatePassword(req.body.password)) {
-    // extract challenge document specified fields for response
-    const format = user.toAuthJson();
-    delete format.password;
-    res.status(200).json({ status: 200, data: format });
-  } else {
-    res.status(401).json({ error: 'Wrong password' });
-  }
+  pool.connect((error, client) => {
+    client.query(`SELECT * FROM users WHERE email='${req.body.email}'`, (err, found) => {
+      // done();
+      if (err) {
+        res.status(500).json({ status: 400, error: err });
+      } else if (found.rows.length == 0) {
+        res.status(404).json({ status: 404, error: 'user does not exist' });
+      } else {
+        const data = found.rows[0];
+        let user = new User();
+        user.id = data.id;
+        Object.assign(user, data);
+        if (user.validatePassword(req.body.password)) {
+          // extract challenge document specified fields for response
+          res.status(200).json({ status: 200, data: user.toAuthJson() });
+        } else {
+          res.status(401).json({ error: 'Wrong password' });
+        }
+      }
+    });
+  });
 };
 
 // handle user update post request
