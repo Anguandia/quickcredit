@@ -9,8 +9,6 @@ import chaiHttp from 'chai-http';
 import app from '../app';
 import { testLoans, testPayments, testUsers } from './testData';
 import loans from '../models/loans';
-import users from '../models/users';
-
 chai.use(chaiHttp);
 should = chai.should();
 
@@ -26,7 +24,7 @@ let loan = process.env.loan;
 describe('test route authentication', () => {
   before((done) => {
     // clear the testUsers' array
-    users.splice(0);
+    // users.splice(0);
     loans.splice(0);
     // signup 3 test test_testUsers to get a token
     chai.request(app)

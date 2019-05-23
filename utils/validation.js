@@ -69,14 +69,17 @@ function validateType(req) {
   let resp;
   const patterns = [/signup/, /signin/, /verify/];
   const spec = patterns.some(pat => pat.test(req.url)) ? specs : loanspecs;
+  // eslint-disable-next-line guard-for-in
   for (const key in req.body) {
     if (!(Object.keys(spec).includes(key))) {
       resp += `, unknown field ${key}`;
-    } else if (spec[key] == 'Float') {
-      if (parseFloat(req.body[key]).isNaN) {
+    } else if (!req.body[key]) {
+      resp += `please supply a value for ${key}`;
+    } else if (spec[key] === 'Float') {
+      if (parseFloat(req.body[key]) !== req.body[key]) {
         resp += `, ${key} should be a float`;
       }
-    } else if (spec[key] == 'Integer' && parseInt(req.body[key]) == NaN) {
+    } else if (spec[key] == 'Integer' && parseInt(req.body[key]) !== req.body[key]) {
       resp += `, ${key} should be an integer`;
     } else if (spec[key] == 'string' && typeof (req.body[key]) !== 'string') {
       resp += `, ${key} should be a ${spec[key]}`;
@@ -84,7 +87,7 @@ function validateType(req) {
       resp = '';
     }
   }
-  return resp;
+  return resp.slice(2);
 }
 
 export default validate;

@@ -6,9 +6,9 @@ import loans from './loans';
 
 export const Loan = class Loan {
   // create loan object with the given defaults
-  constructor(user, amount, tenor, balance = 0, interest = 0.05,
+  constructor(userEmail, amount, tenor, balance = 0, interest = 0.05,
     createdOn = new Date(), status = 'pending', repaid = false) {
-    this.user = user;
+    this.userEmail = userEmail;
     this.amount = amount;
     this.tenor = tenor;
     this.interest = interest;
@@ -67,7 +67,7 @@ export const Loan = class Loan {
   toLoanJson() {
     return {
       id: this.id,
-      user: this.user,
+      userEmail: this.userEmail,
       amount: this.amount,
       tenor: this.tenor,
       paymentInstallment: this.paymentInstallment,

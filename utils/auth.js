@@ -7,7 +7,7 @@
 /* eslint-disable new-cap */
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-unused-vars */
-import users from '../models/users';
+import pool from './db';
 import loans from '../models/loans';
 import { validate } from './validation';
 
@@ -25,7 +25,13 @@ const auth = (req, res, next) => {
     // case valid token format
     if (payload.id) {
       // map token to user
-      const user = users.find(usr => usr.id == payload.id);
+      let user;
+      pool.connect((error, client) => {
+        client.query(`SELECT * FROM users WHERE id=${payload.id}`, (err, found) => {
+          // eslint-disable-next-line prefer-destructuring
+          user = found.rows[0];
+        });
+      });
       // get route permissions
       const access = checkPermission(req);
       if (!user) {

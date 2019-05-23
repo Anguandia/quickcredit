@@ -28,23 +28,11 @@ export const createTables = () => {
           firstName VARCHAR(128) NOT NULL,
           lastName VARCHAR(128) NOT NULL,
           email VARCHAR(128) NOT NULL,
-          hash VARCHAR(128) NOT NULL,
+          hash VARCHAR NOT NULL,
           salt VARCHAR(128) NOT NULL,
           status VARCHAR(128) NOT NULL,
           tel VARCHAR(128) NOT NULL,
-          token VARCHAR(128) NOT NULL,
-          isAdmin BOOLEAN NOT NULL
-        ); CREATE TABLE IF NOT EXISTS
-        users(
-          id SERIAL PRIMARY KEY,
-          firstName VARCHAR(128) NOT NULL,
-          lastName VARCHAR(128) NOT NULL,
-          email VARCHAR(128) NOT NULL,
-          hash VARCHAR(128) NOT NULL,
-          salt VARCHAR(128) NOT NULL,
-          status VARCHAR(128) NOT NULL,
-          tel VARCHAR(128) NOT NULL,
-          token VARCHAR(128) NOT NULL,
+          token VARCHAR NOT NULL,
           isAdmin BOOLEAN NOT NULL
         )`;
   pool.query(tables)

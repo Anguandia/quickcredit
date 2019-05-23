@@ -11,7 +11,6 @@ import chaiHttp from 'chai-http';
 import app from '../app';
 import { testLoans, testPayments, testUsers } from './testData';
 import loans from '../models/loans';
-import users from '../models/users';
 
 chai.use(chaiHttp);
 should = chai.should();
@@ -27,7 +26,7 @@ let loan = process.env.loan;
 describe('test loans', () => {
   beforeEach((done) => {
     // clear the users' array
-    users.splice(0);
+    // users.splice(0);
     // signup 3 test testUsers to get a token
     chai.request(app)
       .post('/api/v1/auth/signup')
@@ -106,13 +105,13 @@ describe('test loans', () => {
                 done();
               });
           });
-        it.skip('should fail - invalid loan data', (done) => {
+        it('should fail - invalid loan data', (done) => {
           // test registration fails if invalid amount provided
           // submit loan application with a string amount instead of number
-          Object.assign(testLoans[1], { amount: 'ten thousand' });
+          let loan = testLoans[1];
           chai.request(app)
             .post('/api/v1/loans')
-            .send(testLoans[1])
+            .send(testLoans[4])
             .set('Authorization', user1)
             .end((err, res) => {
               res.should.have.status(400);

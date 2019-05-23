@@ -8,7 +8,7 @@ import auth from '../utils/auth';
 const router = express.Router();
 
 /* GET users' listing. */
-router.get('/', auth, userList);
+router.get('/', userList);
 
 // post request for updating a user
 router.patch('/:email/verify', auth, update);

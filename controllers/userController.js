@@ -1,25 +1,32 @@
+/* eslint-disable comma-dangle */
 /* eslint-disable linebreak-style */
-import users from '../models/users';
+import { pool } from '../utils/db';
+// import users from '../models/users';
 import { User } from '../models/user';
+
+const listQuery = 'select * from users';
 
 // handle post request for signup
 export const signup = function signup(req, res) {
   const data = req.body;
   const user = new User();// create skeleton user object
   Object.assign(user, data); // update properties fron request data
-  if (users.find(target => target.email === user.email)) {
-    // check if user already in system
-    res.status(400).json(
-      { status: 400, error: `Account '${user.email}' exists, please signin` },
-    );
-  } else {
-    user.setPassword(data.password);
-    const format = user.toAuthJson();
-    delete format.password;
-    // to authJson method will call generate token
-    res.status(201).json({ status: 201, data: format });
-    user.save();
-  }
+  user.setPassword(data.password);
+  user.token = user.generateToken();
+  // const userFields = '(firstName, lastName, email, hash, salt, status, tel, token, isAdmin)';
+  const query = `INSERT INTO users(firstName, lastName, email, hash, salt, status, tel, token, isAdmin) VALUES('${user.firstName}', '${user.lastName}', '${user.email}', '${user.hash}', '${user.salt}', '${user.status}', '${user.tel}', '${user.token}', ${user.isAdmin})`;
+
+  pool.connect((error, client) => {
+    client.query(query, () => {
+      // done();
+      if (error) {
+        res.status(500).json({ error });
+      } else {
+        // to authJson method will call generate token
+        res.status(201).json({ status: 201, data: user.toAuthJson() });
+      }
+    });
+  });
 };
 
 // handle signin post request
@@ -65,7 +72,15 @@ export const update = function update(req, res) {
 
 // get a list of all users
 export const userList = function userList(req, res) {
-  res.status(200).json({ status: 200, data: users });
+  pool.connect((err, client) => {
+    client.query(listQuery, (error, result) => {
+      if (error) {
+        res.status(400).json({ error });
+      } else {
+        res.status(200).json({ status: 200, data: result.rows });
+      }
+    });
+  });
 };
 
 
