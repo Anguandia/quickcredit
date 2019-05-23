@@ -16,7 +16,7 @@ router.post('/', loanNot, validate, create);
 router.post('/:loanId/repayment', auth, validate, repay);
 
 // approve or reject a loan application
-router.patch('/:loanId', auth, validate, approve);
+router.patch('/:loanId', validate, loanNot, approve);
 
 // get a specific loan
 router.get('/:loanId', loanNot, detail);

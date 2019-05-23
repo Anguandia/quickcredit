@@ -55,17 +55,29 @@ export const detail = function detail(req, res) {
 
 // approve a loan
 export const approve = function approve(req, res) {
-  const loan = loans.find(one => one.id == req.params.loanId);
-  if (!loan) {
-    res.status(404).json({ status: 404, error: `no loan with id ${req.params.loanId}` });
-  } else if (['approved', 'rejected'].includes(req.body.status)) {
-    // update if status value valid
-    const fields = ['id', 'amount', 'tenor', 'status', 'paymentInstallment', 'interest'];
-    loan.approve(req.body.status);
-    res.status(200).json({ status: 200, data: loan.filterRepr(fields) });
-  } else {
-    res.status(400).json({ status: 400, error: 'invalid status' });
-  }
+  pool.connect((error, client) => {
+    client.query(`SELECT * FROM loans WHERE id=${req.params.loanId}`, (err, target) => {
+      if (err) {
+        res.status(500).json({ status: 500, error: 'internal error' });
+      } else if (!['approved', 'rejected'].includes(req.body.status.toLowerCase())) {
+        res.status(400).json({ status: 400, error: 'invalid status' });
+      } else {
+        const loan = new Loan();
+        Object.assign(loan, target.rows[0]);
+        // update if status value valid
+        loan.approve(req.body.status);
+        loan.setPaymentInstallment();
+        client.query(`UPDATE loans SET status='${loan.status}'`, (errr) => {
+          if (errr) {
+            res.status(500).json({ status: 500, error: 'internal error' });
+          } else {
+            const fields = ['id', 'amount', 'balance', 'tenor', 'status', 'paymentinstallment', 'interest'];
+            res.status(200).json({ status: 200, data: loan.filterRepr(fields) });
+          }
+        });
+      }
+    });
+  });
 };
 
 // post a repayment installment

@@ -23,6 +23,10 @@ export const Loan = class Loan {
     return this._id;
   }
 
+  set id(id) {
+    this._id = id;
+  }
+
   // initialize the class instance counter
   static get counter() {
     Loan._counter = (Loan._counter || 0) + 1;
@@ -70,7 +74,7 @@ export const Loan = class Loan {
       email: this.email,
       amount: this.amount,
       tenor: this.tenor,
-      paymentInstallment: this.paymentInstallment,
+      paymentinstallment: this.paymentInstallment,
       interest: this.interest,
       balance: this.balance,
       createdOn: this.createdOn,
