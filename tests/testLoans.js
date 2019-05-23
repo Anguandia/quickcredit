@@ -65,7 +65,7 @@ describe.skip('test loans', () => {
           });
       });
   });
-  describe.only('POST /api/v1/loans', () => {
+  describe('POST /api/v1/loans', () => {
     // start with loan creation so that loans can be created for testing other routes
     describe('create loan', () => {
       // test loan creation
@@ -234,9 +234,15 @@ describe.skip('test loans', () => {
           done();
         });
     });
-    it.skip('should return an empty array if no current loans', (done) => {
+    it('should return an empty array if no current loans', (done) => {
       // clear loans array
-      loans.splice(0);
+      pool.connect((error, client) => {
+        client.query('DELETE FROM loans', (err) => {
+          if (err) {
+            console.log(err);
+          }
+        });
+      });
       // test get all when list populated
       for (let loan of testLoans.slice(1)) {
         // create the loan objects from the test data

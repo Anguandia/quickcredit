@@ -30,24 +30,13 @@ export const create = function create(req, res) {
 
 // get all, current or repaid loans
 export const list = function list(req, res) {
-  let selection;
-  if (req.query.status) {
-    // convert string status representation in query to boolean
-    const repaid = req.query.repaid === 'true' ? true : false;
-    selection = loans.filter(one => one.status === req.query.status && one.repaid === repaid);
-    selection = `SELECT * FROM loans WHERE id='${req.query.status}'`;
-  } else {
-    selection = 'SELECT * FROM loans';
-    // selection = loans;
-  }
+  const selection = 'SELECT * FROM loans';
   pool.connect((error, client) => {
     client.query(selection, (err, result) => {
       if (err) {
         res.status(500).json({ status: 500, error: 'internal error' });
       }
-      const collection = result.rows;
-
-      res.status(200).json({ status: 200, data: collection });
+      res.status(200).json({ status: 200, data: result.rows });
     });
   });
 };
