@@ -6,9 +6,9 @@ import loans from './loans';
 
 export const Loan = class Loan {
   // create loan object with the given defaults
-  constructor(userEmail, amount, tenor, balance = 0, interest = 0.05,
+  constructor(email, amount, tenor, balance = 0, interest = 0.05,
     createdOn = new Date(), status = 'pending', repaid = false) {
-    this.userEmail = userEmail;
+    this.email = email;
     this.amount = amount;
     this.tenor = tenor;
     this.interest = interest;
@@ -67,7 +67,7 @@ export const Loan = class Loan {
   toLoanJson() {
     return {
       id: this.id,
-      userEmail: this.userEmail,
+      email: this.email,
       amount: this.amount,
       tenor: this.tenor,
       paymentInstallment: this.paymentInstallment,
@@ -93,7 +93,7 @@ export const Loan = class Loan {
 export const loanspecs = {
   id: 'Integer',
   tenor: 'Integer',
-  user: 'string',
+  email: 'string',
   amount: 'Float',
   paymentInstallment: 'Float',
   interest: 'Float',
@@ -106,7 +106,7 @@ export const loanspecs = {
 
 // declare and export required Loan fields for given routes for use in validation
 export const loan = [
-  'tenor', 'user', 'amount',
+  'tenor', 'email', 'amount',
 ];
 
 export const payment = [

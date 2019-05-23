@@ -10,12 +10,12 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../app';
 import { testLoans, testPayments, testUsers } from './testData';
-import loans from '../models/loans';
+import { pool } from '../utils/db.js';
 
 chai.use(chaiHttp);
 should = chai.should();
 
-const configName = 'test';
+process.env.ENV = 'test';
 
 // define variables to store three tokens for test purposes; 2 standard testUsers and an admin
 let user1 = process.env.user1;
@@ -23,10 +23,16 @@ let user2 = process.env.user2;
 let admin = process.env.admin;
 let loan = process.env.loan;
 
-describe('test loans', () => {
-  beforeEach((done) => {
+describe.skip('test loans', () => {
+  beforeEach(() => {
     // clear the users' array
-    // users.splice(0);
+    pool.connect((err, client) => {
+      client.query('DELETE FROM loans', (error) => {
+        if (error) {
+          res.status(500).json({ status: 500, error: 'internal error' });
+        }
+      });
+    });
     // signup 3 test testUsers to get a token
     chai.request(app)
       .post('/api/v1/auth/signup')
@@ -55,12 +61,11 @@ describe('test loans', () => {
                   .end((req, res) => {
                     loan = res.body.data;
                   });
-                done();
               });
           });
       });
   });
-  describe('POST /api/v1/loans', () => {
+  describe.only('POST /api/v1/loans', () => {
     // start with loan creation so that loans can be created for testing other routes
     describe('create loan', () => {
       // test loan creation

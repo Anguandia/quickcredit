@@ -15,9 +15,10 @@ export const signup = function signup(req, res) {
   const query = `INSERT INTO users(firstName, lastName, email, hash, salt, status, tel, token, isAdmin) VALUES('${user.firstName}', '${user.lastName}', '${user.email}', '${user.hash}', '${user.salt}', '${user.status}', '${user.tel}', '${user.token}', ${user.isAdmin})`;
 
   pool.connect((error, client) => {
-    client.query(query, () => {
+    client.query(query, (err) => {
       // done();
-      if (error) {
+      if (err) {
+        console.log(err);
         res.status(500).json({ status: 500, error: 'internal error' });
       } else {
         // to authJson method will call generate token

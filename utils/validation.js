@@ -27,9 +27,9 @@ const validate = function validate(req, res, next) {
   const vali = validateType(req);
   for (const val of must) {
     if (!(val in req.body)) {
-      resp = { status: 400, error: `${val} missing` };
+      resp = { status: 400, error: `${val} key missing` };
     } else if (req.body[val] == '') {
-      resp = { status: 400, error: `${val} required` };
+      resp = { status: 400, error: `value for ${val} required` };
     } else if (vali) {
       resp = { status: 400, error: vali };
     } else if (val === 'email' && !validateEmail(req.body[val])) {
@@ -66,7 +66,7 @@ function validateType(req) {
 // only validate user supplied input, date and boolean input for
 //   createdOn and repaid values are system generated and therefor
 // not prone to user errors
-  let resp;
+  let resp = '';
   const patterns = [/signup/, /signin/, /verify/];
   const spec = patterns.some(pat => pat.test(req.url)) ? specs : loanspecs;
   // eslint-disable-next-line guard-for-in
@@ -74,11 +74,11 @@ function validateType(req) {
     if (!(Object.keys(spec).includes(key))) {
       resp += `, unknown field ${key}`;
     } else if (!req.body[key]) {
-      resp += `please supply a value for ${key}`;
-    } else if (spec[key] === 'Float') {
-      if (parseFloat(req.body[key]) !== req.body[key]) {
+      resp += `, please supply a value for ${key}`;
+    } else if (spec[key] == 'Float' && !parseFloat(req.body[key])) {
+      // if (parseFloat(req.body[key]) != req.body[key]) {
         resp += `, ${key} should be a float`;
-      }
+      // }
     } else if (spec[key] == 'Integer' && parseInt(req.body[key]) !== req.body[key]) {
       resp += `, ${key} should be an integer`;
     } else if (spec[key] == 'string' && typeof (req.body[key]) !== 'string') {

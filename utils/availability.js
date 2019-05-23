@@ -36,3 +36,17 @@ export const userNot = function (req, res, next) {
     });
   });
 };
+
+export const loanNot = function (req, res, next) {
+  pool.connect((error, client) => {
+    client.query(`SELECT * FROM loans WHERE email='${req.body.email}'`, (err, result) => {
+      if (err) {
+        res.status(500).json({ status: 500, error: 'internal error' });
+      } else if (result.rows.length > 0) {
+        res.status(400).json({ status: 400, error: 'you have a running loan' });
+      } else {
+        next();
+      }
+    });
+  });
+};

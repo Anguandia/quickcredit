@@ -7,19 +7,25 @@ import loans from '../models/loans';
 import { Loan } from '../models/loan';
 import Repayment from '../models/repayment';
 import repayments from '../models/repayments';
+import { pool } from '../utils/db';
 
 // create loan
 export const create = function create(req, res) {
   const loan = new Loan();
   Object.assign(loan, req.body);
-  // check if requesting client has a current loan
-  const existing = loans.find(one => one.user === loan.user && one.status !== 'repaid');
-  if (existing) {
-    res.status(403).json({ status: 403, error: 'you have a running loan' });
-  } else {
-    loan.save();
-    res.status(201).json({ status: 201, data: loan.toLoanJson() });
-  }
+  console.log(loan);
+  const checkLoan = `SELECT * FROM loans WHERE email=${req.body.email}`;
+  const query = `INSERT INTO loans(email, amount, tenor, interest, balance, paymentinstallment, createdon, status, repaid) VALUES('${loan.email}', ${parseFloat(loan.amount)}, '${parseInt(loan.tenor)}', '${parseFloat(loan.interest)}', '${parseFloat(loan.balance)}', '${parseFloat(loan.paymentInstallment)}', '${loan.createdOn}', '${loan.status}', ${loan.repaid})`;
+  pool.connect((error, client) => {
+    client.query(query, (err) => {
+      if (err) {
+        // console.log(err);
+        res.status(500).json({ status: 500, error: 'internal error' });
+      } else {
+        res.status(201).json({ status: 201, data: loan.toLoanJson() });
+      }
+    });
+  });
 };
 
 // get all, current or repaid loans
@@ -29,10 +35,21 @@ export const list = function list(req, res) {
     // convert string status representation in query to boolean
     const repaid = req.query.repaid === 'true' ? true : false;
     selection = loans.filter(one => one.status === req.query.status && one.repaid === repaid);
+    selection = `SELECT * FROM loans WHERE id='${req.query.status}'`;
   } else {
-    selection = loans;
+    selection = 'SELECT * FROM loans';
+    // selection = loans;
   }
-  res.status(200).json({ status: 200, data: selection.map(loan => loan.toLoanJson()) });
+  pool.connect((error, client) => {
+    client.query(selection, (err, result) => {
+      if (err) {
+        res.status(500).json({ status: 500, error: 'internal error' });
+      }
+      const collection = result.rows;
+
+      res.status(200).json({ status: 200, data: collection });
+    });
+  });
 };
 
 // get specific loan details

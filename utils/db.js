@@ -13,13 +13,13 @@ export const createTables = () => {
   const tables = `CREATE TABLE IF NOT EXISTS
         loans(
           id SERIAL PRIMARY KEY,
-          userEmail VARCHAR(128) NOT NULL,
+          email VARCHAR(128) NOT NULL,
           amount FLOAT NOT NULL,
           tenor INT NOT NULL,
           interest FLOAT NOT NULL,
           balance FLOAT NOT NULL,
           paymentInstallment FLOAT NOT NULL,
-          createdOn TIMESTAMP NOT NULL,
+          createdOn DATE NOT NULL,
           status VARCHAR NOT NULL,
           repaid BOOLEAN NOT NULL
         ); CREATE TABLE IF NOT EXISTS
