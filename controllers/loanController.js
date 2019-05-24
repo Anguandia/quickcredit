@@ -35,8 +35,6 @@ export const list = function list(req, res) {
     res.status(400).json({ status: 400, error: 'invalid value for query parameter status' });
   } else if (!['true', 'false', undefined].includes(req.query.repaid)) {
     res.status(400).json({ status: 400, error: 'invalid value for query parameter repaid' });
-  } else if (!Object.keys(req.query).includes('status' && 'repaid')) {
-    res.status(400).json({ status: 400, error: 'unknown query' });
   } else if (Object.keys(req.query).includes('status' && 'repaid')) {
     selection = `SELECT * FROM loans WHERE status='${req.query.status}' AND repaid='${req.query.repaid}'`;
   } else if (Object.keys(req.query).includes('status')) {
@@ -95,20 +93,25 @@ export const approve = function approve(req, res) {
 
 // post a repayment installment
 export const repay = function repay(req, res) {
-  const loan = loans.find(one => one.id == req.params.loanId);
-  if (!loan) {
-    res.status(404).json({ status: 404, error: `no loan with id ${req.params.loanId}` });
-  } else if (loan.status != 'approved') {
-    res.status(403).json({ status: 403, error: 'loan not approved' });
-  } else if (loan.repaid === true) {
-    res.status(403).json({ status: 403, error: 'loan already fully serviced!' });
-  } else {
-    const repayment = new Repayment();
-    Object.assign(repayment, { amount: req.body.amount, loanId: req.params.loanId });
-    repayment.updateLoan(loan);
-    repayment.save();
-    res.status(201).json({ status: 201, data: repayment.toRepaymentJson() });
-  }
+  pool.connect((error, client) => {
+    client.query(`SELECT * FROM loans WHERE id=${req.params.loanId}`, (err, result) => {
+      const target = result.rows[0];
+      const loan = new Loan();
+      Object.assign(loan, target);
+      if (loan.status != 'approved') {
+        res.status(400).json({ status: 400, error: 'loan not approved' });
+      } else if (loan.repaid === true) {
+        res.status(400).json({ status: 400, error: 'loan already fully serviced!' });
+      } else {
+        const repayment = new Repayment();
+        Object.assign(repayment, { amount: req.body.amount, loanId: req.params.loanId });
+        repayment.updateLoan(loan);
+        client.query(`UPDATE loans SET(status, repaid, balance) VALUES('${loan.status}', ${loan.repaid}, ${loan.balance})`);
+        client.query(`INSERT INTO repament(loanid, createdon, amount, monthlyinsstallment, paidamount, balance) VALUES(${repayment.loanid}, ${repayment.createdon}, ${repayment.amount}, ${repayment.monthlyinstallment}), ${repayment.paidamount}, ${repayment.balance}`);
+        res.status(201).json({ status: 201, data: repayment.toRepaymentJson() });
+      }
+    });
+  });
 };
 
 // get repaymnt history

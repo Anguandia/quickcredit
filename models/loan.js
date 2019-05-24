@@ -54,7 +54,7 @@ export const Loan = class Loan {
   updateBalance(repayment) {
     this.balance -= repayment;
     // change the status to repaid upon 0 balance
-    if (this.balance <= 0) {
+    if (this.balance >= repayment) {
       this.status = 'repaid';
       this.repaid = true;
     }
