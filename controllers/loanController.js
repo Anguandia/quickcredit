@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-unneeded-ternary */
 /* eslint-disable linebreak-style */
 /* eslint-disable eqeqeq */
@@ -107,7 +108,7 @@ export const repay = function repay(req, res) {
         Object.assign(repayment, { amount: req.body.amount, loanId: req.params.loanId });
         repayment.updateLoan(loan);
         client.query(`UPDATE loans SET(status, repaid, balance) VALUES('${loan.status}', ${loan.repaid}, ${loan.balance})`);
-        client.query(`INSERT INTO repament(loanid, createdon, amount, monthlyinsstallment, paidamount, balance) VALUES(${repayment.loanid}, ${repayment.createdon}, ${repayment.amount}, ${repayment.monthlyinstallment}), ${repayment.paidamount}, ${repayment.balance}`);
+        client.query(`INSERT INTO repayments(loanid, createdon, amount, monthlyinstallment, paidamount, balance) VALUES(${repayment.loanid}, ${repayment.createdon}, ${repayment.amount}, ${repayment.monthlyinstallment}), ${repayment.paidamount}, ${repayment.balance}`);
         res.status(201).json({ status: 201, data: repayment.toRepaymentJson() });
       }
     });
@@ -116,12 +117,21 @@ export const repay = function repay(req, res) {
 
 // get repaymnt history
 export const log = function log(req, res) {
-  if (!loans.find(one => one.id == req.params.loanId)) {
-    res.status(404).json({ status: 404, error: `loan ${req.params.loanId} not found` });
-  } else {
-    const hist = repayments.filter(rep => rep.loanId === req.params.loanId);
-    const keys = ['loanId', 'createdOn', 'monthlyInstallment', 'amount'];
-    const out = hist.map(one => one.filterRepr(keys));
-    res.status(200).json({ status: 200, data: out });
-  }
+  pool.connect((error, client) => {
+    client.query(`SELECT * FROM repayments WHERE loanid=${req.params.loanId}`, (err, result) => {
+      if (err) {
+        res.status(500).json({ status: 500, error: 'internal error' });
+      } else {
+        const hist = result.rows;
+        console.log(hist);
+        const rep = new Repayment();
+        hist.map((val) => {
+          val = Object.assign(rep, val);
+        });
+        const keys = ['loanid', 'createdon', 'monthlyinstallment', 'amount'];
+        const out = hist.map(one => one.filterRepr(keys));
+        res.status(200).json({ status: 200, data: hist });
+      }
+    });
+  });
 };

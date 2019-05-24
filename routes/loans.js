@@ -25,6 +25,6 @@ router.get('/:loanId', loanNot, detail);
 router.get('/', list);
 
 // get a specific loan's repayment history
-router.get('/:loanId/repayments', auth, log);
+router.get('/:loanId/repayments', loanNot, log);
 
 export default router;
