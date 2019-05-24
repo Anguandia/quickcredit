@@ -35,7 +35,16 @@ export const createTables = () => {
           token VARCHAR NOT NULL,
           address VARCHAR,
           isAdmin BOOLEAN NOT NULL
-        )`;
+        ); CREATE TABLE IF NOT EXISTS
+        repayments(
+          id SERIAL PRIMARY KEY,
+          loanid INT NOT NULL,
+          createdon VARCHAR NOT NULL,
+          amount FLOAT NOT NULL,
+          monthlyinstallment FLOAT NOT NULL,
+          paidamount FLOAT,
+          balance FLOAT
+        );`;
   pool.query(tables)
     .then((res) => {
       console.log('users', res);

@@ -13,7 +13,7 @@ const router = express.Router();
 router.post('/', loanNot, validate, create);
 
 // post request for loan repayment
-router.post('/:loanId/repayment', auth, validate, repay);
+router.post('/:loanId/repayment', loanNot, validate, repay);
 
 // approve or reject a loan application
 router.patch('/:loanId', validate, loanNot, approve);
