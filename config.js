@@ -15,7 +15,7 @@ const dev = {
 };
 
 const test = {
-  port: parseInt(process.env.TEST_PORT) || 3000,
+  port: parseInt(process.env.TEST_PORT) || 5000,
   database_url: process.env.TEST_DATABASE_URL,
   secrete: process.env.SECRETE
 };

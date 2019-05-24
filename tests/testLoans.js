@@ -10,13 +10,12 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../app';
 import { testLoans, testPayments, testUsers } from './testData';
-import loans from '../models/loans';
-import users from '../models/users';
+import { pool } from '../utils/db.js';
 
 chai.use(chaiHttp);
 should = chai.should();
 
-const configName = 'test';
+process.env.ENV = 'test';
 
 // define variables to store three tokens for test purposes; 2 standard testUsers and an admin
 let user1 = process.env.user1;
@@ -24,10 +23,16 @@ let user2 = process.env.user2;
 let admin = process.env.admin;
 let loan = process.env.loan;
 
-describe('test loans', () => {
-  beforeEach((done) => {
+describe.skip('test loans', () => {
+  beforeEach(() => {
     // clear the users' array
-    users.splice(0);
+    pool.connect((err, client) => {
+      client.query('DELETE FROM loans', (error) => {
+        if (error) {
+          res.status(500).json({ status: 500, error: 'internal error' });
+        }
+      });
+    });
     // signup 3 test testUsers to get a token
     chai.request(app)
       .post('/api/v1/auth/signup')
@@ -56,7 +61,6 @@ describe('test loans', () => {
                   .end((req, res) => {
                     loan = res.body.data;
                   });
-                done();
               });
           });
       });
@@ -106,13 +110,13 @@ describe('test loans', () => {
                 done();
               });
           });
-        it.skip('should fail - invalid loan data', (done) => {
+        it('should fail - invalid loan data', (done) => {
           // test registration fails if invalid amount provided
           // submit loan application with a string amount instead of number
-          Object.assign(testLoans[1], { amount: 'ten thousand' });
+          let loan = testLoans[1];
           chai.request(app)
             .post('/api/v1/loans')
-            .send(testLoans[1])
+            .send(testLoans[4])
             .set('Authorization', user1)
             .end((err, res) => {
               res.should.have.status(400);
@@ -230,9 +234,15 @@ describe('test loans', () => {
           done();
         });
     });
-    it.skip('should return an empty array if no current loans', (done) => {
+    it('should return an empty array if no current loans', (done) => {
       // clear loans array
-      loans.splice(0);
+      pool.connect((error, client) => {
+        client.query('DELETE FROM loans', (err) => {
+          if (err) {
+            console.log(err);
+          }
+        });
+      });
       // test get all when list populated
       for (let loan of testLoans.slice(1)) {
         // create the loan objects from the test data

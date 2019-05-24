@@ -3,7 +3,10 @@
 /* eslint-disable no-underscore-dangle */
 import encrypt from 'crypto';
 import token from 'jsonwebtoken';
-import users from './users';
+import dotenv from 'dotenv';
+
+dotenv.config();
+const { SECRETE } = process.env;
 
 export const User = class User {
   constructor(firstName, lastName, email, password, hash, salt,
@@ -21,6 +24,10 @@ export const User = class User {
 
   get id() {
     return this._id;
+  }
+
+  set id(id) {
+    this._id = id;
   }
 
   // initialize the class instance counter
@@ -50,23 +57,17 @@ export const User = class User {
       id: this.id,
       email: this.email,
       exp: parseInt(exp.getTime() / 1000),
-    }, 'secret');
-  }
-
-  // push user object to users' array
-  save() {
-    users.push(this);
+    }, SECRETE);
   }
 
   // return json representation of user
   toAuthJson() {
     return {
-      id: this.id,
       token: this.generateToken(),
+      id: this.id,
       firstName: this.firstName,
       lastName: this.lastName,
       email: this.email,
-      password: this.hash,
     };
   }
 };

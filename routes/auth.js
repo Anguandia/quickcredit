@@ -7,11 +7,12 @@ authenticated/protected route
 import express from 'express';
 import { signup, signin, signout } from '../controllers/userController';
 import validate from '../utils/validation';
+import { check } from '../utils/availability';
 
 const router = express.Router();
 
 // post request for creating a user
-router.post('/signup', validate, signup);
+router.post('/signup', validate, check, signup);
 
 // post request for user signin
 router.post('/signin', validate, signin);

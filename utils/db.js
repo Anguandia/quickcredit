@@ -13,13 +13,13 @@ export const createTables = () => {
   const tables = `CREATE TABLE IF NOT EXISTS
         loans(
           id SERIAL PRIMARY KEY,
-          userEmail VARCHAR(128) NOT NULL,
+          email VARCHAR(128) NOT NULL,
           amount FLOAT NOT NULL,
           tenor INT NOT NULL,
           interest FLOAT NOT NULL,
           balance FLOAT NOT NULL,
           paymentInstallment FLOAT NOT NULL,
-          createdOn TIMESTAMP NOT NULL,
+          createdOn DATE NOT NULL,
           status VARCHAR NOT NULL,
           repaid BOOLEAN NOT NULL
         ); CREATE TABLE IF NOT EXISTS
@@ -28,25 +28,23 @@ export const createTables = () => {
           firstName VARCHAR(128) NOT NULL,
           lastName VARCHAR(128) NOT NULL,
           email VARCHAR(128) NOT NULL,
-          hash VARCHAR(128) NOT NULL,
+          hash VARCHAR NOT NULL,
           salt VARCHAR(128) NOT NULL,
           status VARCHAR(128) NOT NULL,
           tel VARCHAR(128) NOT NULL,
-          token VARCHAR(128) NOT NULL,
+          token VARCHAR NOT NULL,
+          address VARCHAR,
           isAdmin BOOLEAN NOT NULL
         ); CREATE TABLE IF NOT EXISTS
-        users(
+        repayments(
           id SERIAL PRIMARY KEY,
-          firstName VARCHAR(128) NOT NULL,
-          lastName VARCHAR(128) NOT NULL,
-          email VARCHAR(128) NOT NULL,
-          hash VARCHAR(128) NOT NULL,
-          salt VARCHAR(128) NOT NULL,
-          status VARCHAR(128) NOT NULL,
-          tel VARCHAR(128) NOT NULL,
-          token VARCHAR(128) NOT NULL,
-          isAdmin BOOLEAN NOT NULL
-        )`;
+          loanid INT NOT NULL,
+          createdon VARCHAR NOT NULL,
+          amount FLOAT NOT NULL,
+          monthlyinstallment FLOAT NOT NULL,
+          paidamount FLOAT,
+          balance FLOAT
+        );`;
   pool.query(tables)
     .then((res) => {
       console.log('users', res);
