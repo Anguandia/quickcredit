@@ -30,7 +30,14 @@ export const create = function create(req, res) {
 
 // get all, current or repaid loans
 export const list = function list(req, res) {
-  const selection = 'SELECT * FROM loans';
+  let selection;
+  if (Object.keys(req.query).includes('status' && 'repaid')) {
+    selection = `SELECT * FROM loans WHERE status='${req.query.status}' AND repaid='${req.query.repaid}'`;
+  } else if (Object.keys(req.query).includes('status')) {
+    selection = `SELECT * FROM loans WHERE status='${req.query.status}'`;
+  } else {
+    selection = 'SELECT * FROM loans';
+  }
   pool.connect((error, client) => {
     client.query(selection, (err, result) => {
       if (err) {
