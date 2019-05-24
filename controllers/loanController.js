@@ -31,7 +31,13 @@ export const create = function create(req, res) {
 // get all, current or repaid loans
 export const list = function list(req, res) {
   let selection;
-  if (Object.keys(req.query).includes('status' && 'repaid')) {
+  if (!['pending', 'approved', 'rejected', 'repaid', undefined].includes(req.query.status)) {
+    res.status(400).json({ status: 400, error: 'invalid value for query parameter status' });
+  } else if (!['true', 'false', undefined].includes(req.query.repaid)) {
+    res.status(400).json({ status: 400, error: 'invalid value for query parameter repaid' });
+  } else if (!Object.keys(req.query).includes('status' && 'repaid')) {
+    res.status(400).json({ status: 400, error: 'unknown query' });
+  } else if (Object.keys(req.query).includes('status' && 'repaid')) {
     selection = `SELECT * FROM loans WHERE status='${req.query.status}' AND repaid='${req.query.repaid}'`;
   } else if (Object.keys(req.query).includes('status')) {
     selection = `SELECT * FROM loans WHERE status='${req.query.status}'`;
