@@ -133,7 +133,7 @@ The entire page has a background image that shall be upgraded to animated images
 
    > ##### *Description*
    >
-   > This is actually the crux of loan [operations](https://anguandia.github.io/quickCredit/detail.html) and provides the following hidden buttons for loan and client management;
+   > This is actually the crux of loan [operations](https://anguandia.github.io/quickcredit/detail.html) and provides the following hidden buttons for loan and client management;
    > - Verify/Reject user buttons for verifying clients
    > - Approve/Reject loan application buttons for the named purposes
    > - A single 'Post Payment' button to enable the admin debit theloan account
