@@ -19,7 +19,7 @@ export const createTables = () => {
           interest FLOAT NOT NULL,
           balance FLOAT NOT NULL,
           paymentInstallment FLOAT NOT NULL,
-          createdOn DATE NOT NULL,
+          createdOn VARCHAR NOT NULL,
           status VARCHAR NOT NULL,
           repaid BOOLEAN NOT NULL
         ); CREATE TABLE IF NOT EXISTS
