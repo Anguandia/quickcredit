@@ -161,7 +161,7 @@ The entire page has a background image that shall be upgraded to animated images
 
    > ##### *Description*
    >
-   > This page features a set of four button interfaces for the respective functions of changing the user password, name and profile picture.  Click [here](https://anguandia.github.io/quickCredit/account.html) for a tour of the features
+   > This page features a set of four button interfaces for the respective functions of changing the user password, name and profile picture.  Click [here](https://anguandia.github.io/quickcredit/account.html) for a tour of the features
    >
    > ##### *Scope*
    >
