@@ -15,7 +15,7 @@ export const create = function create(req, res) {
   Object.assign(loan, req.body);
   console.log(loan);
   const checkLoan = `SELECT * FROM loans WHERE email=${req.body.email}`;
-  const query = `INSERT INTO loans(email, amount, tenor, interest, balance, paymentinstallment, createdon, status, repaid) VALUES('${loan.email}', ${parseFloat(loan.amount)}, '${parseInt(loan.tenor)}', '${parseFloat(loan.interest)}', '${parseFloat(loan.balance)}', '${parseFloat(loan.paymentInstallment)}', '${loan.createdOn}', '${loan.status}', ${loan.repaid})`;
+  const query = `INSERT INTO loans(email, amount, tenor, interest, balance, paymentinstallment, createdon, status, repaid) VALUES('${loan.email}', '${parseFloat(loan.amount)}', '${parseInt(loan.tenor)}', '${parseFloat(loan.interest)}', '${parseFloat(loan.balance)}', '${parseFloat(loan.paymentInstallment)}', '${loan.createdOn}', '${loan.status}', ${loan.repaid})`;
   pool.connect((error, client) => {
     client.query(query, (err) => {
       if (err) {
