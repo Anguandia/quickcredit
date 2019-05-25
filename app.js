@@ -8,7 +8,7 @@ import usersRouter from './routes/users';
 import loansRouter from './routes/loans';
 import authRouter from './routes/auth';
 import config from './config';
-import { createTable } from './utils/db';
+import { createTables } from './utils/db';
 
 dotenv.config();
 const { port } = config;
