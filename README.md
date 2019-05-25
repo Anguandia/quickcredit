@@ -190,6 +190,6 @@ The entire page has a background image that shall be upgraded to animated images
 >
 
 ### PRODUCT LINKS AND RELATED INFORMATION
-> 1. Code repository: <https://github.com/Anguandia/quickCredit> is a public repository. Contributions and comments will be appreciated
-> 2. Link for hosting: <https://anguandia.github.io/quickCredit/> is where the product is hosted.
+> 1. Code repository: <https://github.com/Anguandia/quickcredit> is a public repository. Contributions and comments will be appreciated
+> 2. Link for hosting: <https://anguandia.github.io/quickcredit/> is where the product is hosted.
 > 3. Pivotal tracker: <https://www.pivotaltracker.com/n/projects/2329098> is the link containing the project plan and implementation details.
