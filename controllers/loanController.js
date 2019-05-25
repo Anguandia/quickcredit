@@ -13,7 +13,7 @@ import { pool } from '../utils/db';
 export const create = function create(req, res) {
   const loan = new Loan();
   Object.assign(loan, req.body);
-  console.log(loan);
+  loan.setPaymentInstallment();
   const checkLoan = `SELECT * FROM loans WHERE email=${req.body.email}`;
   const query = `INSERT INTO loans(email, amount, tenor, interest, balance, paymentInstallment, createdOn, status, repaid) VALUES('${loan.email}', '${parseFloat(loan.amount)}', '${parseInt(loan.tenor)}', '${parseFloat(loan.interest)}', '${parseFloat(loan.balance)}', '${parseFloat(loan.paymentInstallment)}', '${loan.createdOn}', '${loan.status}', ${loan.repaid})`;
   pool.connect((error, client) => {
