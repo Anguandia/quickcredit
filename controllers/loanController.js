@@ -20,7 +20,7 @@ export const create = function create(req, res) {
     client.query(query, (err) => {
       if (err) {
         // console.log(err);
-        res.status(500).json({ status: 500, error: 'internal error' });
+        res.status(500).json({ status: 500, error });
       } else {
         res.status(201).json({ status: 201, data: loan.toLoanJson() });
       }
