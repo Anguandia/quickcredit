@@ -161,7 +161,7 @@ The entire page has a background image that shall be upgraded to animated images
 
    > ##### *Description*
    >
-   > This page features a set of four button interfaces for the respective functions of changing the user password, name and profile picture.  Click [here](https://anguandia.github.io/quickCredit/account.html) for a tour of the features
+   > This page features a set of four button interfaces for the respective functions of changing the user password, name and profile picture.  Click [here](https://anguandia.github.io/quickcredit/account.html) for a tour of the features
    >
    > ##### *Scope*
    >
@@ -190,6 +190,6 @@ The entire page has a background image that shall be upgraded to animated images
 >
 
 ### PRODUCT LINKS AND RELATED INFORMATION
-> 1. Code repository: <https://github.com/Anguandia/quickCredit> is a public repository. Contributions and comments will be appreciated
-> 2. Link for hosting: <https://anguandia.github.io/quickCredit/> is where the product is hosted.
+> 1. Code repository: <https://github.com/Anguandia/quickcredit> is a public repository. Contributions and comments will be appreciated
+> 2. Link for hosting: <https://anguandia.github.io/quickcredit/> is where the product is hosted.
 > 3. Pivotal tracker: <https://www.pivotaltracker.com/n/projects/2329098> is the link containing the project plan and implementation details.
