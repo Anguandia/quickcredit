@@ -1,4 +1,5 @@
 /* eslint-disable linebreak-style */
+import cors from 'cors';
 import express from 'express';
 import logger from 'morgan';
 import dotenv from 'dotenv';
@@ -13,6 +14,7 @@ dotenv.config();
 const { port } = config;
 const app = express();
 
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
