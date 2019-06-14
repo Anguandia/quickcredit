@@ -304,3 +304,42 @@ async function request(id = '', path = query('path'), method = 'POST') {
   const resp = await req;
   return resp.json();
 }
+
+function showErrors(error) {
+  const errors = document.getElementById('repeat_error');
+  errors.style.display = 'inline-block';
+  error.forEach((err) => {
+    const item = document.createElement('li');
+    const er = document.createTextNode(err);
+    item.appendChild(er);
+    errors.appendChild(item);
+  });
+}
+
+function sign() {
+  request('', 'loans', 'GET')
+    .then((resp) => {
+      const loans = resp.data;
+      request('authform')
+        .then((result) => {
+          if (result.status === 201) {
+            const current = loans.filter(loan => loan.repaid === false && loan.email
+                    === result.data.email);
+            const paid = loans.filter(loan => loan.repaid === true && loan.email
+                    === result.data.email);
+            document.cookie = `Autnorization=bearer ${result.data.token}`;
+            localStorage.setItem('current user', `${result.data.firstname} ${result.data.lastname}`);
+            localStorage.setItem('email', result.data.email);
+            localStorage.setItem('history', paid.length);
+            localStorage.setItem('currentLoan', current[0] ? `${current[0].balance * 100 / current[0].amount} % paid` : 'none');
+            window.location.href = 'home.html';
+          } else if (/exists/.test(result.error)) {
+            const action = confirm(`${result.error} signin?`);
+            window.location.href = action ? `signin.html?path=auth/signin&${data('authform').toString('authform')}` : '';
+          } else {
+            showErrors(result.error.split(','));
+          }
+        });
+    })
+    .catch(error => ({ error }));
+}
