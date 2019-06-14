@@ -1,0 +1,154 @@
+/* media queries for main layout */
+@media only screen and (max-width: 620px) and (orientation: landscape) {
+    /*style menu div and childre for slide in and out animation*/
+    #menu{
+        position: absolute;
+        margin-top: 0%;
+        /*to overlap main div*/
+        z-index: 15;
+        overflow: hidden;
+        /*set animation duration*/
+        transition: 0.5s;
+    }
+    #menu a{
+        /*trancate menu item text to fit within unexpanded menu div*/
+        text-overflow: ellipsis;
+        /*ensure single line text irrespective of div width*/
+        white-space: nowrap;
+        transition: .4s;
+        overflow: hidden;
+        width: 100%;
+        margin: .1%;
+    }
+    /*expand main content to full width as expandable menu can
+        overllap when needed*/
+    #main{
+        width: 100%;
+    }
+    nav{
+        text-align: center;
+    }
+    nav tab{
+        padding: .5% 1% 1.3% 1%;
+        margin: 1%;
+    }
+    /* adjust the width of the signup form */
+    #authform{
+        width: 80%;
+        left: 50%;
+    }
+    /* adjust user profile poitioning and size */
+    #user_profile{
+        width: 100%;
+        float: none;
+    }
+    #main_main{
+        width: 100%;
+        float: none;
+        position: relative
+    }
+}
+
+@media only screen and (max-width: 620px) and (orientation: portrait){
+    #menu{
+        position: absolute;
+        width: 100%;
+        /*to overlap main div*/
+        z-index: 1;
+        overflow: hidden;
+        /*set animation duration*/
+        transition: 0.5s;
+        height: 30%;
+    }
+    #menu a{
+        display: block;
+        transition: .4s;
+        margin: 1%;
+        border-radius: 10px;
+    }
+    #main{
+        margin-top: 6%;
+        width: 100%;
+    }
+    #content{
+        display: block;
+    }
+    /* show the menu dropdown icon */
+    #options{
+        display: block;
+    }
+    /*reposition homepage welcome message*/
+    #welcome{
+        top: 50%;
+        left: 50%;
+        font-size: 300%;
+    }
+    /* adjust the width and position of the signup form */
+    #authform{
+        width: 80%;
+        left: 50%;
+    }
+    #main_main{
+        width: 100%;
+        float: none;
+        position: relative
+    }
+    /* adjust user profile poitioning and size */
+    #user_profile{
+        width: 100%;
+        float: none;
+        /* position: relative; */
+        height: fit-content;
+    }
+}
+
+@media only screen and (max-width: 380px){
+    #controls{
+        float: none;
+    }
+}
+
+@media only screen and (max-width: 240px){
+    /*resize and reposition header elements*/
+    #logo, #motto{
+        padding: 0% 4% 4% 4%;
+    }
+    #motto p{
+        font-size: 100%;
+    }
+    #motto span{
+        display: none;
+    }
+    /* show the menu icon */
+    #iconcontainer{
+        display: block;
+    }
+    /* hide menu by default; only display on click of icon */
+    #menu{
+        display: none;
+        padding: 2%;
+    }
+    #menu a{
+        font-weight: normal;
+    }
+     /*reposition homepage welcome message*/
+     #welcome{
+        font-size: 200%;
+    }
+    /* resize signup/in form  and menu*/
+    #authform, #menu{
+        width: 98%;
+    }
+    #authform button{
+        width: 50%;
+    }
+    /* blow admin dashboad buttons to full width on small screen */
+    .dashboard{
+        width: 98%;
+        margin-left: 1%;
+    }
+    /* widen search input on small screens */
+    .searchbox{
+        width: 65%;
+    }
+}
