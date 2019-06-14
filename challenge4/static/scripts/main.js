@@ -266,3 +266,41 @@ function showForm(id) {
   document.querySelector(`#${id}`).style.display = 'block';
   document.getElementById('usr-controls').style.display = 'none';
 }
+
+// helper functions for fetch
+function query(e) { return (new URLSearchParams(window.location.search)).get(e); }
+function title() { return document.querySelector('h1'); }
+function subTitle() { return document.querySelector('h3'); }
+function elt(id) { return document.getElementById(id); }
+// display IDs to 8 digits padded with leaing zeroes
+function padded(num) {
+  return num.toString().padStart(8, '0');
+}
+
+// construct url for fetch requests
+function url(path = query('path')) {
+  const base = 'https://quickcredit-anguandia.herokuapp.com/api/v1/';
+  return base + path;
+}
+
+// function to extract formdata for post and patch requests
+function data(id) {
+  return new URLSearchParams(new FormData(document.getElementById(id)));
+}
+
+function init(id, method) {
+  const configData = {
+    method,
+    body: id ? data(id) : null,
+    headers: new Headers(),
+    mode: 'cors',
+    redirect: 'follow'
+  };
+  return configData;
+}
+
+async function request(id = '', path = query('path'), method = 'POST') {
+  const req = fetch(url(path), init(id, method));
+  const resp = await req;
+  return resp.json();
+}
