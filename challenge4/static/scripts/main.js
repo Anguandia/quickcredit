@@ -317,28 +317,51 @@ function showErrors(error) {
 }
 
 function sign() {
-  request('', 'loans', 'GET')
+  signed('', 'loans', 'GET')
     .then((resp) => {
       const loans = resp.data;
-      request('authform')
-        .then((result) => {
-          if (result.status === 201) {
-            const current = loans.filter(loan => loan.repaid === false && loan.email
+      const newLoans = loans.filter(loan => loan.repaid === false && loan.status === 'pending');
+      const pendingCredit = loans.filter(one => one.status === 'approved' && one.balance === 0);
+      const rejectedLoans = loans.filter(loan => loan.status === 'rejected');
+      const runningLoans = loans.filter(loan => loan.status === 'approved' && loan.balance);
+      const completedLoans = loans.filter(loan => loan.repaid === true);
+      signed('', 'users', 'GET')
+        .then((users) => {
+          const newUsers = users.data.filter(user => user.status === 'unverified');
+          signed('authform')
+            .then((result) => {
+              if ([200, 201].includes(result.status)) {
+                const current = loans.filter(loan => loan.repaid === false && loan.email
                     === result.data.email);
-            const paid = loans.filter(loan => loan.repaid === true && loan.email
+                const paid = loans.filter(loan => loan.repaid === true && loan.email
                     === result.data.email);
-            document.cookie = `Autnorization=bearer ${result.data.token}`;
-            localStorage.setItem('current user', `${result.data.firstname} ${result.data.lastname}`);
-            localStorage.setItem('email', result.data.email);
-            localStorage.setItem('history', paid.length);
-            localStorage.setItem('currentLoan', current[0] ? `${current[0].balance * 100 / current[0].amount} % paid` : 'none');
-            window.location.href = 'home.html';
-          } else if (/exists/.test(result.error)) {
-            const action = confirm(`${result.error} signin?`);
-            window.location.href = action ? `signin.html?path=auth/signin&${data('authform').toString('authform')}` : '';
-          } else {
-            showErrors(result.error.split(','));
-          }
+                document.cookie = `Autnorization=bearer ${result.data.token}`;
+                localStorage.setItem('current user', `${result.data.firstname} ${result.data.lastname}`);
+                localStorage.setItem('email', result.data.email);
+                localStorage.setItem('history', paid.length);
+                localStorage.setItem('newUsers', newUsers.length);
+                localStorage.setItem('newLoans', newLoans.length);
+                localStorage.setItem('pendingCredit', pendingCredit.length);
+                localStorage.setItem('runningLoans', runningLoans.length);
+                localStorage.setItem('rejectedLoans', rejectedLoans.length);
+                localStorage.setItem('completedLoans', completedLoans.length);
+                localStorage.setItem('currentLoan', current[0] ? `${current[0].balance * 100 / current[0].amount} % paid` : 'none');
+                window.location.href = result.data.isadmin ? 'admin.html' : 'home.html';
+                localStorage.setItem('role', result.data.isadmin ? 'admin' : 'client');
+              } else if (result.status === 401) {
+                showErrors(result.error.split(','));
+                elt('rst').style.display = 'block';
+              } else if (/exists/.test(result.error)) {
+                const action = confirm(`${result.error} signin?`);
+                window.location.href = action ? `signin.html?path=auth/signin&${data('authform').toString('authform')}` : '';
+                // showErrors();
+              } else if (result.status === 404) {
+                const action = confirm(`${result.error} signup?`);
+                window.location.href = action ? `signup.html?path=auth/signup&${data('authform').toString()}` : '';
+              } else {
+                showErrors(result.error.split(','));
+              }
+            });
         });
     })
     .catch(error => ({ error }));
