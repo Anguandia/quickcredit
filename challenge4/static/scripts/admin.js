@@ -20,7 +20,7 @@ main.innerHTML = `<h1 id='username'>${localStorage.getItem('current user')}</h1>
       </select>\
       </label>
     </div><hr>\
-    <button class='dashboard _yellow green' id='newUser' onclick="loadSelection('Not Verified',  'New Users')"><p>*New Users<span>${q('newUsers')}</span></p></button>\
+    <button class='dashboard _yellow green' id='new_user' onclick="loadSelection('Not Verified',  'New Users')"><p>*New Users<span>10</span></p></button>\
     <button class='dashboard _lightgreen navy' id='Draft' onclick='loadSelection("Draft","", "?a_loan_180524=View_loan")'><p>*New loans<span>${q('newLoans')}</span></p></button>\
     <button class='dashboard _lightblue navy' id='Verified' onclick='loadSelection("Verified","","?a_loan_180524=View_loan")'><p>Pending Approval<span>${q('newLoans')}</span></p></button>\
     <button class='dashboard _aliceblue' id='Approved' onclick='loadSelection("Approved", "","?a_loan_180524=View_loan")'><p>Pending Credit<span>${q('pendingCredit')}</span></p></button>\
