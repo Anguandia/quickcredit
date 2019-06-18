@@ -276,6 +276,16 @@ function elt(id) { return document.getElementById(id); }
 function padded(num) {
   return num.toString().padStart(8, '0');
 }
+function classes()  {
+  let cls =
+    {pending: 'yellow',
+    approved: 'navy',
+    repaid: 'green',
+    rejected: 'red',
+    verified: 'green',
+    unverified: 'yellow'}
+    return cls;
+};
 
 // construct url for fetch requests
 function url(path) {
@@ -386,35 +396,76 @@ function postLoan() {
 }
 
 // create loan details
-function loanDetails(loan) {
+function details(loan) {
   showPage([localStorage.getItem('role') === 'admin' ? 'admin' : 'user'], ['menu', 'auth']);
   const id = document.getElementById('id');
   const type = query('path').slice(0, query('path').indexOf('/') - 1);
   title().textContent = `${type} Record Details`;
   subTitle().innerHTML = `${type}Id <em class='navy'>${padded(loan.id)}</em>`;
   let elts;
-  elt('loandetails').style.display = 'block';
-  elt('loanid').textContent = padded(loan.id);
-  elts = ['client', 'status', 'amount', 'tenor', 'interest', 'paymentinstallment'];
-  elt('value').textContent = `${(parseFloat(loan.interest) + 100) * parseFloat(loan.amount) / 100}`;
+  if (loan.tenor) {
+    elt('loandetails').style.display = 'block';
+    elt('loanid').textContent = padded(loan.id);
+    elts = ['client', 'status', 'amount', 'tenor', 'interest', 'paymentinstallment'];
+    elt('value').textContent = `${(parseFloat(loan.interest) + 100) * parseFloat(loan.amount) / 100}`;
+    request('', `loans/${loan.id}/repayments`, 'GET')
+      .then((res) => {
+        if (res.status === 200 && res.data.length > 0) {
+          const logs = elt('logs');
+          logs.querySelector('em').textContent = padded(loan.id);
+          logs.style.display = 'block';
+          res.data.forEach((val) => {
+            const item = document.createElement('li');
+            item.innerHTML = `<span class='green'>Dr:</span>\
+                    <span>transaction id - ${padded(val.id)} </span>\
+                    <span class='green pay'>amount paid: ${val.paidamount}</span>\
+                    <span>date: ${val.createdon}</span>`;
+            elt('log').appendChild(item);
+          });
+          elt('balance').textContent = res.data[res.data.length - 1].balance;
+        } else {
+          elt('logs').style.display = 'none';
+        }
+      });
+  } else {
+    elt('applicant').style.display = 'block';
+    elt('address').style.display = 'block';
+    elts = ['id', 'tel', 'firstname', 'lastname', 'email', 'work', 'home', 'residence', 'status'];
+    elt('userstatus').textContent = loan.status;
+    elt('userstatus').className = classes()[`${elt('userstatus').textContent}`];
+    elt('isadmin').textContent = loan.isadmin ? loan.isadmin : false
+    elt('isadmin').className = 'navy';
+  } 
   elts.forEach((item) => {
     elt(item).textContent = loan[item] || loan.address[item] || loan[0];
-    elt(item).setAttribute('class', 'navy');
+    elt(item).setAttribute('class', classes()[`${elt(item).textContent}`] || 'navy');
   });
+  if (query('action')) {
+    elt('action').style.display = 'block';
+    elt('action').querySelectorAll('*').forEach((v) => {
+      const w = v;
+      w.style.display = 'none';
+    });
+    elt('action').querySelectorAll(`.${query('action')}`).forEach((v) => {
+      const z = v;
+      z.style.display = 'block';
+    });
+  }
 }
 
 function getLoan(path = query('path')) {
-  request('', path, 'GET')
+  request(null, path, 'GET')
     .then((res) => {
       if (res.status === 200) {
         if (res.data.constructor === Object) {
-          loanDetails(res.data, path);
+          details(res.data, path);
         } else if (res.data.length === 0) {
           showPage([localStorage.getItem('role')], ['auth', 'menu']);
           approve(`no ${path}`);
         } else {
+          console.log('***', res)
           res.data.forEach((loan) => {
-            loanList(loan, path);
+            list(loan, path);
           });
         }
       } else {
@@ -437,7 +488,6 @@ function autofill() {
       const client = res.data;
       document.getElementById('client').value = client.email;
       document.getElementById('fullname').value = `${client.firstname} ${client.lastname}`;
-      // Object.entries(address).map((k, v) => console.log(k, '**', v))
       Object.entries(address).map(k => k[1].forEach((i, j) => {
         const p = i;
         p.value = client.address[k[0]].split(',')[j] || '';
@@ -457,4 +507,51 @@ function installment() {
 // close error display
 function closeErrors(e) {
   e.parentNode.style.display = 'none';
+}
+
+function list(loan, path) {
+  showPage(['admin'], ['auth', 'menu', 'controls']);
+  const list = elt('list');
+  const item = document.createElement('li');
+  const checkbox = document.createElement('input');
+  const content = document.createElement('a');
+  const name = document.createElement('span');
+  const id = document.createElement('span');
+  const amount = document.createElement('span');
+  const status = document.createElement('span');
+  checkbox.type = 'checkbox';
+  const para = loan.email || loan.id;
+  list.style.display = 'block';
+  content.setAttribute('href', `detail.html?path=${path}/${para}&action=${query('action')}`);
+  name.name = 'name';
+  name.className = 'green';
+  status.id = 'status';
+  name.textContent = loan.client ? `${loan.client.firstname} ${loan.client.lastname} ` : `${loan.firstname} ${loan.lastname} `;
+  id.textContent = `${loan.id.toString().padStart(8, '0')} `;
+  amount.textContent = loan.client ? `$${loan.amount} ` : `${loan.email} `;
+  status.textContent = loan.status;
+  status.setAttribute('class', classes()[`${status.textContent}`]);
+  content.appendChild(id);
+  content.appendChild(name);
+  content.appendChild(amount);
+  content.appendChild(status);
+  item.appendChild(checkbox);
+  item.appendChild(content);
+  list.appendChild(item);
+}
+
+// verify user, post repayment or approve loan
+function update() {
+  const verify = query('action') === 'approve' ? '' : `/${query('action')}`;
+  const method = query('action') === 'repayment' ? 'POST' : 'PATCH';
+  elt('idloan').value = parseInt(elt('loanid').textContent, 10);
+  request('action', `${query('path') + verify}`, method)
+    .then((res) => {
+      if (res.status === 200) {
+        window.location.href = `detail.html?path=${query('path')}`;
+      } else {
+        approve(`${res.error}`, 'yellow', 'red');
+      }
+    })
+    .catch(error => ({ error }));
 }
