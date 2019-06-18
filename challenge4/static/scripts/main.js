@@ -450,6 +450,8 @@ function details(loan) {
       const z = v;
       z.style.display = 'block';
     });
+    // default repayment amount to loan's payment installment
+    elt('inst').value = loan.paymentinstallment;
   }
 }
 
@@ -463,7 +465,6 @@ function getLoan(path = query('path')) {
           showPage([localStorage.getItem('role')], ['auth', 'menu']);
           approve(`no ${path}`);
         } else {
-          console.log('***', res)
           res.data.forEach((loan) => {
             list(loan, path);
           });
@@ -549,6 +550,15 @@ function update() {
     .then((res) => {
       if (res.status === 200) {
         window.location.href = `detail.html?path=${query('path')}`;
+      } else if (res.status === 201) {
+        // window.location.href = `detail.html?path=${query('path')}`;
+        window.location.href = `repayment.html?path=${query('path')}/repayments`;
+        // repayment(res);
+      } else if (res.status === 404) {
+        const action = confirm(`${res.error}`);
+        if (action) {
+          window.location.href = 'signup.html?path=auth/signup';
+        }
       } else {
         approve(`${res.error}`, 'yellow', 'red');
       }
