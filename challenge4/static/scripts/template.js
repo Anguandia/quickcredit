@@ -1,16 +1,6 @@
 /* eslint-disable linebreak-style */
+/* eslint-disable operator-linebreak */
 // basic page structure to be reused across all paged
-function ref() {
-  let res;
-  if (localStorage.getItem('role') === 'client') {
-    res = 'home.html';
-  } else if (localStorage.getItem('role') === 'admin') {
-    res = 'admin.html';
-  } else {
-    res = 'index.html';
-  }
-  return res;
-}
 document.body.innerHTML = `<header>\
       <div id='logo'>\
         <img rc='static/images/money.jpg' alt='logo'></img>\
@@ -20,7 +10,7 @@ document.body.innerHTML = `<header>\
       </div>\
     </header>\
     <nav id='auth'>\
-      <tab class='universal' id='hom'><a href= ${ref()}>Home</a></tab>\
+      <tab class='universal' id='hom'><a href= ${localStorage.getItem('role')=='client'?'home.html':localStorage.getItem('role')=='admin'?'admin.html': 'index.html'}>Home</a></tab>\
       <tab class='index' id='signin'><a href='signin.html?path=auth/signin' class='index'>Signin</a></tab>\
       <tab class='index' id='signup'><a href='signup.html?path=auth/signup'>Signup</a></tab>\
       <tab class='user admin' id='signout' onclick='signout()'><a href='#' id='#' class='user admin'>Signout</a></tab>\
@@ -73,5 +63,7 @@ document.body.innerHTML = `<header>\
       </div>\
       </div>\
       <div id='msg'><p>Success</p></div>\
-      <div class='signup signin'><ul id='repeat_error'><span id='cross' onclick='closeErrors(this)'>&#10006;</span></ul></div>\
-    <footer><span>Quick Credit@2019</span></footer>`;
+      <div class='signup signin'><ul id='repeat_error'><span id='cross' onclick='closeErrors(this)
+      '>&#10006;</span></ul></div>\
+    <footer><span>Quick Credit@2019</span></footer>\
+    `;

@@ -1,4 +1,3 @@
-/* eslint-disable linebreak-style */
 // loan application page
 const main = document.createElement('div');
 main.setAttribute('id', 'main');

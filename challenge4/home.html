@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Quick Credit-User Home</title>
+    <link href="static/styles/main.css", rel="stylesheet", type="text/css">
+    <link href="static/styles/media.css", rel="stylesheet", type="text/css">
+  </head>
+  <!--onload function selects elements applicable to home page from template elements-->
+  <body id='user_profile_page' onload = "showPage(['user'], ['auth', 'menu'])">
+    <!--the page template dynamically written from script indicated-->
+    <script src='static/scripts/template.js'></script>
+    <!--page specific content written from script indicated-->
+    <script src='static/scripts/home.js'></script>
+    <script src='static/scripts/user.js'></script>
+    <!--main script for manipulating page behaviour-->
+    <script src="static/scripts/main.js"></script>
+  </body>
+</html>
