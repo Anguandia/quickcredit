@@ -54,7 +54,7 @@ main.innerHTML = `<h1></h1><hr>
     <form id='action' class='admin hidden' action=''>
       <input name='loanid' id='idloan' hidden></input>
       <label for='amount' class='repayment'> Enter Repayment Amount:
-      <input name='amount' id='repayment' class='repayment' type='text' placeholder='enter amount to repay'></input>
+      <input name='amount' id='inst' class='repayment' type='text' placeholder='enter amount to repay'></input>
       </label>
       <label class='verify approve upgrade'> Select Action:
       <select name='status' class='verify approve upgrade'>
