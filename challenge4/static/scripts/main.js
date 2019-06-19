@@ -565,3 +565,21 @@ function update() {
     })
     .catch(error => ({ error }));
 }
+
+function repayment() {
+  title().textContent = 'Repayment Reciept Details';
+  subTitle().textContent = 'Reciept No: --';
+  getLoans(`${query('path')}`)
+    .then((res) => {
+      const resp = res.data[res.data.length - 1];
+      subTitle().textContent = `Reciept No: ${resp.id}`;
+      elt('repayment').style.display = 'block';
+      const elts = ['paidamount', 'balance', 'createdon', 'monthlyinstallment'];
+      elt('loanamount').textContent = resp.amount;
+      elt('loanId').textContent = padded(resp.loanid);
+      elts.forEach((item) => {
+        elt(item).textContent = resp[item];
+        elt(item).setAttribute('class', 'navy');
+      });
+    });
+}
