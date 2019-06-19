@@ -278,8 +278,8 @@ function padded(num) {
 }
 
 // construct url for fetch requests
-function url(path = query('path')) {
-  const base = 'https://quickcredit-anguandia.herokuapp.com/api/v1/';
+function url(path) {
+  const base = 'http://localhost:4000/api/v1/';
   return base + path;
 }
 
@@ -289,14 +289,14 @@ function data(id) {
 }
 
 function init(id, method) {
-  const configData = {
+  const initData = {
     method,
     body: id ? data(id) : null,
     headers: new Headers(),
     mode: 'cors',
     redirect: 'follow'
   };
-  return configData;
+  return initData;
 }
 
 async function request(id = '', path = query('path'), method = 'POST') {
@@ -317,7 +317,7 @@ function showErrors(error) {
 }
 
 function sign() {
-  signed('', 'loans', 'GET')
+  request('', 'loans', 'GET')
     .then((resp) => {
       const loans = resp.data;
       const newLoans = loans.filter(loan => loan.repaid === false && loan.status === 'pending');
@@ -325,10 +325,10 @@ function sign() {
       const rejectedLoans = loans.filter(loan => loan.status === 'rejected');
       const runningLoans = loans.filter(loan => loan.status === 'approved' && loan.balance);
       const completedLoans = loans.filter(loan => loan.repaid === true);
-      signed('', 'users', 'GET')
+      request('', 'users', 'GET')
         .then((users) => {
           const newUsers = users.data.filter(user => user.status === 'unverified');
-          signed('authform')
+          request('authform')
             .then((result) => {
               if ([200, 201].includes(result.status)) {
                 const current = loans.filter(loan => loan.repaid === false && loan.email
@@ -365,4 +365,96 @@ function sign() {
         });
     })
     .catch(error => ({ error }));
+}
+
+
+function postLoan() {
+  request('loanform', 'loans', 'POST')
+    .then((res) => {
+      if (res.status === 201) {
+        window.location.href = `detail.html?path=loans/${res.data.id}`;
+      } else if (res.status === 404) {
+        const action = confirm(`${res.error}`);
+        if (action) {
+          window.location.href = `signup.html?path=auth/signup&${data('loanform')}`;
+        }
+      } else {
+        approve(`${res.error}`, 'yellow', 'red');
+      }
+    })
+    .catch(error => ({ error }));
+}
+
+// create loan details
+function loanDetails(loan) {
+  showPage([localStorage.getItem('role') === 'admin' ? 'admin' : 'user'], ['menu', 'auth']);
+  const id = document.getElementById('id');
+  const type = query('path').slice(0, query('path').indexOf('/') - 1);
+  title().textContent = `${type} Record Details`;
+  subTitle().innerHTML = `${type}Id <em class='navy'>${padded(loan.id)}</em>`;
+  let elts;
+  elt('loandetails').style.display = 'block';
+  elt('loanid').textContent = padded(loan.id);
+  elts = ['client', 'status', 'amount', 'tenor', 'interest', 'paymentinstallment'];
+  elt('value').textContent = `${(parseFloat(loan.interest) + 100) * parseFloat(loan.amount) / 100}`;
+  elts.forEach((item) => {
+    elt(item).textContent = loan[item] || loan.address[item] || loan[0];
+    elt(item).setAttribute('class', 'navy');
+  });
+}
+
+function getLoan(path = query('path')) {
+  request('', path, 'GET')
+    .then((res) => {
+      if (res.status === 200) {
+        if (res.data.constructor === Object) {
+          loanDetails(res.data, path);
+        } else if (res.data.length === 0) {
+          showPage([localStorage.getItem('role')], ['auth', 'menu']);
+          approve(`no ${path}`);
+        } else {
+          res.data.forEach((loan) => {
+            loanList(loan, path);
+          });
+        }
+      } else {
+        approve(res.error, 'yellow', 'red');
+      }
+    })
+    .catch(error => console.log({ error }));
+}
+
+
+// fill loan application form fields with default values; current user's details
+function autofill() {
+  showPage(['user'], ['auth', 'menu']);
+  request('', `users/${localStorage.getItem('email')}`, 'GET')
+    .then((res) => {
+      const home = document.getElementById('home').querySelectorAll('input');
+      const residence = document.getElementById('residence').querySelectorAll('input');
+      const work = document.getElementById('work').querySelectorAll('input');
+      const address = { home, residence, work };
+      const client = res.data;
+      document.getElementById('client').value = client.email;
+      document.getElementById('fullname').value = `${client.firstname} ${client.lastname}`;
+      // Object.entries(address).map((k, v) => console.log(k, '**', v))
+      Object.entries(address).map(k => k[1].forEach((i, j) => {
+        const p = i;
+        p.value = client.address[k[0]].split(',')[j] || '';
+      }));
+    })
+    .catch(error => ({ error }));
+}
+
+// calculate payment installment
+function installment() {
+  const amount = document.getElementById('amount').value;
+  const tenor = parseInt(document.getElementById('tenor').value, 10);
+  const interest = parseFloat(document.getElementById('interest').value);
+  document.getElementById('monthlyInst').value = (amount && tenor) ? (amount * (100 + interest) / (tenor * 100)) : '';
+}
+
+// close error display
+function closeErrors(e) {
+  e.parentNode.style.display = 'none';
 }
