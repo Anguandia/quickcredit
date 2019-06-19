@@ -27,7 +27,7 @@ placeholder="enter loan id to search">\
   </select>\
   </label>
 </div><hr>\
-<ul class="list" onmouseover='showTip(this, "click on the name or id of a loan entry to select", "-10%")'>\
+<ul class="list" id='list' onmouseover='showTip(this, "click on the name or id of a loan entry to select", "-10%")'>\
 <!--<li onclick='setClient(this)'>\
   <input type='checkbox'></input>\
   <a href='detail.html${window.location.search}'><span class='name'>Anguandia Mike</span>\
