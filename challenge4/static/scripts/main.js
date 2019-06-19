@@ -289,7 +289,7 @@ function classes()  {
 
 // construct url for fetch requests
 function url(path) {
-  const base = 'http://localhost:4000/api/v1/';
+  const base = 'https://quickcredit-anguandia.herokuapp.com//api/v1/';
   return base + path;
 }
 
@@ -569,7 +569,7 @@ function update() {
 function repayment() {
   title().textContent = 'Repayment Reciept Details';
   subTitle().textContent = 'Reciept No: --';
-  getLoans(`${query('path')}`)
+  request('', `${query('path')}`, 'GET')
     .then((res) => {
       const resp = res.data[res.data.length - 1];
       subTitle().textContent = `Reciept No: ${resp.id}`;
