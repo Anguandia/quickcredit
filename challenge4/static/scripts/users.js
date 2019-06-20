@@ -15,7 +15,6 @@ main.innerHTML = `<h1 id='username'>all users</h1><hr>\
       <option>user id</option>\
       </select>\
     </div><hr>\
-    <ul class="list" id='list' onmouseover="showTip(this, 'click on user name or id to select user item', '-30%')">\
-    </ul>\
+    <ul class="list" id='list' >Loading list<span id='load'><span></ul>\
     </div>`;
 document.body.appendChild(main);
