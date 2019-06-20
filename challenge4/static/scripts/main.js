@@ -393,6 +393,7 @@ function postLoan() {
           window.location.href = `signup.html?path=auth/signup&${data('loanform')}`;
         }
       } else {
+        console.log(res)
         approve(`${res.error}`, 'yellow', 'red');
       }
     })
@@ -470,6 +471,7 @@ function getLoan(path = query('path')) {
   // elt('list').innerHTML = elt('list') ? "Loading list<span id='load'><span>" : '';
   request(null, path, 'GET')
     .then((res) => {
+      // remove server process wait feedback to pave way for building actual response from server
       if (elt('list')) {
         elt('list').innerHTML = '';
       }
@@ -477,7 +479,8 @@ function getLoan(path = query('path')) {
         if (res.data.constructor === Object) {
           details(res.data, path);
         } else if (res.data.length === 0) {
-          approve(`no ${path}`);
+          let status = collectionResp()[path.slice(path.indexOf('=')+1,)];
+          approve(`no ${status} ${path.slice(0, path.indexOf('?'))}`);
         } else {
           res.data.forEach((loan) => {
             list(loan, path);
@@ -536,7 +539,9 @@ function list(loan, path) {
   const status = document.createElement('span');
   checkbox.type = 'checkbox';
   const para = loan.email || loan.id;
-  content.href = `detail.html?path=${path}/${para}&action=${query('action')}`;
+  // remove query string if available in path query string
+  const endpoint = /=/.test(path) ? path.slice(0, path.indexOf('?')) : path;
+  content.href = `detail.html?path=${endpoint}/${para}&action=${query('action')}`;
   name.name = 'name';
   name.className = 'green';
   status.id = 'status';
@@ -595,4 +600,13 @@ function repayment() {
         elt(item).setAttribute('class', 'navy');
       });
     });
+}
+
+function collectionResp() {
+  resp = {};
+  resp.approved = 'current loans'
+  resp.repaid = 'repaid loans'
+  resp.rejected = 'rejected loans'
+  resp.pending = 'unapproved loans'
+  return resp;
 }

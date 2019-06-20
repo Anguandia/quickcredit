@@ -1,6 +1,5 @@
 /* eslint-disable linebreak-style */
 // loan application page
-const user = document.getElementById('users').value;
 const main = document.createElement('div');
 main.setAttribute('id', 'main');
 main.innerHTML = `<h1 class='loanform'>Loan appliction form</h1><hr>\
