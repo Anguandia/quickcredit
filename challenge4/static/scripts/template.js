@@ -33,15 +33,15 @@ document.body.innerHTML = `<header>\
         <a href='missing.html' class='universal' id='info'>Loan info</a>\
         <a href='missing.html' class='universal' id='shemes'>Loan schemes</a>\
         <a href='apply.html' class='user' id='apply'>Apply for loan</a>\
-        <a href='client.html?path=loans&action=repayments' class='user' id='view'>View repayment history</a>\
-        <a href='client.html?path=loans' class='admin' id='loans' onclick='getLoan()'>Loan applications</a>\
-        <a href='client.html?path=loans?status=approved&repaid=false' class='admin' id='current'>Current loans</a>\
-        <a href='client.html?path=loans?status=repaid&repaid=true' class='admin' id='repaid'>Repaid loans</a>\
-        <a href='client.html?path=loans' class='admin' id='details'>Loan details</a>\
-        <a href='client.html?path=loans&action=approve' class='admin' id='approve_loan'>Approve loan</a>\
-        <a href='client.html?path=loans&action=repayment' class='admin' id='debit_loan'>Debit loan</a>\
-        <a href='users.html' class='admin' id='users'>Clients</a>\
-        <a href='users.html' class='admin' id='user'>Client Details</a>\
+        <a href='client.html?path=loans&action=repayments' class='user'>View repayment history</a>\
+        <a href='client.html?path=loans' class='admin'>Loan applications</a>\
+        <a href='client.html?path=loans?status=approved&repaid=false' class='admin'>Current loans</a>\
+        <a href='client.html?path=loans?status=repaid&repaid=true' class='admin'>Repaid loans</a>\
+        <a href='client.html?path=loans' class='admin'>Loan details</a>\
+        <a href='client.html?path=loans&action=approve' class='admin'>Approve loan</a>\
+        <a href='client.html?path=loans&action=repayment' class='admin'>Debit loan</a>\
+        <a href='users.html' class='admin'>Clients</a>\
+        <a href='users.html' class='admin'>Client Details</a>\
         <a href='users.html?path=users&action=verify' class='admin'>Verify Client</a>\
         <a href='users.html?path=users&action=upgrade' class='admin'>Upgrade user to admin</a>\
       </div>\
