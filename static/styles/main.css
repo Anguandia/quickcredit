@@ -564,7 +564,7 @@ hr{
 }
 
 /* position user photo */
-#loandetail #pic{
+#loandetail #pix{
     float: right;
     margin: 3%;
     height: 64px;
@@ -696,7 +696,7 @@ button:focus{
 }
 
 #repeat_error::after{
-    position: absolute;
+    position: fixed;
     width: 100%;
     height: 100%;
     background: navy;
@@ -819,4 +819,21 @@ button:focus{
     top: 2px;
     right: 6px;
     cursor: pointer;
+}
+
+/* progress bar to wait for content to be loaded from server */
+
+#title, #sub {
+    position: fixed ;
+    animation-name: wait;
+    animation-duration: 2s;
+    animation-iteration-count: 4
+}
+
+@keyframes wait {
+     0%{margin-left: 0%; color: none;}
+     25%{margin-left: 2.5%; color: red;}
+     50%{margin-left: 5%; color: green}
+     75%{margin-left: 7.5%; color: rebeccapurple}
+     100%{margin-left: 10%; color: yellow}
 }
