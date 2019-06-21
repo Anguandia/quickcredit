@@ -65,6 +65,11 @@ main.innerHTML = `<h1>title loading <span id='title'>.</span></h1><hr>
         <option class='approve' value='approved'>Approve</option>
         <option class='approve' value='rejected'>Reject</option>
       </select>
+      <select class='upgrade' name='isadmin'> Select Action:
+        <option value=''>--select--</option>
+        <option class='upgrade' value=true>Admin</option>
+        <option class='upgrade' value=false>User</option>
+      </select>
       </label>
       <button type='button' class='_green white verify repayment approve upgrade' onclick="update()">Submit</button>
       <button type='reset' class='_yellow red verify repayment approve upgrade'>Cancel</button>
