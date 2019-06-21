@@ -823,17 +823,26 @@ button:focus{
 
 /* progress bar to wait for content to be loaded from server */
 
-#title, #sub {
-    position: fixed ;
+#title, #sub, #load {
+    position: relative ;
     animation-name: wait;
     animation-duration: 2s;
-    animation-iteration-count: 4
+    animation-iteration-count: 4;
+    width: 5px;
+    height: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: inline-block;
 }
 
+#load {
+    position: absolute;
+    /* display: inline; */
+}
 @keyframes wait {
-     0%{margin-left: 0%; color: none;}
-     25%{margin-left: 2.5%; color: red;}
-     50%{margin-left: 5%; color: green}
-     75%{margin-left: 7.5%; color: rebeccapurple}
-     100%{margin-left: 10%; color: yellow}
+     0%{margin-left: 0%; background-color: none;}
+     25%{margin-left: 2.5%; background-color: red;}
+     50%{margin-left: 5%; background-color: green}
+     75%{margin-left: 7.5%; background-color: rebeccapurple}
+     100%{margin-left: 10%; background-color: yellow}
 }
