@@ -1,9 +1,9 @@
 /* eslint-disable linebreak-style */
 const main = document.createElement('div');
 main.setAttribute('id', 'main');
-main.innerHTML = `<h1>title loading <span id='title'>.</span></h1><hr>
+main.innerHTML = `<h1>title loading <span id='title'></span></h1><hr>
 <div id='main_main'>
-  <h3>Details loading <span id='sub'>.</span></h3><hr>
+  <h3>Details loading <span id='sub'></span></h3><hr>
   <div id='loandetail'>
     <dl id='applicant' class='hidden'>
       <h4>Client Particulars</h4>

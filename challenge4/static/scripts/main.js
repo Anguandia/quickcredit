@@ -467,8 +467,12 @@ function details(loan) {
 
 function getLoan(path = query('path')) {
   showPage([role()], ['auth', 'menu']);
+  // elt('list').innerHTML = elt('list') ? "Loading list<span id='load'><span>" : '';
   request(null, path, 'GET')
     .then((res) => {
+      if (elt('list')) {
+        elt('list').innerHTML = '';
+      }
       if (res.status === 200) {
         if (res.data.constructor === Object) {
           details(res.data, path);
