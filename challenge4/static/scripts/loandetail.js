@@ -1,13 +1,15 @@
 /* eslint-disable linebreak-style */
 const main = document.createElement('div');
 main.setAttribute('id', 'main');
-main.innerHTML = `<h1></h1><hr>
+main.innerHTML = `<h1>title loading <span id='title'>.</span></h1><hr>
 <div id='main_main'>
-  <h3></h3><hr>
+  <h3>Details loading <span id='sub'>.</span></h3><hr>
   <div id='loandetail'>
     <dl id='applicant' class='hidden'>
       <h4>Client Particulars</h4>
-      <div id='pic'><img src='static/images/Penguins.jpg' alt='photo' width='64' height='64'></img></div>
+      <div id='pix' class='user admin'>
+      <img src='static/images/Penguins.jpg' alt='photo' width='64' height='64'></img>
+      </div>
       <dt>Client Id: <span id='id' class='navy'></span></dt>
       <dt>Name: <span id='firstname' class='navy'></span> <span id='lastname' class='navy'></span></dt>
       <dt>Tel: <span id='tel' class='navy'></span></dt>
@@ -49,21 +51,19 @@ main.innerHTML = `<h1></h1><hr>
     <div id='logs' class='hidden'><hr>
       <h3>Transaction log for loan- <em></em></h3><hr>
       <ul id='log' class="list"></ul>
-      <p class='debit_loan view_loan' id='tot'><span>Current Balance: </span><span id='balance'></span></p>
-      </div>
+      <p class='debit_loan view_loan' id='tot'>Current Balance: <span id='bal'></span></p>
+    </div>
     <form id='action' class='admin hidden' action=''>
       <input name='loanid' id='idloan' hidden></input>
       <label for='amount' class='repayment'> Enter Repayment Amount:
       <input name='amount' id='inst' class='repayment' type='text' placeholder='enter amount to repay'></input>
       </label>
       <label class='verify approve upgrade'> Select Action:
-      <select name='status' class='verify approve upgrade'>
+      <select name='status' class='verify approve'>
         <option value=''>--select--</option>
         <option class='verify' value='verified'>Verify</option>
         <option class='approve' value='approved'>Approve</option>
         <option class='approve' value='rejected'>Reject</option>
-        <option class='upgrade' value=true>Admin</option>
-        <option class='upgrade' value=false>User</option>
       </select>
       </label>
       <button type='button' class='_green white verify repayment approve upgrade' onclick="update()">Submit</button>

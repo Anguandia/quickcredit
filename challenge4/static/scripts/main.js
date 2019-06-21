@@ -286,6 +286,10 @@ function classes()  {
     unverified: 'yellow'}
     return cls;
 };
+function role() {
+  let type = localStorage.getItem('role') === 'client' ? 'user' : 'admin';
+  return type;
+}
 
 // construct url for fetch requests
 function url(path) {
@@ -356,8 +360,8 @@ function sign() {
                 localStorage.setItem('rejectedLoans', rejectedLoans.length);
                 localStorage.setItem('completedLoans', completedLoans.length);
                 localStorage.setItem('currentLoan', current[0] ? `${current[0].balance * 100 / current[0].amount} % paid` : 'none');
-                window.location.href = result.data.isadmin ? 'admin.html' : 'home.html';
                 localStorage.setItem('role', result.data.isadmin ? 'admin' : 'client');
+                window.location.href = result.data.isadmin ? 'admin.html' : 'home.html';
               } else if (result.status === 401) {
                 showErrors(result.error.split(','));
                 elt('rst').style.display = 'block';
@@ -400,11 +404,17 @@ function details(loan) {
   showPage([localStorage.getItem('role') === 'admin' ? 'admin' : 'user'], ['menu', 'auth']);
   const id = document.getElementById('id');
   const type = query('path').slice(0, query('path').indexOf('/') - 1);
-  title().textContent = `${type} Record Details`;
+  let repay = query('action') === 'repayments' ? 'repayment record': 'record details';
+  title().textContent = `${type} ${repay}`;
   subTitle().innerHTML = `${type}Id <em class='navy'>${padded(loan.id)}</em>`;
   let elts;
   if (loan.tenor) {
-    elt('loandetails').style.display = 'block';
+    elt('loandetails').style.display = query('action') === 'repayments' ? 'none' : 'block';
+    if (query('action') === 'repayments') {
+      subTitle().style.display = 'none';
+      elt('main').querySelector('hr').style.display = 'none';
+      elt('logs').querySelector('hr').style.display = 'none';
+    }
     elt('loanid').textContent = padded(loan.id);
     elts = ['client', 'status', 'amount', 'tenor', 'interest', 'paymentinstallment'];
     elt('value').textContent = `${(parseFloat(loan.interest) + 100) * parseFloat(loan.amount) / 100}`;
@@ -422,7 +432,7 @@ function details(loan) {
                     <span>date: ${val.createdon}</span>`;
             elt('log').appendChild(item);
           });
-          elt('balance').textContent = res.data[res.data.length - 1].balance;
+          elt('bal').textContent = res.data[res.data.length - 1].balance;
         } else {
           elt('logs').style.display = 'none';
         }
@@ -435,7 +445,7 @@ function details(loan) {
     elt('userstatus').className = classes()[`${elt('userstatus').textContent}`];
     elt('isadmin').textContent = loan.isadmin ? loan.isadmin : false
     elt('isadmin').className = 'navy';
-  } 
+  }
   elts.forEach((item) => {
     elt(item).textContent = loan[item] || loan.address[item] || loan[0];
     elt(item).setAttribute('class', classes()[`${elt(item).textContent}`] || 'navy');
@@ -456,13 +466,13 @@ function details(loan) {
 }
 
 function getLoan(path = query('path')) {
+  showPage([role()], ['auth', 'menu']);
   request(null, path, 'GET')
     .then((res) => {
       if (res.status === 200) {
         if (res.data.constructor === Object) {
           details(res.data, path);
         } else if (res.data.length === 0) {
-          showPage([localStorage.getItem('role')], ['auth', 'menu']);
           approve(`no ${path}`);
         } else {
           res.data.forEach((loan) => {
@@ -511,7 +521,7 @@ function closeErrors(e) {
 }
 
 function list(loan, path) {
-  showPage(['admin'], ['auth', 'menu', 'controls']);
+  showPage([role()], ['auth', 'menu', 'controls']);
   const list = elt('list');
   const item = document.createElement('li');
   const checkbox = document.createElement('input');
@@ -522,8 +532,7 @@ function list(loan, path) {
   const status = document.createElement('span');
   checkbox.type = 'checkbox';
   const para = loan.email || loan.id;
-  list.style.display = 'block';
-  content.setAttribute('href', `detail.html?path=${path}/${para}&action=${query('action')}`);
+  content.href = `detail.html?path=${path}/${para}&action=${query('action')}`;
   name.name = 'name';
   name.className = 'green';
   status.id = 'status';
@@ -564,4 +573,22 @@ function update() {
       }
     })
     .catch(error => ({ error }));
+}
+
+function repayment() {
+  title().textContent = 'Repayment Reciept Details';
+  subTitle().textContent = 'Reciept No: --';
+  request('', `${query('path')}`, 'GET')
+    .then((res) => {
+      const resp = res.data[res.data.length - 1];
+      subTitle().textContent = `Reciept No: ${resp.id}`;
+      elt('repayment').style.display = 'block';
+      const elts = ['paidamount', 'balance', 'createdon', 'monthlyinstallment'];
+      elt('loanamount').textContent = resp.amount;
+      elt('loanId').textContent = padded(resp.loanid);
+      elts.forEach((item) => {
+        elt(item).textContent = resp[item];
+        elt(item).setAttribute('class', 'navy');
+      });
+    });
 }

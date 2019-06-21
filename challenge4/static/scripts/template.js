@@ -3,7 +3,7 @@
 // basic page structure to be reused across all paged
 document.body.innerHTML = `<header>\
       <div id='logo'>\
-        <img rc='static/images/money.jpg' alt='logo'></img>\
+        <img src='' alt='logo'></img>\
       </div>\
       <div id='motto'>\
         <p>Quick Credit</p><span><em> Inividual soft loans</em></span>\
@@ -13,7 +13,7 @@ document.body.innerHTML = `<header>\
       <tab class='universal' id='hom'><a href= ${localStorage.getItem('role')=='client'?'home.html':localStorage.getItem('role')=='admin'?'admin.html': 'index.html'}>Home</a></tab>\
       <tab class='index' id='signin'><a href='signin.html?path=auth/signin' class='index'>Signin</a></tab>\
       <tab class='index' id='signup'><a href='signup.html?path=auth/signup'>Signup</a></tab>\
-      <tab class='user admin' id='signout' onclick='signout()'><a href='#' id='#' class='user admin'>Signout</a></tab>\
+      <tab class='user admin' id='signout' onclick='signout()'><a href='#' class='user admin'>Signout</a></tab>\
     </nav><hr>\
     <!--sign out dialogue box-->\
     <div id='signoutt'>\
@@ -33,7 +33,7 @@ document.body.innerHTML = `<header>\
         <a href='missing.html' class='universal' id='info'>Loan info</a>\
         <a href='missing.html' class='universal' id='shemes'>Loan schemes</a>\
         <a href='apply.html' class='user' id='apply'>Apply for loan</a>\
-        <a href='loan.html?u_' class='user' id='view'>View repayment history</a>\
+        <a href='client.html?path=loans&action=repayments' class='user' id='view'>View repayment history</a>\
         <a href='client.html?path=loans' class='admin' id='loans' onclick='getLoan()'>Loan applications</a>\
         <a href='client.html?path=loans?status=approved&repaid=false' class='admin' id='current'>Current loans</a>\
         <a href='client.html?path=loans?status=repaid&repaid=true' class='admin' id='repaid'>Repaid loans</a>\
