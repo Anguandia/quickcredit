@@ -40,8 +40,8 @@ document.body.innerHTML = `<header>\
         <a href='client.html?path=loans' class='admin'>Loan details</a>\
         <a href='client.html?path=loans&action=approve' class='admin'>Approve loan</a>\
         <a href='client.html?path=loans&action=repayment' class='admin'>Debit loan</a>\
-        <a href='users.html' class='admin'>Clients</a>\
-        <a href='users.html' class='admin'>Client Details</a>\
+        <a href='users.html?path=users' class='admin'>Clients</a>\
+        <a href='users.html?path=users' class='admin'>Client Details</a>\
         <a href='users.html?path=users&action=verify' class='admin'>Verify Client</a>\
         <a href='users.html?path=users&action=upgrade' class='admin'>Upgrade user to admin</a>\
       </div>\
