@@ -737,9 +737,9 @@ button:focus{
 /* #style the tooltip */
 #tip{
     visibility: hidden;
-    width: 250px;
-    background-color: rgb(142, 26, 224);
-    color: white;
+    min-width: 150px;
+    background-color: rgb(190, 186, 186);
+    color: navy;
     text-align: center;
     padding: 2% 0;
     border-radius: 10px;
