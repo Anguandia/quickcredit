@@ -281,7 +281,7 @@ function role() {
 
 // construct url for fetch requests
 function url(path) {
-  const base = 'http://localhost:4000/api/v1/';
+  const base = 'https://quickcredit-anguandia.herokuapp.com/';
   return base + path;
 }
 
