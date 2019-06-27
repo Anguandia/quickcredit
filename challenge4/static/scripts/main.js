@@ -164,23 +164,11 @@ function filterData(j, filter) {
 
 // load category of items in a diven admin ashboard tab
 // function takes in the filter key from the status span id, intentionally named after the status  target status
-function loadSelection(key, name, query) {
+function loadSelection(path) {
   // check if HTMLHeadingElement(page name) not provided in calling function
-  if (!name) {
-    // get and save current admin profile page heading in local storage to be retrieved for reconstitution after redirect
-    name = document.getElementById('main').firstElementChild.textContent;
-  }
-  if (query) {
-    window.location.href = `client.html${query}`;
-  } else {
-    // recirect to appropriate raw list page; loans or users
-    window.location.href = 'users.html?a_';
-  }
-  localStorage.setItem('name', name);
-  // save the search key from the button id passed in function call as an argument
-  localStorage.setItem('key', key);
-  // we'll be seacrching by status value for loans, the 4th child element of each loans list item, save that to local storage too
-  localStorage.setItem('j', 3);
+  const page = /loans/.test(path) ? 'client.html' : 'users.html';
+  window.location.href = `${page}?${path}`;
+  // showPage([localStorage.getItem('role')], ['auth', 'menu']);
 }
 
 // function to display feedback
@@ -306,7 +294,7 @@ function init(id, method) {
   const initData = {
     method,
     body: id ? data(id) : null,
-    headers: new Headers(),
+    headers: {Authorization: localStorage.getItem('Authorization') || ''},
     mode: 'cors',
     redirect: 'follow'
   };
@@ -331,7 +319,7 @@ function showErrors(error) {
 }
 
 function sign() {
-  request('', 'loans', 'GET')
+  request(null, 'loans', 'GET')
     .then((resp) => {
       const loans = resp.data;
       const newLoans = loans.filter(loan => loan.repaid === false && loan.status === 'pending');
@@ -339,17 +327,17 @@ function sign() {
       const rejectedLoans = loans.filter(loan => loan.status === 'rejected');
       const runningLoans = loans.filter(loan => loan.status === 'approved' && loan.balance);
       const completedLoans = loans.filter(loan => loan.repaid === true);
-      request('', 'users', 'GET')
+      request(null, 'users', 'GET')
         .then((users) => {
           const newUsers = users.data.filter(user => user.status === 'unverified');
           request('authform')
             .then((result) => {
               if ([200, 201].includes(result.status)) {
-                const current = loans.filter(loan => loan.repaid === false && loan.email
+                const current = loans.find(loan => loan.repaid === false && loan.client
                     === result.data.email);
-                const paid = loans.filter(loan => loan.repaid === true && loan.email
+                const paid = loans.filter(loan => loan.repaid === true && loan.client
                     === result.data.email);
-                document.cookie = `Autnorization=bearer ${result.data.token}`;
+                localStorage.setItem('Authorization', `Autnorization=bearer ${result.data.token}`);
                 localStorage.setItem('current user', `${result.data.firstname} ${result.data.lastname}`);
                 localStorage.setItem('email', result.data.email);
                 localStorage.setItem('history', paid.length);
@@ -359,7 +347,8 @@ function sign() {
                 localStorage.setItem('runningLoans', runningLoans.length);
                 localStorage.setItem('rejectedLoans', rejectedLoans.length);
                 localStorage.setItem('completedLoans', completedLoans.length);
-                localStorage.setItem('currentLoan', current[0] ? `${current[0].balance * 100 / current[0].amount} % paid` : 'none');
+                localStorage.setItem('currentLoan', current ? `${(current.amount - current.balance) * 100 / 
+                  current.amount} %` : 'none');
                 localStorage.setItem('role', result.data.isadmin ? 'admin' : 'client');
                 window.location.href = result.data.isadmin ? 'admin.html' : 'home.html';
               } else if (result.status === 401) {
@@ -434,6 +423,8 @@ function details(loan) {
             elt('log').appendChild(item);
           });
           elt('bal').textContent = res.data[res.data.length - 1].balance;
+        } else if (res.status === 401) {
+          approve(res.error);
         } else {
           elt('logs').style.display = 'none';
         }
@@ -467,6 +458,9 @@ function details(loan) {
 }
 
 function getLoan(path = query('path')) {
+  query('repaid') ? path+=`&repaid=${query('repaid')}` : '';
+  query('balance') ? path+=`&balance=${query('balance')}` : '';
+  query('email') ? path+=`&email=${query('email')}` : '';
   showPage([role()], ['auth', 'menu']);
   // elt('list').innerHTML = elt('list') ? "Loading list<span id='load'><span>" : '';
   request(null, path, 'GET')
@@ -608,5 +602,7 @@ function collectionResp() {
   resp.repaid = 'repaid loans'
   resp.rejected = 'rejected loans'
   resp.pending = 'unapproved loans'
+  resp.verified = 'verified users'
+  resp.unverified = 'unverified users'
   return resp;
 }

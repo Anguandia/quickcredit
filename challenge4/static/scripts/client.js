@@ -27,7 +27,6 @@ placeholder="enter loan id to search">\
   </select>\
   </label>
 </div><hr>\
-<ul class="list" id='list' onmouseover='showTip(this, "click on the name or id of a loan entry to select", "-10%")'>\
-</ul>\
+<ul class="list" id='list'></ul>\
 </div>`;
 document.body.appendChild(main);

@@ -762,7 +762,7 @@ button:focus{
     width: 98%;
     text-indent: 2%;
 }
-#loande
+
 #signout{
     display: none;
 }
@@ -845,4 +845,8 @@ button:focus{
      50%{margin-left: 5%; background-color: green}
      75%{margin-left: 7.5%; background-color: rebeccapurple}
      100%{margin-left: 10%; background-color: yellow}
+}
+
+a {
+    text-decoration: none
 }
