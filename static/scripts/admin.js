@@ -20,13 +20,45 @@ main.innerHTML = `<h1 id='username'>${localStorage.getItem('current user')}</h1>
       </select>\
       </label>
     </div><hr>\
-    <button class='dashboard _yellow green' id='new_user' onclick="loadSelection('Not Verified',  'New Users')"><p>*New Users<span>10</span></p></button>\
-    <button class='dashboard _lightgreen navy' id='Draft' onclick='loadSelection("Draft","", "?a_loan_180524=View_loan")'><p>*New loans<span>${q('newLoans')}</span></p></button>\
-    <button class='dashboard _lightblue navy' id='Verified' onclick='loadSelection("Verified","","?a_loan_180524=View_loan")'><p>Pending Approval<span>${q('newLoans')}</span></p></button>\
-    <button class='dashboard _aliceblue' id='Approved' onclick='loadSelection("Approved", "","?a_loan_180524=View_loan")'><p>Pending Credit<span>${q('pendingCredit')}</span></p></button>\
-    <button class='dashboard _yellow red' id='Rejected' onclick='loadSelection("Rejected", "","?a_loan_180524=View_loan")'><p>Rejected loan applications<span>${q('rejectedLoans')}</span></p></button>\
-    <button class='dashboard _navy white' id='Current' onclick='loadSelection("Current", "","?a_loan_180524=view_loan")'><p>Running loans<span>${q('runningLoans')}</span></p></button>\
-    <button class='dashboard _red white' id='Overdue' onclick='loadSelection("Overdue", "","?a_loan_180524=view_loan")'><p>Loans overdue<span>0</span></p></button>\
-    <button class='dashboard _green white' id='Completed' onclick='loadSelection("Completed", "","?a_loan_180524=view_loan")'><p>Completed<span>${q('completedLoans')}</span></p></button>\
+    <button class='dashboard _yellow green'>
+      <a href='users.html?path=users?status=unverified' class=green>
+        <p>*New Users<span>${q('newUsers')}</span></p>
+      </a>
+    </button>
+    <button class='dashboard _lightgreen navy'>
+      <a href='client.html?path=loans?status=pending&repaid=false' class=navy>
+        <p>*New loans<span>${q('newLoans')}</span></p>
+      </a>
+    </button>
+    <button class='dashboard _lightblue navy'>
+      <a href='client.html?path=loans?status=pending&repaid=false&balance=0' class=navy>
+        <p>Pending Approval<span>${q('newLoans')}</span></p>
+      </a>
+    </button>
+    <button class='dashboard _aliceblue'>
+      <a href='client.html?path=loans?status=approved&repaid=false&balance=0'>
+        <p>Pending Credit<span>${q('pendingCredit')}</span></p>
+      </a>
+    </button>
+    <button class='dashboard _yellow red'>
+      <a href='client.html?path=loans?status=rejected' class=red>
+        <p>Rejected loan applications<span>${q('rejectedLoans')}</span></p>
+      </a>
+    </button>
+    <button class='dashboard _navy white'>
+      <a href='client.html?path=loans?status=approved&repaid=false' class='white'>
+        <p>Running loans<span>${q('runningLoans')}</span></p>
+      </a>
+    </button>
+    <button class='dashboard _red white'>
+      <a href='client.html?path=loans?status=overdue&repaid=false' class='white'>
+        <p>Loans overdue<span>0</span></p>
+      </a>
+    </button>
+    <button class='dashboard _green white'>
+      <a href='client.html?path=loans?status=repaid' class='white'>
+        <p>Completed<span>${q('completedLoans')}</span></p>
+      </a>
+    </button>
     </div>`;
 document.body.appendChild(main);
