@@ -9,14 +9,14 @@ dotenv.config();
 const { SECRETE } = process.env;
 
 export const User = class User {
-  constructor(firstName, lastName, email, password, hash, salt,
-    isAdmin = false, status = 'unverified', tel = '') {
-    this.firstName = firstName;
-    this.lastName = lastName;
+  constructor(firstname, lastname, email, password, hash, salt,
+    isadmin = false, status = 'unverified', tel = '') {
+    this.firstname = firstname;
+    this.lastname = lastname;
     this.email = email;
     this.hash = hash;
     this.salt = salt;
-    this.isAdmin = isAdmin;
+    this.isadmin = isadmin;
     this.status = status;
     this.tel = tel;
     this._id = User.counter;
@@ -65,9 +65,10 @@ export const User = class User {
     return {
       token: this.generateToken(),
       id: this.id,
-      firstName: this.firstName,
-      lastName: this.lastName,
+      firstname: this.firstname,
+      lastname: this.lastname,
       email: this.email,
+      isadmin: this.isadmin,
     };
   }
 };
@@ -76,19 +77,19 @@ export const User = class User {
 export const specs = {
   id: 'integer',
   email: 'string',
-  firstName: 'string',
-  lastName: 'string',
+  firstname: 'string',
+  lastname: 'string',
   password: 'string',
+  confirm: 'string',
   address: 'string',
   status: 'string',
-  isAdmin: 'boolean',
+  isadmin: 'boolean',
   tel: 'number',
-  username: 'string',
 };
 
 // declare and export required user fields for given routes for use in validation
 export const signup = [
-  'email', 'firstName', 'lastName', 'password', 'address',
+  'email', 'firstname', 'lastname', 'password', 'address',
 ];
 
 export const signin = [
@@ -96,5 +97,9 @@ export const signin = [
 ];
 
 export const verify = [
-  'email', 'status',
+  'status',
+];
+
+export const upgrade = [
+  'isadmin',
 ];

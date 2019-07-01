@@ -10,21 +10,21 @@ import { loanNot } from '../utils/availability';
 const router = express.Router();
 
 // post request for creating a loan
-router.post('/', loanNot, validate, create);
+router.post('/', auth, loanNot, validate, create);
 
 // post request for loan repayment
-router.post('/:loanId/repayment', loanNot, validate, repay);
+router.post('/:loanId/repayment', auth, loanNot, validate, repay);
 
 // approve or reject a loan application
-router.patch('/:loanId', validate, loanNot, approve);
+router.patch('/:loanId', auth, validate, loanNot, approve);
 
 // get a specific loan
-router.get('/:loanId', loanNot, detail);
+router.get('/:loanId', auth, loanNot, detail);
 
 // get all loan applications
 router.get('/', list);
 
 // get a specific loan's repayment history
-router.get('/:loanId/repayments', loanNot, log);
+router.get('/:loanId/repayments', auth, loanNot, log);
 
 export default router;

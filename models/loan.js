@@ -2,13 +2,13 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable linebreak-style */
-import loans from './loans';
+import { pool } from '../utils/db';
 
 export const Loan = class Loan {
   // create loan object with the given defaults
-  constructor(email, amount, tenor, balance = 0, interest = 0.05,
+  constructor(client, amount, tenor, balance = 0, interest = 0.05,
     createdOn = new Date(), status = 'pending', repaid = false) {
-    this.email = email;
+    this.client = client;
     this.amount = amount;
     this.tenor = tenor;
     this.interest = interest;
@@ -35,7 +35,7 @@ export const Loan = class Loan {
 
   // calculate paymentInstallment
   setPaymentInstallment() {
-    this.paymentInstallment = (1 + this.interest) * this.amount / this.tenor;
+    this.paymentInstallment = (100 + parseFloat(this.interest)) * this.amount / (parseInt(this.tenor, 10) * 100);
   }
 
   // approve loan instance
@@ -47,31 +47,24 @@ export const Loan = class Loan {
 
   // credit account with loan amount but reflect balance inclussive of interest
   credit() {
-    this.balance = (1 + this.interest) * this.amount;
+    this.balance = (1 + this.interest/100) * this.amount;
   }
 
   // update balance
   updateBalance(repayment) {
     this.balance -= repayment;
     // change the status to repaid upon 0 balance
-    if (this.balance >= repayment) {
+    if (this.balance <= 0) {
       this.status = 'repaid';
       this.repaid = true;
     }
-  }
-
-  // push Loan object to loans' array
-  save() {
-    // set the repayment installation on save
-    this.setPaymentInstallment();
-    loans.push(this);
   }
 
   // return json representation of Loan
   toLoanJson() {
     return {
       id: this.id,
-      email: this.email,
+      client: this.client,
       amount: this.amount,
       tenor: this.tenor,
       paymentinstallment: this.paymentInstallment,
@@ -97,24 +90,25 @@ export const Loan = class Loan {
 export const loanspecs = {
   id: 'Integer',
   tenor: 'Integer',
-  email: 'string',
+  client: 'string',
   amount: 'Float',
-  paymentInstallment: 'Float',
+  paymentinstallment: 'Float',
   interest: 'Float',
   status: 'string',
-  createdOn: 'DateTime',
+  createdon: 'DateTime',
   repaid: 'boolean',
   balance: 'Float',
-  loanId: 'Integer',
+  loanid: 'Integer',
+  isadmin: 'boolean',
 };
 
 // declare and export required Loan fields for given routes for use in validation
 export const loan = [
-  'tenor', 'email', 'amount',
+  'tenor', 'client', 'amount',
 ];
 
 export const payment = [
-  'amount', 'loanId',
+  'amount', 'loanid',
 ];
 
 export const approve = [

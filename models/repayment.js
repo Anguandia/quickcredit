@@ -2,14 +2,16 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable linebreak-style */
-import repayments from './repayments';
 
 class Repayment {
   // create repayment object with the given defaults
-  constructor(loanId, amount, createdOn = new Date()) {
-    this.loanId = loanId;
+  constructor(loanid, amount, balance, paidamount, monthlyinstallment, createdon = new Date()) {
+    this.loanid = loanid;
     this.amount = amount;
-    this.createdOn = createdOn;
+    this.balance = balance;
+    this.paidamount = paidamount;
+    this.monthlyinstallment = monthlyinstallment;
+    this.createdon = createdon;
     this._id = Repayment.counter;
   }
 
@@ -23,33 +25,32 @@ class Repayment {
     return Repayment._counter;
   }
 
+  set id(id) {
+    this._id = id;
+  }
+
   // update parent loan and set payment history property values
   updateLoan(loan) {
     loan.updateBalance(this.amount);
     // set the balance after this repayment
     this.balance = loan.balance;
     // change amount field to paid amount for history
-    this.paidAmount = this.amount;
+    this.paidamount = this.amount;
     // set the laon amount for the repayment history item
     this.amount = loan.amount;
     // set the paymentInstallment from the loan object
-    this.monthlyInstallment = loan.paymentInstallment;
-  }
-
-  // push repayment object to repayments' array
-  save() {
-    repayments.push(this);
+    this.monthlyinstallment = loan.paymentinstallment;
   }
 
   // return json representation of repayment
   toRepaymentJson() {
     return {
       id: this.id,
-      loanId: this.loanId,
-      createdOn: this.createdOn,
+      loanid: this.loanid,
+      createdon: this.createdon,
       amount: this.amount,
-      monthlyInstallment: this.monthlyInstallment,
-      paidAmount: this.paidAmount,
+      monthlyinstallment: this.monthlyinstallment,
+      paidamount: this.paidamount,
       balance: this.balance,
     };
   }

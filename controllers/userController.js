@@ -12,7 +12,10 @@ export const signup = function signup(req, res) {
   Object.assign(user, data); // update properties fron request data
   user.setPassword(data.password);
   user.token = user.generateToken();
-  const query = `INSERT INTO users(firstName, lastName, email, hash, salt, status, tel, token, isAdmin) VALUES('${user.firstName}', '${user.lastName}', '${user.email}', '${user.hash}', '${user.salt}', '${user.status}', '${user.tel}', '${user.token}', ${user.isAdmin})`;
+  const query = `INSERT INTO users(
+    firstname, lastname, email, hash, salt, status, tel, token, isadmin)
+    VALUES('${user.firstname}', '${user.lastname}', '${user.email}', '${user.hash}',
+    '${user.salt}', '${user.status}', '${user.tel}', '${user.token}', ${user.isadmin})`;
 
   pool.connect((error, client) => {
     client.query(query, (err) => {
@@ -87,8 +90,12 @@ export const update = function update(req, res) {
 
 // get a list of all users
 export const userList = function userList(req, res) {
+  if (!['unverified', 'verified', undefined].includes(req.query.status)) {
+    res.status(400).json({ status: 400, error: 'invalid value for query parameter status' });
+  }
+  const query = req.query.status ? `SELECT * FROM users WHERE status='${req.query.status}'` : listQuery;
   pool.connect((err, client) => {
-    client.query(listQuery, (error, result) => {
+    client.query(query, (error, result) => {
       if (error) {
         res.status(400).json({ error });
       } else {
@@ -115,12 +122,17 @@ export const del = function del(req, res) {
 
 // display a particular user's profile page
 export const details = function details(req, res) {
-  const user = users.find(target => target.email === req.params.email);
-  if (!user) {
-    res.status(404).json({ status: 404, error: `user with email ${req.params.email} does not exist` });
-  } else {
-    // filter out undisplay-worthy properties of user by estructuring
-    // const {hash, salt, ...filtered} = user;
-    res.status(200).json({ status: 200, data: user });
-  }
+  pool.connect((err, client) => {
+    client.query(`SELECT * FROM users WHERE email='${req.params.email}'`, (error, user) => {
+      if (error) {
+        res.status(500).json({ error });
+      } else if (user.rowCount === 0) {
+        res.status(404).json({ status: 404, error: `user with email ${req.params.email} does not exist` });
+      } else {
+        // filter out undisplay-worthy properties of user by estructuring
+        // const {hash, salt, ...filtered} = user;
+        res.status(200).json({ status: 200, data: user.rows[0] });
+      }
+    });
+  });
 };
